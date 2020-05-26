@@ -4,7 +4,6 @@ public class Assignment {
 
     private String name;
     private boolean isCompleted;
-    private String UUID;
     private int score;
 
     public Assignment(String name, boolean isCompleted) {
@@ -26,10 +25,6 @@ public class Assignment {
 
     public void setCompleted(boolean status) {
         isCompleted = status;
-    }
-
-    public String getUUID() {
-        return UUID;
     }
 
     public void setScore(int score) {
