@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+
 public class AssignmentView extends AppCompatActivity implements OnItemClickListener{
 
     @Override
@@ -22,7 +23,7 @@ public class AssignmentView extends AppCompatActivity implements OnItemClickList
         ArrayList<Assignment> assignments = new ArrayList<>();
 
         for (Assignment assignment :
-                staticAssignments) {
+                Assignment.getStaticAssignments()) {
             assignments.add(assignment);
         }
 
@@ -34,13 +35,6 @@ public class AssignmentView extends AppCompatActivity implements OnItemClickList
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-    private static final Assignment[] staticAssignments = {
-            new Assignment("test1", 1,false),
-            new Assignment("test2", 0,false),
-            new Assignment("test3", 2,true),
-            new Assignment("test4", 3,true)
-    };
 
     @Override
     public void onItemClick(int clickedPosition) {
