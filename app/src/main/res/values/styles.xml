@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="estelingStyle1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryEsteling1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkEsteling1</item>
+        <item name="colorAccent">@color/colorAccentEsteling1</item>
+    </style>
+
 </resources>
