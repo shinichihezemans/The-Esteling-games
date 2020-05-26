@@ -3,18 +3,13 @@ package com.example.theestelinggames;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.example.theestelinggames.R;
-import com.example.theestelinggames.SliderItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +36,6 @@ public class CharacterActivity extends AppCompatActivity implements View.OnClick
         sliderItems.add(new SliderItem(R.drawable.nijlpaard));
         sliderItems.add(new SliderItem(R.drawable.olifant));
         sliderItems.add(new SliderItem(R.drawable.wolf));
-
 
         viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2));
 
@@ -114,5 +108,8 @@ public class CharacterActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
         editer.apply();
+        final Intent intent = new Intent(this, AssignmentListActivity.class);
+        startActivity(intent);
+
     }
 }

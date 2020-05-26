@@ -13,7 +13,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public ItemViewHolder(View itemView, OnItemClickListener listener) {
         super(itemView);
-
         itemView.setOnClickListener(this);
         clickListener = listener;
     }

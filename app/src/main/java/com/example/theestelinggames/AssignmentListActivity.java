@@ -9,25 +9,17 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
-public class AssignmentView extends AppCompatActivity implements OnItemClickListener{
+public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-        setContentView(R.layout.assignment_overview);
-
-        ArrayList<Assignment> assignments = new ArrayList<>();
-
-        for (Assignment assignment :
-                Assignment.getStaticAssignments()) {
-            assignments.add(assignment);
-        }
-
-        Log.i("Info", String.valueOf(assignments.size()));
+        ArrayList<Assignment> assignments = new ArrayList<>(Arrays.asList(Assignment.getStaticAssignments()));
 
         RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
         AssignmentAdapter minigamesAdapter = new AssignmentAdapter(
