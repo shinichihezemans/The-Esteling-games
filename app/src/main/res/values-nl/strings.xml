@@ -6,5 +6,7 @@
     <string name="StartButton">Begin</string>
     <string name="attempts_placeholder">pogingen placeholder</string>
     <string name="minigamename_placeholder">minigame naam placeholder</string>
-    <string name="title_text">Minigames</string>
+    <string name="title_text">Minigamesas</string>
+    <string name="scan">SCAN</string>
+
 </resources>

@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final Button button = findViewById(R.id.startScreenButton);
-        final Intent intent = new Intent(this, AssignmentView.class);
+//        final Intent intent = new Intent(this, AssignmentView.class);
+        final Intent intent = new Intent(this, CharacterActivity.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
