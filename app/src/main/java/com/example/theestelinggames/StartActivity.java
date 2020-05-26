@@ -22,8 +22,6 @@ public class StartActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.startButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("Working");
-
                 builder.setMessage(R.string.PopUpText);
                 builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
                     @Override
@@ -34,7 +32,7 @@ public class StartActivity extends AppCompatActivity {
                 builder.setNegativeButton(R.string.CancelButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        finish();
                     }
                 });
 
