@@ -1,5 +1,6 @@
 package com.example.theestelinggames;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        this.context = this;
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(this, AssignmentView.class);
+                        Intent intent = new Intent(context, AssignmentView.class);
                         startActivity(intent);
                     }
                 });
