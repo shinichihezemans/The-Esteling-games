@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">The Esteling games</string>
+    <string name="app_name">The Essteling games</string>
     <string name="title_text">Minigames</string>
-    <string name="minigamename_placeholder">minigame Name Placeholder</string>
+    <string name="minigamename_placeholder">minigame name placeholder</string>
     <string name="attempts_placeholder">attempts placeholder</string>
     <string name="StartButton">Start</string>
-    <string name="StartSchermText">The Essteling Games</string>
     <string name="CancelButton">Cancel</string>
-    <string name="PopUpText">Welkom bij de Essteling games, het spel voor tussen de attracties door. Heb je zin om mee te spelen, druk dan snel op start en kies een karakter uit op het volgende scherm. Daarna kun je beginnen met de opdrachten en strijden tegen iedereen in het park succes.</string>
+    <string name="PopUpText">Welcome to the Essteling games. Games that can be played after riding an attraction. If you want to play, press the start button and choose a character in the following screen. Afterwards you can begin playing an assortiment of minigames and compete with others in The Essteling. Good luck!</string>
 </resources>
