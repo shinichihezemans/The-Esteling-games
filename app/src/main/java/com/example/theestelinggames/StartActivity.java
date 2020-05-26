@@ -19,7 +19,7 @@ public class StartActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
 
-        final Button button = findViewById(R.id.startButton);
+        final Button button = findViewById(R.id.startScreenButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 builder.setMessage(R.string.PopUpText);
