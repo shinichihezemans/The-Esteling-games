@@ -1,56 +1,47 @@
 package com.example.theestelinggames;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
 
-        setContentView(R.layout.assignment_overview);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final Button button = findViewById(R.id.startScreenButton);
+        final Intent intent = new Intent(this, AssignmentView.class);
 
-        ArrayList<Assignment> assignments = new ArrayList<>();
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                builder.setMessage(R.string.PopUpText);
+                builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(R.string.CancelButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+                });
 
-        for (Assignment assignment :
-                staticAssignments) {
-         assignments.add(assignment);
-        }
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
 
-        Log.i("Info", String.valueOf(assignments.size()));
-
-        RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
-        AssignmentAdapter minigamesAdapter = new AssignmentAdapter(
-                this, assignments, this);
-        minigamesRecyclerView.setAdapter(minigamesAdapter);
-        minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        });
     }
-
-    private static final Assignment[] staticAssignments = {
-            new Assignment("test1", 1,false),
-            new Assignment("test2", 0,false),
-            new Assignment("test3", 2,true),
-            new Assignment("test4", 3,true)
-    };
-
-    @Override
-    public void onItemClick(int clickedPosition) {
-        Intent intent = new Intent(this, ItemDetail.class);
-        intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
-        startActivity(intent);
-    }
-
-
-
 }
 
 
