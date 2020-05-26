@@ -2,5 +2,6 @@
     <string name="app_name">The Esteling games</string>
     <string name="scan">SCAN</string>
     <string name="title_text">Minigames</string>
-    <string name="minigamenameplaceholder">minigame Name Placeholder</string>
+    <string name="minigamename_placeholder">minigame Name Placeholder</string>
+    <string name="attempts_placeholder">attempts placeholder</string>
 </resources>

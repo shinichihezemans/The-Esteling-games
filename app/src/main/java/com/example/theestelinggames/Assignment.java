@@ -3,12 +3,13 @@ package com.example.theestelinggames;
 public class Assignment {
 
     private String name;
+    private int attempts;
     private boolean isCompleted;
-    private int score;
 
-    public Assignment(String name, boolean isCompleted) {
+    public Assignment(String name, int attempts, boolean isCompleted) {
         this.name = name;
         this.isCompleted = isCompleted;
+        this.attempts = attempts;
     }
 
     public String getName() {
@@ -27,9 +28,12 @@ public class Assignment {
         isCompleted = status;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-        this.isCompleted = true;
+    public int getAttempts() {
+        return attempts;
+    }
+
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
     }
 
     @Override
