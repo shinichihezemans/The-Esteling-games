@@ -12,24 +12,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        this.context = this;
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         final Button button = findViewById(R.id.startScreenButton);
+        final Intent intent = new Intent(this, AssignmentView.class);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 builder.setMessage(R.string.PopUpText);
                 builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(context, AssignmentView.class);
                         startActivity(intent);
                     }
                 });
@@ -45,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
     }
 }
 
