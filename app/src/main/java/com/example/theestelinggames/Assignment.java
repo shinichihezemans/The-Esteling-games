@@ -2,8 +2,10 @@ package com.example.theestelinggames;
 
 public class Assignment {
 
-    String name;
-    boolean isCompleted;
+    private String name;
+    private boolean isCompleted;
+    private String UUID;
+    private int score;
 
     public Assignment(String name, boolean isCompleted) {
         this.name = name;
@@ -24,6 +26,15 @@ public class Assignment {
 
     public void setCompleted(boolean status) {
         isCompleted = status;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+        this.isCompleted = true;
     }
 
     @Override
