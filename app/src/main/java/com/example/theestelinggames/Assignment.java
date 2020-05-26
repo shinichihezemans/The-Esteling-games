@@ -43,4 +43,19 @@ public class Assignment {
                 ", status=" + isCompleted +
                 '}';
     }
+
+    private static final Assignment[] staticAssignments = {
+            new Assignment("test1", 1,false),
+            new Assignment("test2", 0,false),
+            new Assignment("test3", 2,true),
+            new Assignment("test4", 3,true)
+    };
+
+    public static Assignment[] getStaticAssignments() {
+        return staticAssignments;
+    }
+
+    public static Assignment getStaticAssignment(int id) {
+        return staticAssignments[id];
+    }
 }
