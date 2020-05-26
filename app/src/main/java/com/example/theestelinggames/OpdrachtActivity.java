@@ -25,7 +25,7 @@ public class OpdrachtActivity extends AppCompatActivity {
 
             }
         } else {
-            Toast.makeText(this, "device doesn't support bluetooth", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "device doesn't support bluetooth", Toast.LENGTH_SHORT).show();
         }
     }
 
