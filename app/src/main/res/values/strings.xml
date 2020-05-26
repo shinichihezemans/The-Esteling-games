@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">The Esteling games</string>
+    <string name="title_text">Minigames</string>
+    <string name="minigamename_placeholder">minigame Name Placeholder</string>
+    <string name="attempts_placeholder">attempts placeholder</string>
     <string name="StartButton">Start</string>
     <string name="CancelButton">Cancel</string>
     <string name="StartSchermText">De Essteling Games</string>
