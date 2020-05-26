@@ -11,8 +11,7 @@
         android:theme="@style/estelingStyle1">
         <activity android:name=".AssignmentView"></activity>
         <activity android:name=".ItemDetail" />
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".StartActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
