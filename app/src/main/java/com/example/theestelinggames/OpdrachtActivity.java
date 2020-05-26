@@ -19,9 +19,16 @@ public class OpdrachtActivity extends AppCompatActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bluetoothAvailable = (bluetoothAdapter != null);
 
-        if(bluetoothAvailable && !bluetoothAdapter.isEnabled()) {
-            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 0);
+        if(bluetoothAvailable) {
+            if (!bluetoothAdapter.isEnabled() && requestBluetooth()) {
+                
+            }
         }
+    }
+
+    private boolean requestBluetooth(){
+        Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBluetooth, 0);
+        return bluetoothAdapter.isEnabled();
     }
 }
