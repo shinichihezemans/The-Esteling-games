@@ -11,10 +11,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 public class ItemDetail extends AppCompatActivity {
+    private static final String LOGTAG = ItemDetail.class.getName();
 
     public static final String ASSIGNMENT_ID = "AssignmentID";
 
@@ -25,6 +29,21 @@ public class ItemDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_item_detail);
+
+        int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
+        Log.d(LOGTAG, "onCreate called with EXTRA_ZODIAC_ID = " + id);
+
+        Assignment assignment = Assignment.getStaticAssignment(id);
+        Log.d(LOGTAG, "Assignment[id] = " + assignment.getName() + " " + assignment.getAttempts());
+
+        TextView minigameName = (TextView) findViewById(R.id.minigameName);
+        minigameName.setText(assignment.getName());
+
+        TextView forecast = (TextView) findViewById(R.id.minigameIntroduction);
+        forecast.setText("TODO");
+
+//        ImageView attractionImage = (ImageView) findViewById();
+//        attractionImage.setImageResource();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     }

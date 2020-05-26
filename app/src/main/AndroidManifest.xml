@@ -14,9 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/estelingStyle1">
-        <activity android:name=".AssignmentView"></activity>
-        <activity android:name=".ItemDetail"></activity>
-        <activity android:name=".OpdrachtActivity"></activity>
+
+        <activity android:name=".AssignmentView">
+
+        </activity>
+
+        <activity android:name=".ItemDetail">
+
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -43,14 +43,17 @@ public class AssignmentAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         Assignment assignment = assignments.get(position);
         Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
+        //Name
         TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
         Log.i("Info", assignment.getName());
         minigameName.setText(assignment.getName());
 
+        //attempts
         TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
         Log.i("Info", assignment.getAttempts() + "/3");
         minigameAttempts.setText(assignment.getAttempts() + "/3");
 
+        //status
         CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
         boolean isCompleted = assignment.isCompleted();
         if(isCompleted){
