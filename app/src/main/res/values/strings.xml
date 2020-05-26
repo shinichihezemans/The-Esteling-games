@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">The Esteling games</string>
-    <string name="StartButton">Start</string>
-    <string name="CancelButton">Cancel</string>
-    <string name="StartSchermText">De Essteling Games</string>
-    <string name="PopUpText">Welkom bij de Essteling games, het spel voor tussen de attracties door. Heb je zin om mee te spelen, druk dan snel op start en kies een karakter uit op het volgende scherm. Daarna kun je beginnen met de opdrachten en strijden tegen iedereen in het park succes.</string>
     <string name="title_text">Minigames</string>
     <string name="minigamename_placeholder">minigame Name Placeholder</string>
     <string name="attempts_placeholder">attempts placeholder</string>
