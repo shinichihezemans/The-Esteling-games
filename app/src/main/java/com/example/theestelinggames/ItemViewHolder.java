@@ -7,8 +7,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private static final String LOGTAG = ItemViewHolder.class.getName();
 
+    private static final String LOGTAG = ItemViewHolder.class.getName();
     private OnItemClickListener clickListener;
 
     public ItemViewHolder(View itemView, OnItemClickListener listener) {
@@ -23,6 +23,4 @@ public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
         clickListener.onItemClick(clickedPosition);
     }
-
-
 }
