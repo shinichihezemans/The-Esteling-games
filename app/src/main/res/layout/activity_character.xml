@@ -10,7 +10,7 @@
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNeushorn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +19,7 @@
     </androidx.viewpager2.widget.ViewPager2>
 
     <ImageButton
-        android:id="@+id/button1"
+        android:id="@+id/buttonAap"
         android:layout_width="58dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
         app:srcCompat="@drawable/aap" />
 
     <ImageButton
-        android:id="@+id/button2"
+        android:id="@+id/buttonBeer"
         android:layout_width="59dp"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/beer" />
 
     <ImageButton
-        android:id="@+id/button3"
+        android:id="@+id/buttonHaas"
         android:layout_width="55dp"
         android:layout_height="57dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +55,7 @@
         app:srcCompat="@drawable/haas" />
 
     <ImageButton
-        android:id="@+id/button4"
+        android:id="@+id/buttonLeeuw"
         android:layout_width="64dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
         app:srcCompat="@drawable/leeuw" />
 
     <ImageButton
-        android:id="@+id/button5"
+        android:id="@+id/buttonNeushorn"
         android:layout_width="56dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
         app:srcCompat="@drawable/neushoorn" />
 
     <ImageButton
-        android:id="@+id/button6"
+        android:id="@+id/buttonNijlpaard"
         android:layout_width="64dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +91,7 @@
         app:srcCompat="@drawable/nijlpaard" />
 
     <ImageButton
-        android:id="@+id/button7"
+        android:id="@+id/buttonOlifant"
         android:layout_width="58dp"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +103,7 @@
         app:srcCompat="@drawable/olifant" />
 
     <ImageButton
-        android:id="@+id/button8"
+        android:id="@+id/buttonWolf"
         android:layout_width="61dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -115,7 +115,7 @@
         app:srcCompat="@drawable/wolf" />
 
     <ImageButton
-        android:id="@+id/button9"
+        android:id="@+id/buttonZebra"
         android:layout_width="51dp"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"

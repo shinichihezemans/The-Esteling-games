@@ -8,5 +8,6 @@
     <string name="minigamename_placeholder">minigame naam placeholder</string>
     <string name="title_text">Minigamesas</string>
     <string name="scan">SCAN</string>
+    <string name="minigame_introduction">minigame Introductie</string>
 
 </resources>

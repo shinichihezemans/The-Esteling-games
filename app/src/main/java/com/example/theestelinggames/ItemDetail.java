@@ -24,7 +24,6 @@ public class ItemDetail extends AppCompatActivity {
 
     private BluetoothAdapter bluetoothAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +41,9 @@ public class ItemDetail extends AppCompatActivity {
         TextView forecast = (TextView) findViewById(R.id.minigameIntroduction);
         forecast.setText("TODO");
 
-//        ImageView attractionImage = (ImageView) findViewById();
-//        attractionImage.setImageResource();
+        ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
+        attractionImage.setImageResource(assignment.getImageResourceId());
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     }

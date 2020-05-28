@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import java.util.Arrays;
 
 
 public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener{
+
+    public static final String ASSIGNMENTDATA = "Assignments";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +36,15 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Intent intent = new Intent(this, ItemDetail.class);
         intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
+    }
+
+
+    public void saveData(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences(ASSIGNMENTDATA,this.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        
+
+        editor.apply();
     }
 }

@@ -16,9 +16,13 @@ import java.util.List;
 import java.util.Random;
 
 public class CharacterActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String usernameKey = "USERNAME";
-    private ViewPager2 viewPager2;
+    public static final String LOGTAG = CharacterActivity.class.getName();
 
+    public static final String usernameKey = "USERNAME";
+
+    public static final String USERCREDENTIALS = "UserCredentials";
+
+    private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,78 +40,75 @@ public class CharacterActivity extends AppCompatActivity implements View.OnClick
         sliderItems.add(new SliderItem(R.drawable.nijlpaard));
         sliderItems.add(new SliderItem(R.drawable.olifant));
         sliderItems.add(new SliderItem(R.drawable.wolf));
+        sliderItems.add(new SliderItem(R.drawable.zebra));
 
         viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2));
 
-        ImageButton button1 = findViewById(R.id.button1);
-        ImageButton button2 = findViewById(R.id.button2);
-        ImageButton button3 = findViewById(R.id.button3);
-        ImageButton button4 = findViewById(R.id.button4);
-        ImageButton button5 = findViewById(R.id.button5);
-        ImageButton button6 = findViewById(R.id.button6);
-        ImageButton button7 = findViewById(R.id.button7);
-        ImageButton button8 = findViewById(R.id.button8);
-        ImageButton button9 = findViewById(R.id.button9);
+        ImageButton buttonAap = findViewById(R.id.buttonAap);
+        ImageButton buttonBeer = findViewById(R.id.buttonBeer);
+        ImageButton buttonHaas = findViewById(R.id.buttonHaas);
+        ImageButton buttonLeeuw = findViewById(R.id.buttonLeeuw);
+        ImageButton buttonNeushorn = findViewById(R.id.buttonNeushorn);
+        ImageButton buttonNijlpaard = findViewById(R.id.buttonNijlpaard);
+        ImageButton buttonOlifant = findViewById(R.id.buttonOlifant);
+        ImageButton buttonWolf = findViewById(R.id.buttonWolf);
+        ImageButton buttonZebra = findViewById(R.id.buttonZebra);
 
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        button7.setOnClickListener(this);
-        button8.setOnClickListener(this);
-        button9.setOnClickListener(this);
+        buttonAap.setOnClickListener(this);
+        buttonBeer.setOnClickListener(this);
+        buttonHaas.setOnClickListener(this);
+        buttonLeeuw.setOnClickListener(this);
+        buttonNeushorn.setOnClickListener(this);
+        buttonNijlpaard.setOnClickListener(this);
+        buttonOlifant.setOnClickListener(this);
+        buttonWolf.setOnClickListener(this);
+        buttonZebra.setOnClickListener(this);
 
     }
-
 
     @Override
     public void onClick(View v) {
         Random random = new Random();
         int id = (random.nextInt(100000));
-        SharedPreferences sharedPreferences = this.getSharedPreferences("PersonalDetails", this.MODE_PRIVATE);
-        Log.i("Username", sharedPreferences.getString(usernameKey, "naamloos"));
-        SharedPreferences.Editor editer = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = this.getSharedPreferences(USERCREDENTIALS, this.MODE_PRIVATE);
+        Log.i("Username", sharedPreferences.getString(usernameKey, "nameless"));
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String animalName = "";
         switch (v.getId()) {
-            case R.id.button1:
-                Toast.makeText(this, "You chose Monkey!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Monkey" + id);
+            case R.id.buttonAap:
+                animalName = "Monkey";
                 break;
-            case R.id.button2:
-                Toast.makeText(this, "You chose Bear!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Bear" + id);
+            case R.id.buttonBeer:
+                animalName = "Bear";
                 break;
-            case R.id.button3:
-                Toast.makeText(this, "You chose Hare!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Hare" + id);
+            case R.id.buttonHaas:
+                animalName = "Hare";
                 break;
-            case R.id.button4:
-                Toast.makeText(this, "You chose Lion!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Lion" + id);
+            case R.id.buttonLeeuw:
+                animalName = "Lion";
                 break;
-            case R.id.button5:
-                Toast.makeText(this, "You chose Rhino!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Rhino" + id);
+            case R.id.buttonNeushorn:
+                animalName = "Rhino";
                 break;
-            case R.id.button6:
-                Toast.makeText(this, "You chose Hippo!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Hippo" + id);
+            case R.id.buttonNijlpaard:
+                animalName = "Hippo";
                 break;
-            case R.id.button7:
-                Toast.makeText(this, "You chose Elephant!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Elephant" + id);
+            case R.id.buttonOlifant:
+                animalName = "Elephant";
                 break;
-            case R.id.button8:
-                Toast.makeText(this, "You chose Wolf!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Wolf" + id);
+            case R.id.buttonWolf:
+                animalName = "Wolf";
                 break;
-            case R.id.button9:
-                Toast.makeText(this, "You chose Zebra!", Toast.LENGTH_SHORT).show();
-                editer.putString(usernameKey, "Zebra" + id);
+            case R.id.buttonZebra:
+                animalName = "Zebra";
                 break;
+            default:
+                Log.d(LOGTAG,"Invalid button");
         }
-        editer.apply();
+        Toast.makeText(this, animalName + " has been chosen!", Toast.LENGTH_SHORT).show();
+        editor.putString(usernameKey, animalName + id);
+        editor.apply();
+
         final Intent intent = new Intent(this, AssignmentListActivity.class);
         startActivity(intent);
 
