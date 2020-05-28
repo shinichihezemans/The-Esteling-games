@@ -17,10 +17,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.Set;
+
 public class OpdrachtActivity extends AppCompatActivity {
     private boolean isStarted = false;//if not started button visible and textView gone else button gone and textView visible
 
     private TextView assignmentTextView;
+    private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevice device;
 
     @Override
@@ -30,11 +34,29 @@ public class OpdrachtActivity extends AppCompatActivity {
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
         this.device = getIntent().getParcelableExtra(ItemDetail.DEVICE_KEY);
+        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        registerReceiver(broadcastReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
     }
 
     public void onStartButtonClicked(View view) {
         this.isStarted = true;
-        view.setVisibility(View.GONE);
-        assignmentTextView.setVisibility(View.VISIBLE);
+        //view.setVisibility(View.GONE);
+        //assignmentTextView.setVisibility(View.VISIBLE);
+    }
+
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
+
+            }
+
+
+        }
+    };
+
+    public void makeToast(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

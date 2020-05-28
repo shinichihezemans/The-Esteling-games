@@ -3,13 +3,16 @@ package com.example.theestelinggames;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,11 +20,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class ItemDetail extends AppCompatActivity {
-    private static final String LOGTAG = ItemDetail.class.getName();
+import java.io.IOException;
+import java.util.UUID;
 
+public class ItemDetail extends AppCompatActivity {
+
+    private static final String LOGTAG = ItemDetail.class.getName();
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
+
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
@@ -62,6 +70,14 @@ public class ItemDetail extends AppCompatActivity {
                 bluetoothAdapter.cancelDiscovery();
             }
             checkBTPermissions();
+
+            //is null if not in bonded devices.
+            BluetoothDevice bluetoothDevice = this.getBluetoothDevice();
+            if(this.hasBonded(bluetoothDevice)){
+                initSocket(bluetoothDevice);
+                return;
+            }
+
             if (bluetoothAdapter.startDiscovery()) {
                 //If discovery has started, then display the following toast....//
                 Toast.makeText(getApplicationContext(), "Discovering other bluetooth devices...",
@@ -84,30 +100,92 @@ public class ItemDetail extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             String action = intent.getAction();
 
-            if (action != null) {
-                if (action.equals(BluetoothDevice.ACTION_FOUND) || action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
-                    tryConnect((BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
+            if (bluetoothDevice == null || action == null) {
+                return;
+            }
+
+            if (bluetoothDevice.getName().equals(assignment.getName())) {
+                if (BluetoothDevice.ACTION_FOUND.equals(action) && !hasBonded(bluetoothDevice)) {
+                    Toast.makeText(getApplicationContext(), "Creating bond!",
+                            Toast.LENGTH_SHORT).show();
+
+                    bluetoothDevice.createBond();
+                }
+
+                if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action) &&
+                        bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
+
+                    initSocket(bluetoothDevice);
+                }
+
+                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+
+                    onConnected(bluetoothDevice);
                 }
             }
         }
     };
 
-    private void tryConnect(BluetoothDevice device) {
-        if (device != null) {
-            if (device.getName() != null) {
-                if (device.getName().equals(this.assignment.getName())) {
-                    if (BluetoothDevice.BOND_BONDED == device.getBondState()) {
-                        Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
-                        assignmentIntent.putExtra(DEVICE_KEY, device);
-                        startActivity(assignmentIntent);
-                    } else {
-                        device.createBond();
-                    }
+    private BluetoothDevice getBluetoothDevice(){
+        for(BluetoothDevice bluetoothDevice : this.bluetoothAdapter.getBondedDevices()){
+            if(bluetoothDevice.getName().equals(this.assignment.getName())){
+                return bluetoothDevice;
+            }
+        }
+        return null;
+    }
+
+    private boolean hasBonded(BluetoothDevice searchDevice){
+        if(searchDevice != null) {
+            for (BluetoothDevice bluetoothDevice : this.bluetoothAdapter.getBondedDevices()) {
+                if (bluetoothDevice.getAddress().equals(searchDevice.getAddress())) {
+                    return true;
                 }
             }
         }
+        return false;
+    }
+
+    private void initSocket(BluetoothDevice bluetoothDevice) {
+
+        Toast.makeText(getApplicationContext(), "Initialising socket!",
+                Toast.LENGTH_SHORT).show();
+
+        BluetoothSocket bluetoothSocket = null;
+        try {
+            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.bluetoothAdapter.cancelDiscovery();
+
+        if (bluetoothSocket != null) {
+            try {
+                bluetoothSocket.connect();
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                try {
+                    bluetoothSocket.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void onConnected(BluetoothDevice bluetoothDevice) {
+
+        Toast.makeText(getApplicationContext(), "Connected!",
+                Toast.LENGTH_SHORT).show();
+
+        Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
+        assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
+        startActivity(assignmentIntent);
     }
 
     @Override
