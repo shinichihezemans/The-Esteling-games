@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -46,5 +47,9 @@ public class Scoreboard extends AppCompatActivity {
         }catch (MqttException e){
             e.printStackTrace();
         }
+    }
+
+    public void onRefreshButtonClicked(View view) throws MqttException {
+        this.client.subscribe("A1/Scoreboard", 2);
     }
 }
