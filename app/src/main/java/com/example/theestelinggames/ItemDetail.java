@@ -65,13 +65,11 @@ public class ItemDetail extends AppCompatActivity {
                 //If discovery has started, then display the following toast....//
                 Toast.makeText(getApplicationContext(), "Discovering other bluetooth devices...",
                         Toast.LENGTH_SHORT).show();
-                IntentFilter bluetoothActionFoundFilter = null;
-                try {
-                    bluetoothActionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND, BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-                } catch (IntentFilter.MalformedMimeTypeException e) {
-                    e.printStackTrace();
-                }
-                registerReceiver(broadcastReceiver, bluetoothActionFoundFilter);
+                IntentFilter bluetoothFilter = new IntentFilter();
+                bluetoothFilter.addAction(BluetoothDevice.ACTION_FOUND);
+                bluetoothFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+
+                registerReceiver(broadcastReceiver, bluetoothFilter);
             } else {
                 //If discovery hasn’t started, then display this alternative toast//
                 Toast.makeText(getApplicationContext(), "Something went wrong! Discovery has failed to start.",
