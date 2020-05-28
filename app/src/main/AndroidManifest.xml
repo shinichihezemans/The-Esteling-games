@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.theestelinggames">
-    
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,23 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/estelingStyle1">
-
-        <activity android:name=".AssignmentListActivity">
-
-        </activity>
-
-        <activity android:name=".ItemDetail">
-
-        </activity>
-
-        <activity android:name=".CharacterActivity">
-
-        </activity>
-
-        <activity android:name=".OpdrachtActivity">
-
-        </activity>
-
+        <activity android:name=".Scoreboard"></activity>
+        <activity android:name=".AssignmentListActivity"></activity>
+        <activity android:name=".ItemDetail"></activity>
+        <activity android:name=".CharacterActivity"></activity>
+        <activity android:name=".OpdrachtActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +31,7 @@
             </intent-filter>
         </activity>
 
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>
