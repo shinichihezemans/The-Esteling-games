@@ -79,6 +79,10 @@ public class ItemDetail extends AppCompatActivity {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.i("BLUETOOTH DEVICE FOUND", "DEVICE: " + device.getName());
+                if(device.getName().equals("The Essteling games opdracht 1")){
+                    device.createBond();
+                    makeToast("Bonded with device: " + device.getName());
+                }
                 makeToast("found device: " + device.getName());
             }
         }
