@@ -13,9 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.theestelinggames.assignmentlist.Assignment;
 
 public class ItemDetail extends AppCompatActivity {
     private static final String LOGTAG = ItemDetail.class.getName();
@@ -23,6 +24,7 @@ public class ItemDetail extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
 
     private BluetoothAdapter bluetoothAdapter;
+    private Assignment assignment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +32,23 @@ public class ItemDetail extends AppCompatActivity {
         setContentView(R.layout.assignment_item_detail);
 
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
-        Log.d(LOGTAG, "onCreate called with EXTRA_ZODIAC_ID = " + id);
+//        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
 
-        Assignment assignment = Assignment.getStaticAssignment(id);
-        Log.d(LOGTAG, "Assignment[id] = " + assignment.getName() + " " + assignment.getAttempts());
+        assignment = Assignment.getStaticAssignment(id);
+//        Log.d(LOGTAG, "Assignment[id] = " + assignment.getName() + " " + assignment.getAttempts());
 
         TextView minigameName = (TextView) findViewById(R.id.minigameName);
         minigameName.setText(assignment.getName());
+        Log.i(LOGTAG, "Name" + assignment.getName());
 
-        TextView forecast = (TextView) findViewById(R.id.minigameIntroduction);
-        forecast.setText("TODO");
+        TextView introduction = (TextView) findViewById(R.id.minigameIntroduction);
+        introduction.setText("TODO");
 
         ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
         attractionImage.setImageResource(assignment.getImageResourceId());
+
+        //doesnt work
+//        assignment.saveData();
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
