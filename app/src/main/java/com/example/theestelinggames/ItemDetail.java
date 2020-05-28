@@ -23,6 +23,7 @@ public class ItemDetail extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
 
     private BluetoothAdapter bluetoothAdapter;
+    private Assignment assignment;
 
 
     @Override
@@ -33,11 +34,11 @@ public class ItemDetail extends AppCompatActivity {
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
         Log.d(LOGTAG, "onCreate called with EXTRA_ZODIAC_ID = " + id);
 
-        Assignment assignment = Assignment.getStaticAssignment(id);
-        Log.d(LOGTAG, "Assignment[id] = " + assignment.getName() + " " + assignment.getAttempts());
+         this.assignment = Assignment.getStaticAssignment(id);
+        Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
         TextView minigameName = (TextView) findViewById(R.id.minigameName);
-        minigameName.setText(assignment.getName());
+        minigameName.setText(this.assignment.getName());
 
         TextView forecast = (TextView) findViewById(R.id.minigameIntroduction);
         forecast.setText("TODO");
@@ -79,19 +80,29 @@ public class ItemDetail extends AppCompatActivity {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.i("BLUETOOTH DEVICE FOUND", "DEVICE: " + device.getName());
-                if(device.getName().equals("The Essteling games opdracht 1")){
-                    device.createBond();
-                    makeToast("Bonded with device: " + device.getName());
-                }
-                makeToast("found device: " + device.getName());
+
+                tryConnect(device);
             }
         }
     };
 
-    public void makeToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    private void tryConnect(BluetoothDevice device){
+        if (device != null){
+            if (device.getName() != null){
+                if (device.getName().equals(this.assignment.getName())){
+                    device.createBond();
+                    Intent intent = new Intent(this, OpdrachtActivity.class);
+                    startActivity(intent);
+                }
+            }
+        }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     /**
      * This method is required for all devices running API23+

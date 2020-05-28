@@ -60,7 +60,7 @@ public class Assignment {
     }
 
     private static final Assignment[] staticAssignments = {
-            new Assignment("test1", 1,false,R.drawable.astrolica),
+            new Assignment("Johan en de eenhoorn", 1,false,R.drawable.astrolica),
             new Assignment("test2", 0,false,R.drawable.cobra),
             new Assignment("test3", 2,false,R.drawable.de_zwevende_belg),
             new Assignment("test4", 3,true,R.drawable.droomreis)
