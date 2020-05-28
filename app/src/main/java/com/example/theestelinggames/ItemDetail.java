@@ -46,13 +46,17 @@ public class ItemDetail extends AppCompatActivity {
 //        ImageView attractionImage = (ImageView) findViewById();
 //        attractionImage.setImageResource();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
     }
 
     public void onConnectButtonClicked(View view) {
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "bluetooth not supported", Toast.LENGTH_SHORT).show();
         } else {
+
+            if(!bluetoothAdapter.isEnabled()){
+                bluetoothAdapter.enable();
+            }
+
             if (bluetoothAdapter.isDiscovering()) {//opnieuw starten
                 bluetoothAdapter.cancelDiscovery();
             }
@@ -61,7 +65,12 @@ public class ItemDetail extends AppCompatActivity {
                 //If discovery has started, then display the following toast....//
                 Toast.makeText(getApplicationContext(), "Discovering other bluetooth devices...",
                         Toast.LENGTH_SHORT).show();
-                IntentFilter bluetoothActionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                IntentFilter bluetoothActionFoundFilter = null;
+                try {
+                    bluetoothActionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND, BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+                } catch (IntentFilter.MalformedMimeTypeException e) {
+                    e.printStackTrace();
+                }
                 registerReceiver(broadcastReceiver, bluetoothActionFoundFilter);
             } else {
                 //If discovery hasn’t started, then display this alternative toast//
@@ -75,13 +84,13 @@ public class ItemDetail extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             String action = intent.getAction();
 
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.i("BLUETOOTH DEVICE FOUND", "DEVICE: " + device.getName());
-
-                tryConnect(device);
+            if(action != null) {
+                if (action.equals(BluetoothDevice.ACTION_FOUND) || action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                    tryConnect((BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
+                }
             }
         }
     };
@@ -90,9 +99,12 @@ public class ItemDetail extends AppCompatActivity {
         if (device != null){
             if (device.getName() != null){
                 if (device.getName().equals(this.assignment.getName())){
-                    device.createBond();
-                    Intent intent = new Intent(this, OpdrachtActivity.class);
-                    startActivity(intent);
+                    if(BluetoothDevice.BOND_BONDED == device.getBondState()){
+                        Intent assignment = new Intent(ItemDetail.this, OpdrachtActivity.class);
+                        startActivity(assignment);
+                    } else {
+                        device.createBond();
+                    }
                 }
             }
         }
