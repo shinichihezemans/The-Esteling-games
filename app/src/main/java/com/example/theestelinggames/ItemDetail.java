@@ -21,6 +21,7 @@ public class ItemDetail extends AppCompatActivity {
     private static final String LOGTAG = ItemDetail.class.getName();
 
     public static final String ASSIGNMENT_ID = "AssignmentID";
+    public static final String DEVICE_KEY = "DEVICE_KEY";
 
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
@@ -34,7 +35,7 @@ public class ItemDetail extends AppCompatActivity {
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
         Log.d(LOGTAG, "onCreate called with EXTRA_ZODIAC_ID = " + id);
 
-         this.assignment = Assignment.getStaticAssignment(id);
+        this.assignment = Assignment.getStaticAssignment(id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
         TextView minigameName = (TextView) findViewById(R.id.minigameName);
@@ -53,7 +54,7 @@ public class ItemDetail extends AppCompatActivity {
             Toast.makeText(this, "bluetooth not supported", Toast.LENGTH_SHORT).show();
         } else {
 
-            if(!bluetoothAdapter.isEnabled()){
+            if (!bluetoothAdapter.isEnabled()) {
                 bluetoothAdapter.enable();
             }
 
@@ -85,7 +86,7 @@ public class ItemDetail extends AppCompatActivity {
 
             String action = intent.getAction();
 
-            if(action != null) {
+            if (action != null) {
                 if (action.equals(BluetoothDevice.ACTION_FOUND) || action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
                     tryConnect((BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
                 }
@@ -93,13 +94,14 @@ public class ItemDetail extends AppCompatActivity {
         }
     };
 
-    private void tryConnect(BluetoothDevice device){
-        if (device != null){
-            if (device.getName() != null){
-                if (device.getName().equals(this.assignment.getName())){
-                    if(BluetoothDevice.BOND_BONDED == device.getBondState()){
-                        Intent assignment = new Intent(ItemDetail.this, OpdrachtActivity.class);
-                        startActivity(assignment);
+    private void tryConnect(BluetoothDevice device) {
+        if (device != null) {
+            if (device.getName() != null) {
+                if (device.getName().equals(this.assignment.getName())) {
+                    if (BluetoothDevice.BOND_BONDED == device.getBondState()) {
+                        Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
+                        assignmentIntent.putExtra(DEVICE_KEY, device);
+                        startActivity(assignmentIntent);
                     } else {
                         device.createBond();
                     }
@@ -118,7 +120,7 @@ public class ItemDetail extends AppCompatActivity {
      * This method is required for all devices running API23+
      * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
      * in the manifest is not enough.
-     *
+     * <p>
      * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
      */
     private void checkBTPermissions() {

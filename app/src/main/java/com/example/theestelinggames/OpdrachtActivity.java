@@ -21,6 +21,7 @@ public class OpdrachtActivity extends AppCompatActivity {
     private boolean isStarted = false;//if not started button visible and textView gone else button gone and textView visible
 
     private TextView assignmentTextView;
+    private BluetoothDevice device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,8 @@ public class OpdrachtActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opdracht);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
+        this.device = getIntent().getParcelableExtra(ItemDetail.DEVICE_KEY);
     }
-
 
     public void onStartButtonClicked(View view) {
         this.isStarted = true;
