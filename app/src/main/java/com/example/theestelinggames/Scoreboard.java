@@ -12,6 +12,10 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
+
+import java.util.ArrayList;
 
 public class Scoreboard extends AppCompatActivity {
 
@@ -49,7 +53,20 @@ public class Scoreboard extends AppCompatActivity {
         }
     }
 
-    public void onRefreshButtonClicked(View view) throws MqttException {
-        this.client.subscribe("A1/Scoreboard", 2);
+    public void onRefreshButtonClicked(View view) {
+        try {
+            IMqttToken token = this.client.subscribe("A1/Scoreboard", 2);
+            MqttWireMessage message = token.getResponse();
+        }catch (MqttException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendData () {
+        try{
+            IMqttToken token = this.client.publish("A1/Scoreboard", new MqttMessage("Hello".getBytes()));
+        }catch (MqttException e){
+            e.printStackTrace();
+        }
     }
 }
