@@ -121,10 +121,6 @@ public class ItemDetail extends AppCompatActivity {
 
                 if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action) &&
                         bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
-                    initSocket(bluetoothDevice);
-                }
-
-                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                     onConnected(bluetoothDevice);
                 }
             }
@@ -153,52 +149,7 @@ public class ItemDetail extends AppCompatActivity {
 
     private void initSocket(BluetoothDevice bluetoothDevice) {
 
-        Toast.makeText(getApplicationContext(), "Initialising socket!",
-                Toast.LENGTH_SHORT).show();
 
-        BluetoothSocket bluetoothSocket = null;
-        try {
-            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
-            Toast.makeText(getApplicationContext(), "Initialized socket!",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "got socket");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        this.bluetoothAdapter.cancelDiscovery();
-
-        if (bluetoothSocket != null) {
-            Toast.makeText(getApplicationContext(), "socket niet null",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "socket niet null");
-            try {
-                Toast.makeText(getApplicationContext(), "trying to connect",
-                        Toast.LENGTH_SHORT).show();
-                Log.i(LOGTAG, "trying to connect");
-                bluetoothSocket.connect();
-                Toast.makeText(getApplicationContext(), "connected",
-                        Toast.LENGTH_SHORT).show();
-                Log.i(LOGTAG, "connected");
-
-                DataOutputStream dataOut = new DataOutputStream(bluetoothSocket.getOutputStream());
-                dataOut.writeUTF("hi");
-            } catch (IOException e) {
-                e.printStackTrace();
-                try {
-                    Toast.makeText(getApplicationContext(), "closing",
-                            Toast.LENGTH_SHORT).show();
-                    Log.i(LOGTAG, "closing");
-                    bluetoothSocket.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "socket null",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "socket null");
-        }
     }
 
     private void onConnected(BluetoothDevice bluetoothDevice) {
