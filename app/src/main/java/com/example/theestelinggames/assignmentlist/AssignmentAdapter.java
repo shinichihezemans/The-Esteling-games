@@ -1,4 +1,4 @@
-package com.example.theestelinggames;
+package com.example.theestelinggames.assignmentlist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,16 +12,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.theestelinggames.OnItemClickListener;
+import com.example.theestelinggames.R;
+
 import java.util.List;
 
-public class AssignmentAdapter extends RecyclerView.Adapter<ItemViewHolder> {
+public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ItemViewHolder> {
     private static final String LOGTAG = AssignmentAdapter.class.getName();
 
     private Context context;
     private List<Assignment> assignments;
     private OnItemClickListener listener;
 
-    public AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener ) {
+    AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener) {
         this.context = context;
         this.assignments = assignments;
         this.listener = listener;
@@ -68,5 +71,26 @@ public class AssignmentAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     public int getItemCount() {
         Log.d(LOGTAG, "getItemCount()");
         return assignments.size();
+    }
+
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String LOGTAG = ItemViewHolder.class.getName();
+
+        private OnItemClickListener clickListener;
+
+        ItemViewHolder(View itemView, OnItemClickListener listener) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            clickListener = listener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
+            clickListener.onItemClick(clickedPosition);
+        }
+
+
     }
 }

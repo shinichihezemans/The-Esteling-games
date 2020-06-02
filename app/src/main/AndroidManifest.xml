@@ -15,9 +15,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/estelingStyle1">
+        android:theme="@style/EsstelingStyle1">
 
-        <activity android:name=".AssignmentListActivity">
+        <activity android:name=".assignmentlist.AssignmentListActivity">
 
         </activity>
 
@@ -25,7 +25,7 @@
 
         </activity>
 
-        <activity android:name=".CharacterActivity">
+        <activity android:name=".iconscreen.CharacterActivity">
 
         </activity>
 

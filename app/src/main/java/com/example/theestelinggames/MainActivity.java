@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.theestelinggames.iconscreen.CharacterActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
