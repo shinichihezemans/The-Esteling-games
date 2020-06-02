@@ -62,9 +62,9 @@ public class Scoreboard extends AppCompatActivity {
         }
     }
 
-    public void sendData () {
+    public void sendData (String message) {
         try{
-            IMqttToken token = this.client.publish("A1/Scoreboard", new MqttMessage("Hello".getBytes()));
+            IMqttToken token = this.client.publish("A1/Scoreboard", new MqttMessage(message.getBytes()));
         }catch (MqttException e){
             e.printStackTrace();
         }
