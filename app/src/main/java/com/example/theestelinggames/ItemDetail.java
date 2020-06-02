@@ -78,7 +78,7 @@ public class ItemDetail extends AppCompatActivity {
             //is null if not in bonded devices.
             BluetoothDevice bluetoothDevice = this.getBluetoothDevice();
             if (this.hasBonded(bluetoothDevice)) {
-                initSocket(bluetoothDevice);
+                onConnected(bluetoothDevice);
                 return;
             }
 
@@ -147,15 +147,7 @@ public class ItemDetail extends AppCompatActivity {
         return false;
     }
 
-    private void initSocket(BluetoothDevice bluetoothDevice) {
-
-
-    }
-
     private void onConnected(BluetoothDevice bluetoothDevice) {
-        Toast.makeText(getApplicationContext(), "Connected!",
-                Toast.LENGTH_SHORT).show();
-
         Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
         startActivity(assignmentIntent);
@@ -164,7 +156,11 @@ public class ItemDetail extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(broadcastReceiver);
+        try{
+            unregisterReceiver(broadcastReceiver);
+        } catch (RuntimeException e){
+            e.printStackTrace();
+        }
     }
 
     /**

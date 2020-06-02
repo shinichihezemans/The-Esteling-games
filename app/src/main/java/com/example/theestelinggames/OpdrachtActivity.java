@@ -97,7 +97,7 @@ public class OpdrachtActivity extends AppCompatActivity {
         //view.setVisibility(View.GONE);
         //assignmentTextView.setVisibility(View.VISIBLE);]
         try {
-            this.dataOutputStream.write(50);
+            this.dataOutputStream.writeUTF("Hello world!");
         } catch (IOException e) {
             e.printStackTrace();
         }
