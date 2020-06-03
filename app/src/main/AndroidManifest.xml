@@ -21,21 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/EsstelingStyle1">
 
-        <activity android:name=".assignmentlist.AssignmentListActivity">
+        <activity android:name=".assignmentlist.AssignmentListActivity"> </activity>
 
-        </activity>
+        <activity android:name=".ItemDetail"> </activity>
 
-        <activity android:name=".ItemDetail">
+        <activity android:name=".iconscreen.CharacterActivity"> </activity>
 
-        </activity>
-
-        <activity android:name=".iconscreen.CharacterActivity">
-
-        </activity>
-
-        <activity android:name=".OpdrachtActivity">
-
-        </activity>
+        <activity android:name=".OpdrachtActivity"> </activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>
