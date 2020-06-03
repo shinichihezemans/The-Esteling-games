@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.theestelinggames.ItemDetail;
 import com.example.theestelinggames.OnItemClickListener;
@@ -29,7 +31,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-        assignments = new ArrayList<>(Arrays.asList(Assignment.getStaticAssignments()));
+        assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
         //doesnt work
 //        for (Assignment assignment: assignments) {
@@ -75,30 +77,30 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     }
 
     //doesnt work
-//    public void saveSettings(){
-//
-//        for (Assignment assignment: assignments) {
-//
-//            //Name
-//            TextView minigameName = findViewById(R.id.minigameName);
-//            assignment.setName(minigameName.getText().toString());
-//            Log.i("SaveSettings", assignment.getName());
-//
-////            //attempts
-////            TextView minigameAttempts = findViewById(R.id.minigameAttempts);
-////            String attemptsText = minigameAttempts.getText().toString();
-////            String[] splitString = attemptsText.split("/");
-////            int attemptsINT = Integer.parseInt(splitString[0]);
-////            assignment.setAttempts(attemptsINT);
-////            Log.i("Save", String.valueOf(assignment.getAttempts()));
-//
-//            //status
-//            CheckBox checkBox = findViewById(R.id.checkBox);
-//            boolean isCompleted = checkBox.isChecked();
-//            assignment.setCompleted(isCompleted);
-//            Log.i("SaveSettings",String.valueOf(assignment.isCompleted()));
-//
-//            assignment.saveData();
-//        }
-//    }
+    public void saveSettings(){
+
+        for (Assignment assignment: assignments) {
+
+            //Name
+            TextView minigameName = findViewById(R.id.minigameName);
+            assignment.setName(minigameName.getText().toString());
+            Log.i("SaveSettings", assignment.getName());
+
+//            //attempts
+//            TextView minigameAttempts = findViewById(R.id.minigameAttempts);
+//            String attemptsText = minigameAttempts.getText().toString();
+//            String[] splitString = attemptsText.split("/");
+//            int attemptsINT = Integer.parseInt(splitString[0]);
+//            assignment.setAttempts(attemptsINT);
+//            Log.i("Save", String.valueOf(assignment.getAttempts()));
+
+            //status
+            CheckBox checkBox = findViewById(R.id.checkBox);
+            boolean isCompleted = checkBox.isChecked();
+            assignment.setCompleted(isCompleted);
+            Log.i("SaveSettings",String.valueOf(assignment.isCompleted()));
+
+            assignment.saveData();
+        }
+    }
 }

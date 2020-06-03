@@ -46,6 +46,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         Assignment assignment = assignments.get(position);
         Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
+        holder.bind(assignment);
         //Name
         TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
         Log.i("Info", assignment.getName());
@@ -57,14 +58,14 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         minigameAttempts.setText(assignment.getAttempts() + "/3");
 
         //status
-        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
-        boolean isCompleted = assignment.isCompleted();
-        if(isCompleted){
-            checkBox.setVisibility(View.VISIBLE);
-            checkBox.setChecked(assignment.isCompleted());
-        }else {
-            checkBox.setVisibility(View.INVISIBLE);
-        }
+//        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
+//        boolean isCompleted = assignment.isCompleted();
+//        if(isCompleted){
+//            checkBox.setVisibility(View.VISIBLE);
+//            checkBox.setChecked(assignment.isCompleted());
+//        }else {
+//            checkBox.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override
@@ -77,6 +78,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         private static final String LOGTAG = ItemViewHolder.class.getName();
 
         private OnItemClickListener clickListener;
+        private Assignment assignment;
 
         ItemViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -84,13 +86,16 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             clickListener = listener;
         }
 
+        public void bind(Assignment assignment){
+            this.assignment = assignment;
+        }
+
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
+            assignment.saveData();
             Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
             clickListener.onItemClick(clickedPosition);
         }
-
-
     }
 }

@@ -1,6 +1,8 @@
 package com.example.theestelinggames.assignmentlist;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.theestelinggames.R;
 
@@ -16,6 +18,10 @@ public class Assignment {
     //doesnt work
     private SharedPreferences sharedPreferences;
     private final String SHARED_PREFERENCES = "Assignment";
+    private static final String SAVED_KEY = "saved";
+    private static final String ATTEMPTS_KEY = "attempts";
+    private static final String COMPLETED_KEY = "completed";
+    private static final String SCORE_KEY = "score";
 
     public Assignment(String name, int attempts, boolean isCompleted, int score, int imageResourceId, int information) {
         sharedPreferences = null;
@@ -82,39 +88,54 @@ public class Assignment {
             new Assignment("De zwevende Belg", 2, false, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
             new Assignment("Droomreis", 3, false, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
+//
+//    public static Assignment[] getStaticAssignments() {
+//        return staticAssignments;
+//    }
+//
+//    public static Assignment getStaticAssignment(int id) {
+//        return staticAssignments[id];
+//    }
 
-    public static Assignment[] getStaticAssignments() {
-        return staticAssignments;
+    public static Assignment[] getAssignments(Context context) {
+        Assignment[] assignments = staticAssignments.clone();
+        for (Assignment assignment : assignments) {
+            assignment.setSharedPreferences(context);
+            assignment.syncWithPrefernces();
+        }
+        return assignments;
     }
 
-    public static Assignment getStaticAssignment(int id) {
-        return staticAssignments[id];
+    public static Assignment getAssignment(Context context, int pos) {
+        Assignment assignment = staticAssignments[pos];
+        assignment.setSharedPreferences(context);
+        assignment.syncWithPrefernces();
+        return assignment;
     }
 
-    //doesnt work
-//    public void saveData() {
-//
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString(getName(), getName());
-//        editor.putBoolean(getName() + "isCompleted", isCompleted());
-//        editor.apply();
-//
-//    }
 
-    //doesnt work
-//    public void loadData() {
-//
-//        name = sharedPreferences.getString(getName(), "No name");
-//        isCompleted = sharedPreferences.getBoolean(getName() + "isCompleted", false);
-//        Log.i("LOAD", name + " " + isCompleted);
-//
-//    }
+    public void saveData() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getName() + SAVED_KEY, true);
+        editor.putInt(getName() + ATTEMPTS_KEY, this.attempts);
+        editor.putBoolean(getName() + COMPLETED_KEY, this.isCompleted);
+        editor.putInt(getName() + SCORE_KEY, this.score);
+        editor.apply();
 
-    //doesnt work
-//    public void setSharedPreferences(Context context) {
-//        this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//
-//    }
+    }
+
+    public void syncWithPrefernces() {
+        if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
+            this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
+            this.isCompleted = sharedPreferences.getBoolean(getName() + COMPLETED_KEY, false);
+            this.score = sharedPreferences.getInt(getName() + SCORE_KEY, -1);
+        }
+    }
+
+    public void setSharedPreferences(Context context) {
+        this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        Log.i("TEMP", String.valueOf(sharedPreferences.getAll().keySet()));
+    }
 
 
 }
