@@ -2,26 +2,17 @@ package com.example.theestelinggames;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class OpdrachtActivity extends AppCompatActivity {
@@ -33,7 +24,7 @@ public class OpdrachtActivity extends AppCompatActivity {
     private BluetoothSocket socket;
     private DataOutputStream dataOutputStream;
 
-    private static final String LOGTAG = ItemDetail.class.getName();
+    private static final String LOGTAG = ItemDetailActivity.class.getName();
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @Override
@@ -42,7 +33,7 @@ public class OpdrachtActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opdracht);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
-        this.device = getIntent().getParcelableExtra(ItemDetail.DEVICE_KEY);
+        this.device = getIntent().getParcelableExtra(ItemDetailActivity.DEVICE_KEY);
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         Toast.makeText(getApplicationContext(), "Initialising socket!",

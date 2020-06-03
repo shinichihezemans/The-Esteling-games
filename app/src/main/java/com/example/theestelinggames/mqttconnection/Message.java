@@ -19,17 +19,17 @@ public class Message {
     }
 
     public Message(int id, String character, int score) {
-        this(id,character);
+        this(id, character);
         this.score = score;
     }
 
-    public String toJson(){
+    public String toJson() {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("id",id);
-            jsonObject.put("character",character);
-            jsonObject.put("score",score);
+            jsonObject.put("id", id);
+            jsonObject.put("character", character);
+            jsonObject.put("score", score);
 
             return jsonObject.toString(4);
         } catch (JSONException e) {
@@ -39,7 +39,7 @@ public class Message {
         return null;
     }
 
-    public MqttMessage jsonMessage(){
+    public MqttMessage jsonMessage() {
         return new MqttMessage(toJson().getBytes(StandardCharsets.UTF_8));
     }
 }

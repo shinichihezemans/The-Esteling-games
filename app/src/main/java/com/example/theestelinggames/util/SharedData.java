@@ -1,4 +1,4 @@
-package com.example.theestelinggames;
+package com.example.theestelinggames.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

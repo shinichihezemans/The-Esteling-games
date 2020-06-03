@@ -23,11 +23,13 @@
 
         <activity android:name=".assignmentlist.AssignmentListActivity"> </activity>
 
-        <activity android:name=".ItemDetail"> </activity>
+        <activity android:name=".ItemDetailActivity"> </activity>
 
         <activity android:name=".iconscreen.CharacterActivity"> </activity>
 
         <activity android:name=".OpdrachtActivity"> </activity>
+
+        <activity android:name=".scoreboardList.ScoreboardListActivity"> </activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.OnItemClickListener;
+import com.example.theestelinggames.util.OnItemClickListener;
 import com.example.theestelinggames.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
