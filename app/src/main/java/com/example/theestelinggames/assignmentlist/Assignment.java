@@ -17,7 +17,7 @@ public class Assignment {
 
     //doesnt work
     private SharedPreferences sharedPreferences;
-    private final String SHARED_PREFERENCES = "Assignment";
+    private static final String SHARED_PREFERENCES = "Assignment";
     private static final String SAVED_KEY = "saved";
     private static final String ATTEMPTS_KEY = "attempts";
     private static final String COMPLETED_KEY = "completed";
@@ -116,7 +116,7 @@ public class Assignment {
         Log.i("save", "saved " + getName());
     }
 
-    public void syncWithPrefernces() {
+    private void syncWithPrefernces() {
         if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
             this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
             this.isCompleted = sharedPreferences.getBoolean(getName() + COMPLETED_KEY, false);
@@ -127,6 +127,7 @@ public class Assignment {
     public void setSharedPreferences(Context context) {
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         Log.i("TEMP", String.valueOf(sharedPreferences.getAll().keySet()));
+        syncWithPrefernces();
     }
 
 
