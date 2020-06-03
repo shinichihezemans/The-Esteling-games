@@ -23,6 +23,12 @@ android {
 
 }
 
+repositories {
+    maven {
+        url "https://repo.eclipse.org/content/repositories/paho-releases/"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -38,4 +44,9 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
+        exclude module: 'support-v4'
+    }
+
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 }
