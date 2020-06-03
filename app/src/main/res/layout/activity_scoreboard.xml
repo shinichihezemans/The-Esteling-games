@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Scoreboard">
+    tools:context=".scoreboardList.ScoreboardListActivity">
 
     <Button
         android:id="@+id/Refresh"
@@ -14,7 +14,6 @@
         android:layout_marginTop="550dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="50dp"
-        android:onClick="onRefreshButtonClicked"
         android:text="Refresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/scoreboardRecyclerView"
         android:layout_width="409dp"
         android:layout_height="565dp"
         app:layout_constraintBottom_toTopOf="@+id/Refresh"

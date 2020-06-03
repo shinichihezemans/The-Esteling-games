@@ -3,32 +3,26 @@ package com.example.theestelinggames;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 import com.example.theestelinggames.assignmentlist.Assignment;
 
-public class ItemDetail extends AppCompatActivity {
+public class ItemDetailActivity extends AppCompatActivity {
 
-    private static final String LOGTAG = ItemDetail.class.getName();
+    private static final String LOGTAG = ItemDetailActivity.class.getName();
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
@@ -48,7 +42,7 @@ public class ItemDetail extends AppCompatActivity {
         this.assignment = Assignment.getStaticAssignment(id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
-        TextView minigameName = (TextView) findViewById(R.id.minigameName);
+        TextView minigameName = (TextView) findViewById(R.id.nameIDTextView);
         minigameName.setText(this.assignment.getName());
 
         TextView introduction = (TextView) findViewById(R.id.minigameIntroduction);
@@ -152,7 +146,7 @@ public class ItemDetail extends AppCompatActivity {
     }
 
     private void onConnected(BluetoothDevice bluetoothDevice) {
-        Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
+        Intent assignmentIntent = new Intent(ItemDetailActivity.this, OpdrachtActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
         startActivity(assignmentIntent);
     }
