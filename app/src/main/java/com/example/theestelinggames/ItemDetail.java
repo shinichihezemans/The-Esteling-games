@@ -52,7 +52,7 @@ public class ItemDetail extends AppCompatActivity {
         minigameName.setText(this.assignment.getName());
 
         TextView introduction = (TextView) findViewById(R.id.minigameIntroduction);
-        introduction.setText("TODO");
+        introduction.setText(this.assignment.getInformation());
 
         ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
         attractionImage.setImageResource(assignment.getImageResourceId());
