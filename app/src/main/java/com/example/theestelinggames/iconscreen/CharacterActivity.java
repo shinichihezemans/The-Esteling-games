@@ -1,17 +1,18 @@
 package com.example.theestelinggames.iconscreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.theestelinggames.OnItemClickListener;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
+import com.example.theestelinggames.mqttconnection.MQTTConnection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         sliderItems = new ArrayList<>(Arrays.asList(SliderItem.getStaticSliderItems()));
 
         viewPager2 = findViewById(R.id.viewPager);
-        viewPager2.setAdapter(new SliderAdapter(sliderItems,this));
+        viewPager2.setAdapter(new SliderAdapter(sliderItems, this));
     }
 
     @Override
@@ -49,11 +50,17 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String animalName = sliderItems.get(viewPager2.getCurrentItem()).getIconName();
 
-        Toast.makeText(this, animalName + id + " has been chosen!", Toast.LENGTH_SHORT).show();
-        editor.putString(usernameKey, animalName + id);
+        String clientID = animalName + id;
+        Toast.makeText(this, clientID + " has been chosen!", Toast.LENGTH_SHORT).show();
+        editor.putString(usernameKey, clientID);
         editor.apply();
 
+        MQTTConnection mqttConnection = MQTTConnection.newMQTTConnection(this, clientID);
+        mqttConnection.connectWithMessage(id,animalName);
+//        mqttConnection.sendMessage(new Message(id,animalName));
+
         final Intent intent = new Intent(this, AssignmentListActivity.class);
+
         startActivity(intent);
     }
 }
