@@ -58,33 +58,27 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
     }
-
-    //doesnt work
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
-
-//        saveSettings();
-
+       saveSettings();
     }
 
     public void printList(){
         for (Assignment assignment :
                 assignments) {
-            Log.i("LISTLIST",assignment.getName() + " " + assignment.isCompleted() );
+//            Log.i("LISTLIST",assignment.getName() + " " + assignment.isCompleted() );
         }
     }
 
-    //doesnt work
     public void saveSettings(){
 
         for (Assignment assignment: assignments) {
 
             //Name
-            TextView minigameName = findViewById(R.id.minigameName);
-            assignment.setName(minigameName.getText().toString());
-            Log.i("SaveSettings", assignment.getName());
+//            TextView minigameName = findViewById(R.id.minigameName);
+//            assignment.setName(minigameName.getText().toString());
+//            Log.i("SaveSettings", assignment.getName());
 
 //            //attempts
 //            TextView minigameAttempts = findViewById(R.id.minigameAttempts);
@@ -98,7 +92,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
             CheckBox checkBox = findViewById(R.id.checkBox);
             boolean isCompleted = checkBox.isChecked();
             assignment.setCompleted(isCompleted);
-            Log.i("SaveSettings",String.valueOf(assignment.isCompleted()));
+//            Log.i("SaveSettings",String.valueOf(assignment.isCompleted()));
 
             assignment.saveData();
         }

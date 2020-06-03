@@ -88,17 +88,9 @@ public class Assignment {
             new Assignment("De zwevende Belg", 2, false, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
             new Assignment("Droomreis", 3, false, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
-//
-//    public static Assignment[] getStaticAssignments() {
-//        return staticAssignments;
-//    }
-//
-//    public static Assignment getStaticAssignment(int id) {
-//        return staticAssignments[id];
-//    }
 
     public static Assignment[] getAssignments(Context context) {
-        Assignment[] assignments = staticAssignments.clone();
+        Assignment[] assignments = staticAssignments;
         for (Assignment assignment : assignments) {
             assignment.setSharedPreferences(context);
             assignment.syncWithPrefernces();
@@ -121,7 +113,7 @@ public class Assignment {
         editor.putBoolean(getName() + COMPLETED_KEY, this.isCompleted);
         editor.putInt(getName() + SCORE_KEY, this.score);
         editor.apply();
-
+        Log.i("save", "saved " + getName());
     }
 
     public void syncWithPrefernces() {

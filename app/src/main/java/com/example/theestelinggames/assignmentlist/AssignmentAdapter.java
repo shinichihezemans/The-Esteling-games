@@ -33,7 +33,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG,"onCreateViewHolder()");
+//        Log.d(LOGTAG,"onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
         return new ItemViewHolder(itemView, listener);
@@ -42,30 +42,31 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        Log.d(LOGTAG, "onBindViewHolder() - position: " + position);
+//        Log.d(LOGTAG, "onBindViewHolder() - position: " + position);
         Assignment assignment = assignments.get(position);
-        Log.d(LOGTAG, "Assignment: " + assignment.getName());
+//        Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
         holder.bind(assignment);
         //Name
         TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
-        Log.i("Info", assignment.getName());
+//        Log.i("Info", assignment.getName());
         minigameName.setText(assignment.getName());
 
         //attempts
         TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
-        Log.i("Info", assignment.getAttempts() + "/3");
+//        Log.i("Info", assignment.getAttempts() + "/3");
         minigameAttempts.setText(assignment.getAttempts() + "/3");
 
         //status
-//        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
-//        boolean isCompleted = assignment.isCompleted();
-//        if(isCompleted){
-//            checkBox.setVisibility(View.VISIBLE);
-//            checkBox.setChecked(assignment.isCompleted());
-//        }else {
+        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
+        boolean isCompleted = assignment.isCompleted();
+        Log.i("stuff", assignment.getName() + "is completed" + assignment.isCompleted());
+        if(isCompleted){
+            checkBox.setVisibility(View.VISIBLE);
+            checkBox.setChecked(assignment.isCompleted());
+        }else {
 //            checkBox.setVisibility(View.INVISIBLE);
-//        }
+        }
     }
 
     @Override
@@ -88,6 +89,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         public void bind(Assignment assignment){
             this.assignment = assignment;
+        }
+
+        public void onCheckBoxClicked(View view){
+            Log.i("stuff", "checkBox is now " + assignment.isCompleted());
         }
 
         @Override
