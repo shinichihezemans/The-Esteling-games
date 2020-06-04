@@ -71,7 +71,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
     @Override
     public int getItemCount() {
-        Log.d(LOGTAG, "getItemCount()");
+//        Log.d(LOGTAG, "getItemCount()");
         return assignments.size();
     }
 
@@ -91,13 +91,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             this.assignment = assignment;
         }
 
-        public void onCheckBoxClicked(View view){
-            Log.i("stuff", "checkBox is now " + assignment.isCompleted());
-        }
-
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
+            assignment.setAttempts(assignment.getAttempts() + 1);
             assignment.saveData();
             Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
             clickListener.onItemClick(clickedPosition);

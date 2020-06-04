@@ -163,7 +163,7 @@ public class ItemDetail extends AppCompatActivity {
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (RuntimeException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

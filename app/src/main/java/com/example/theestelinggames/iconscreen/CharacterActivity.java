@@ -53,7 +53,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         editor.putString(usernameKey, animalName + id);
         editor.apply();
 
-        Log.i(LOGTAG, String.valueOf(sharedPreferences.getAll().keySet()));
+//        Log.i(LOGTAG, String.valueOf(sharedPreferences.getAll().keySet()));
 
         final Intent intent = new Intent(this, AssignmentListActivity.class);
         startActivity(intent);

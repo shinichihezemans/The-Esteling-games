@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.theestelinggames.ItemDetail;
 import com.example.theestelinggames.OnItemClickListener;
 import com.example.theestelinggames.R;
+import com.example.theestelinggames.iconscreen.CharacterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
+
+        Log.i("sharedprefrences before", "" + getSharedPreferences(Assignment.SHARED_PREFERENCES, MODE_PRIVATE).getAll().keySet());
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
@@ -58,22 +62,23 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       saveSettings();
+        saveSettings();
     }
 
-    public void printList(){
+    public void printList() {
         for (Assignment assignment :
                 assignments) {
 //            Log.i("LISTLIST",assignment.getName() + " " + assignment.isCompleted() );
         }
     }
 
-    public void saveSettings(){
+    public void saveSettings() {
 
-        for (Assignment assignment: assignments) {
+        for (Assignment assignment : assignments) {
 
             //Name
 //            TextView minigameName = findViewById(R.id.minigameName);

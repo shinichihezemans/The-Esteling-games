@@ -8,6 +8,8 @@ import com.example.theestelinggames.R;
 
 public class Assignment {
 
+    private static final String LOGTAG = "assingment";
+
     private String name;
     private int attempts;
     private boolean isCompleted;
@@ -17,7 +19,7 @@ public class Assignment {
 
     //doesnt work
     private SharedPreferences sharedPreferences;
-    private static final String SHARED_PREFERENCES = "Assignment";
+    public static final String SHARED_PREFERENCES = "Assignment";
     private static final String SAVED_KEY = "saved";
     private static final String ATTEMPTS_KEY = "attempts";
     private static final String COMPLETED_KEY = "completed";
@@ -82,7 +84,7 @@ public class Assignment {
         this.information = information;
     }
 
-    private static final Assignment[] staticAssignments = {
+    public static final Assignment[] staticAssignments = {
             new Assignment("Johan en de Eenhoorn", 1, false, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
             new Assignment("Cobra", 0, true, 0, R.drawable.cobra, R.string.CobraInformation),
             new Assignment("De zwevende Belg", 2, false, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
@@ -93,7 +95,6 @@ public class Assignment {
         Assignment[] assignments = staticAssignments;
         for (Assignment assignment : assignments) {
             assignment.setSharedPreferences(context);
-            assignment.syncWithPrefernces();
         }
         return assignments;
     }
@@ -101,7 +102,6 @@ public class Assignment {
     public static Assignment getAssignment(Context context, int pos) {
         Assignment assignment = staticAssignments[pos];
         assignment.setSharedPreferences(context);
-        assignment.syncWithPrefernces();
         return assignment;
     }
 
@@ -112,23 +112,28 @@ public class Assignment {
         editor.putInt(getName() + ATTEMPTS_KEY, this.attempts);
         editor.putBoolean(getName() + COMPLETED_KEY, this.isCompleted);
         editor.putInt(getName() + SCORE_KEY, this.score);
-        editor.apply();
-        Log.i("save", "saved " + getName());
+        editor.commit();
+        Log.i(LOGTAG + "saving", "saved " + getName() + " completed is " + this.isCompleted + " sharedprefrences says " + sharedPreferences.getBoolean(getName() + COMPLETED_KEY, false));
+        Log.i(LOGTAG + " saving", "saved " + getName());
     }
 
-    private void syncWithPrefernces() {
+    private void syncWithPreferences() {
         if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
             this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
+            Log.i(LOGTAG + "sync", "synced " + getName() + " attempts is " + this.attempts);
             this.isCompleted = sharedPreferences.getBoolean(getName() + COMPLETED_KEY, false);
+            Log.i(LOGTAG + "sync", "synced " + getName() + " completed is " + this.isCompleted);
             this.score = sharedPreferences.getInt(getName() + SCORE_KEY, -1);
+            Log.i(LOGTAG + "sync", "synced " + getName() + " score is " + this.score);
+            Log.i(LOGTAG + "sync", "synced " + getName());
+        } else {
+            Log.i(LOGTAG + "sync", "not synced " + getName());
         }
     }
 
     public void setSharedPreferences(Context context) {
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        Log.i("TEMP", String.valueOf(sharedPreferences.getAll().keySet()));
-        syncWithPrefernces();
+//        Log.i("sharedprefernces keys", String.valueOf(sharedPreferences.getAll().keySet()));
+        syncWithPreferences();
     }
-
-
 }
