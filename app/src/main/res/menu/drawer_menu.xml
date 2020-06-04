@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="temp text">
+        <menu>
+            <item
+                android:id="@+id/nav_assignments"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="Assignment" />
+            <item
+                android:id="@+id/nav_scoreboard"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="ScoreBoard" />
+            <item
+                android:id="@+id/nav_qr"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="QR-code" />
+        </menu>
+    </item>
+
+</menu>

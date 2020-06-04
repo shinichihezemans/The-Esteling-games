@@ -46,11 +46,11 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         //Name
         TextView minigameName = holder.itemView.findViewById(R.id.nameIDTextView);
-        minigameName.setText(score.getScore());
+        minigameName.setText(score.getUsername());
 
         //score
-//        TextView minigameAttempts = holder.itemView.findViewById(R.id.scoreTextView);
-//        minigameAttempts.setText(assignment.getAttempts() + "/3");
+        TextView minigameAttempts = holder.itemView.findViewById(R.id.scoreTextView);
+        minigameAttempts.setText(String.valueOf(score.getScore()));
 
 
     }
