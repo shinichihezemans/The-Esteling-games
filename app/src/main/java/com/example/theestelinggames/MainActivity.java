@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         .putString(DATE_KEY, now.toString())
                         .apply();
             }
+        }else {
+            Toast.makeText(this,"api level low some features are not supported", Toast.LENGTH_LONG).show();
         }
         if (!getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
             Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     .edit()
                     .clear()
                     .commit();
-            Log.i("wipe sharedpreferences", " keys are now" + sharedPreferences.getAll().keySet());
+//            Log.i("wipe sharedpreferences", " keys are now" + sharedPreferences.getAll().keySet());
         }
     }
 }

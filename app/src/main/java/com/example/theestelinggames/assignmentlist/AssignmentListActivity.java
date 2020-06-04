@@ -43,6 +43,15 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        for (Assignment assignment : assignments) {
+            assignment.setSharedPreferences(this);
+        }
+        minigamesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onBackPressed() {
         if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
             super.onBackPressed();

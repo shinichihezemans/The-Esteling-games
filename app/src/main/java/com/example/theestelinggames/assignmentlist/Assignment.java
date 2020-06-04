@@ -104,7 +104,7 @@ public class Assignment {
         Log.i(LOGTAG + " saving", "saved " + getName());
     }
 
-    private void syncWithPreferences() {
+    public void syncWithPreferences() {
         if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
             this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
 //            Log.i(LOGTAG + "sync", "synced " + getName() + " attempts is " + this.attempts);
