@@ -3,8 +3,10 @@ package com.example.theestelinggames.assignmentlist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,12 +22,13 @@ import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.Message;
 import com.example.theestelinggames.util.OnItemClickListener;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener {
+public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOGTAG = AssignmentListActivity.class.getName();
 
@@ -47,6 +50,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -127,5 +132,22 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         for (Assignment assignment : assignments) {
             assignment.saveData();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Intent intent = null;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_assignments:
+                 intent = new Intent(this, AssignmentListActivity.class);
+                break;
+            case R.id.nav_scoreboard:
+                 intent = new Intent(this, ScoreboardListActivity.class);
+                break;
+            case R.id.nav_qr:
+                     intent = new Intent(this, )
+                break;
+        }
+        return false;
     }
 }
