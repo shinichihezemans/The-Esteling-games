@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         checkSharedPreferences();
         setContentView(R.layout.activity_start);
 
-        buttonView = findViewById(R.id.startScreenButton);
+        Button buttonView = findViewById(R.id.startScreenButton);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        final Intent intent = new Intent(this, AssignmentView.class);
