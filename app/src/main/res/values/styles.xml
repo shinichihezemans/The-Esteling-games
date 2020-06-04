@@ -12,6 +12,7 @@
         <item name="colorPrimary">@color/colorPrimaryEssteling1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling1</item>
         <item name="colorAccent">@color/colorAccentEssteling1</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 </resources>
