@@ -87,7 +87,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
-            assignment.setAttempts(assignment.getAttempts() + 1);
+            assignment.setLineLength(assignment.getLineLength() + 1);
             assignment.saveData();
             Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
             clickListener.onItemClick(clickedPosition);

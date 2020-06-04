@@ -45,9 +45,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     @Override
     protected void onResume() {
         super.onResume();
-        for (Assignment assignment : assignments) {
-            assignment.setSharedPreferences(this);
-        }
+        assignments.clear();
+        assignments.addAll(Arrays.asList(Assignment.getAssignments(this)));
         minigamesAdapter.notifyDataSetChanged();
     }
 
