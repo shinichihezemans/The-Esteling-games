@@ -13,18 +13,23 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private View buttonView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        buttonView = findViewById(R.id.startScreenButton);
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final Button button = findViewById(R.id.startScreenButton);
 //        final Intent intent = new Intent(this, AssignmentView.class);
         final Intent intent = new Intent(this, CharacterActivity.class);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                View PopupView = v;
+                PopupView.setVisibility(View.GONE);
                 builder.setMessage(R.string.PopUpText);
                 builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
                     @Override
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+                PopupView.setVisibility(View.VISIBLE);
             }
 
         });
