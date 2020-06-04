@@ -11,6 +11,7 @@ public class Message {
     private int id;
     private String character;
     private int score;
+    private String text;
 
     public Message(int id, String character) {
         this.id = id;
@@ -21,6 +22,18 @@ public class Message {
     public Message(int id, String character, int score) {
         this(id, character);
         this.score = score;
+    }
+
+    public Message(String text){
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public MqttMessage textMessage(){
+        return new MqttMessage(getText().getBytes(StandardCharsets.UTF_8));
     }
 
     public String toJson() {

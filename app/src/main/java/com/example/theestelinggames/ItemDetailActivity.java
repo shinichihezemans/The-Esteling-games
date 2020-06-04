@@ -41,7 +41,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
 //        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
 
-        this.assignment = Assignment.getStaticAssignment(id);
+        this.assignment = Assignment.getAssignment(this, id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
         TextView minigameName = (TextView) findViewById(R.id.nameIDTextView);
@@ -156,10 +156,10 @@ public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try{
+        try {
             unregisterReceiver(broadcastReceiver);
-        } catch (RuntimeException e){
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+//            e.printStackTrace();
         }
     }
 
