@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="temp text">
+    <item
+        android:id="@+id/navUserID"
+        android:title="navigation">
+
         <menu>
             <item
                 android:id="@+id/nav_assignments"
-                android:icon="@drawable/ic_launcher_foreground"
+                android:icon="@drawable/ic_list"
                 android:title="Assignment" />
             <item
                 android:id="@+id/nav_scoreboard"
-                android:icon="@drawable/ic_launcher_foreground"
-                android:title="ScoreBoard" />
+                android:icon="@drawable/ic_bar_chart"
+                android:title="Leaderboard" />
             <item
                 android:id="@+id/nav_qr"
-                android:icon="@drawable/ic_launcher_foreground"
+                android:icon="@drawable/qr_icon"
                 android:title="QR-code" />
         </menu>
     </item>

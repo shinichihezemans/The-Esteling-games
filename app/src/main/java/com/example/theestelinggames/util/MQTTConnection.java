@@ -43,16 +43,8 @@ public class MQTTConnection {
         this.will = this.clientID + " has disconnected";
     }
 
-    public void connectOUT(String text) {
-        connectOUT(text, 0, "");
-    }
-
-    public void connectOUT(int id, String animalName) {
-        connectOUT("", id, animalName);
-    }
-
     //sends messages to topic androidData
-    private void connectOUT(final String text, final int id, final String animalName) {
+    public void connectOUT(final Message message) {
         try {
             final IMqttToken token = client.connect(ConnectOptions());
 
@@ -66,11 +58,10 @@ public class MQTTConnection {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
 
-                                if (text.equals("")) {
-                                    sendMessage(new Message(clientID + " has connected"), false);
-                                    sendMessage(new Message(id, animalName), true);
+                                if (message.getText().equals("")) {
+                                    sendMessage(message, true);
                                 } else {
-                                    sendMessage(new Message(text), false);
+                                    sendMessage(message, false);
                                 }
 
                                 try {
@@ -102,8 +93,15 @@ public class MQTTConnection {
         }
     }
 
+    private ScoreboardListActivity scoreboardListActivity;
+
+
+    public void setScoreboardListActivity(ScoreboardListActivity scoreboardListActivity) {
+        this.scoreboardListActivity = scoreboardListActivity;
+    }
+
     //receives messages from topic scoreboard
-    public void connectIN(final ScoreboardListActivity scoreboardListActivity) {
+    public void connectIN() {
 
         try {
             IMqttToken token = client.connect(ConnectOptions());
@@ -111,18 +109,9 @@ public class MQTTConnection {
             token.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    try {
-                        IMqttToken subToken = client.subscribe(TOPIC_SUBSCRIBE, QOS);
-                        subToken.setActionCallback(new IMqttActionListener() {
-                            @Override
-                            public void onSuccess(IMqttToken asyncActionToken) {
-                            }
 
-                            @Override
-                            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                                exception.printStackTrace();
-                            }
-                        });
+                    try {
+                        client.subscribe(TOPIC_SUBSCRIBE, QOS);
                     } catch (MqttException e) {
                         e.printStackTrace();
                     }
@@ -132,7 +121,6 @@ public class MQTTConnection {
                         public void connectionLost(Throwable cause) {
                             Toast toast = Toast.makeText(context, "Warning: you got disconnected callback", Toast.LENGTH_SHORT);
                             toast.show();
-
                         }
 
                         @Override
@@ -145,7 +133,6 @@ public class MQTTConnection {
 
                             scoreboardListActivity.addScore(username, score);
                             scoreboardListActivity.update();
-
                         }
 
                         @Override
@@ -153,14 +140,12 @@ public class MQTTConnection {
 
                         }
                     });
-
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                     exception.printStackTrace();
                 }
-
             });
         } catch (MqttException e) {
             e.printStackTrace();
@@ -168,7 +153,13 @@ public class MQTTConnection {
     }
 
 
-    public void sendMessage(Message message, boolean isJson) {
+    public void closeConnection() {
+        client.unregisterResources();
+        client.close();
+    }
+
+
+    private void sendMessage(Message message, boolean isJson) {
         try {
             if (isJson) {
                 client.publish(TOPIC_PUBLISH, message.jsonMessage());
@@ -189,10 +180,6 @@ public class MQTTConnection {
         mqttConnectOptions.setWill(TOPIC_PUBLISH, will.getBytes(), QOS, false);
 
         return mqttConnectOptions;
-    }
-
-    public boolean isConnectedWithServer(){
-        return client.isConnected();
     }
 
 

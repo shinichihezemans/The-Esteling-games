@@ -5,14 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.R;
-import com.example.theestelinggames.assignmentlist.AssignmentAdapter;
-import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.List;
 
@@ -22,21 +21,19 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     private Context context;
     private List<Scoreboard> scoreboard;
-    private OnItemClickListener listener;
 
-    ScoreboardAdapter(Context context, List<Scoreboard> scoreboard, OnItemClickListener listener) {
+    ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
         this.context = context;
         this.scoreboard = scoreboard;
-        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG,"onCreateViewHolder()");
+        Log.d(LOGTAG, "onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.scoreboard_overview_item,
-                parent,false);
-        return new ScoreboardAdapter.ScoreboardViewHolder(itemView, listener);
+                parent, false);
+        return new ScoreboardAdapter.ScoreboardViewHolder(itemView);
     }
 
     @Override
@@ -50,8 +47,44 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         //score
         TextView minigameAttempts = holder.itemView.findViewById(R.id.scoreTextView);
-        minigameAttempts.setText(String.valueOf(score.getScore()));
+        minigameAttempts.setText("Total score: " + score.getScore());
 
+        //Image
+        ImageView imageView = holder.itemView.findViewById(R.id.iconImageViewHS);
+
+        String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        switch (animalName) {
+            case "Monkey":
+                imageView.setImageResource(R.drawable.aaptrans);
+                break;
+            case "Bear":
+                imageView.setImageResource(R.drawable.beertrans);
+                break;
+            case "Hare":
+                imageView.setImageResource(R.drawable.haastrans);
+                break;
+            case "Lion":
+                imageView.setImageResource(R.drawable.leeuwtrans);
+                break;
+            case "Rhino":
+                imageView.setImageResource(R.drawable.neushoorntrans);
+                break;
+            case "Hippo":
+                imageView.setImageResource(R.drawable.nijlpaardtrans);
+                break;
+            case "Elephant":
+                imageView.setImageResource(R.drawable.olifanttrans);
+                break;
+            case "Wolf":
+                imageView.setImageResource(R.drawable.wolftrans);
+                break;
+            case "Zebra":
+                imageView.setImageResource(R.drawable.zebratrans);
+                break;
+            default:
+
+        }
 
     }
 
@@ -60,24 +93,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
         return scoreboard.size();
     }
 
-    public static class ScoreboardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String LOGTAG = AssignmentAdapter.AssignmentViewHolder.class.getName();
-
-        private OnItemClickListener clickListener;
-
-        ScoreboardViewHolder(View itemView, OnItemClickListener listener) {
+    static class ScoreboardViewHolder extends RecyclerView.ViewHolder {
+        ScoreboardViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
-            clickListener = listener;
         }
-
-        @Override
-        public void onClick(View view) {
-            int clickedPosition = getAdapterPosition();
-            Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
-            clickListener.onItemClick(clickedPosition);
-        }
-
-
     }
 }

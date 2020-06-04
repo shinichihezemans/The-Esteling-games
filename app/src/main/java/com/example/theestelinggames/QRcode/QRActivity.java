@@ -1,9 +1,4 @@
-package com.example.theestelinggames.scoreboardList;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.MenuItem;
+package com.example.theestelinggames.QRcode;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -11,44 +6,52 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.QRcode.QRActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
-import com.example.theestelinggames.util.OnItemClickListener;
+import com.example.theestelinggames.util.Message;
 import com.google.android.material.navigation.NavigationView;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-//import org.eclipse.paho.android.service.MqttAndroidClient;
+public class QRActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
-
-    //MqttAndroidClient client;
-
-    ArrayList<Scoreboard> scoreboard;
-
-    ScoreboardAdapter scoreboardAdapter;
-
-    MQTTConnection mqttConnectionReceive;
+    public static final String USERCREDENTIALS = "UserCredentials";
+    private static final String LOGTAG = "QRActivity";
 
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scoreboard);
+        setContentView(R.layout.activity_qr);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
         String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
         String[] string = clientID.split("(?<=\\D)(?=\\d)");
         String animalName = string[0];
 
-        Toolbar toolbar = findViewById(R.id.toolbarHS);
+        Toolbar toolbar = findViewById(R.id.toolbarQR);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -56,32 +59,45 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(true);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(true);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
-//        getIcon(item, animalName);
+//        getIcon(item,animalName);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        ImageView imageView = (ImageView) findViewById(R.id.qr_imageView);
 
-        scoreboard = new ArrayList<>(10);
-        RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
-        scoreboardAdapter = new ScoreboardAdapter(
-                this, scoreboard);
-        scoreboardRecyclerView.setAdapter(scoreboardAdapter);
-        scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //Receives scoreboard
-        mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
-        mqttConnectionReceive.setScoreboardListActivity(this);
-        mqttConnectionReceive.connectIN();
+
+        if (clientID != null) {
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(clientID);
+            if (m.find()) {
+                clientID = m.group();
+            }
+
+            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            try {
+                int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
+                BitMatrix bitMatrix = multiFormatWriter.encode(clientID, BarcodeFormat.QR_CODE, size, size);
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                imageView.setImageBitmap(bitmap);
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-
+//
 //    public void getIcon(MenuItem item, String animalName) {
 //
 //        switch (animalName) {
@@ -118,31 +134,15 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 //
 //    }
 
-    public void update() {
-        scoreboardAdapter.notifyDataSetChanged();
-    }
-
-
-    public void addScore(String username, int id) {
-        scoreboard.add(new Scoreboard(username, id));
-    }
-
-    @Override
-    public void onItemClick(int clickedPosition) {
-
-    }
-
     @Override
     public void onBackPressed() {
-        mqttConnectionReceive.closeConnection();
-        mqttConnectionReceive.setScoreboardListActivity(null);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
                 super.onBackPressed();
             } else {
-                Intent intent = new Intent(this, AssignmentListActivity.class);
+                Intent intent = new Intent(this,AssignmentListActivity.class);
                 startActivity(intent);
             }
         }
@@ -156,14 +156,14 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
-//                intent = new Intent(this, ScoreboardListActivity.class);
-//                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-//                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-//                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-//                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
+                intent = new Intent(this, ScoreboardListActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-                intent = new Intent(this, QRActivity.class);
+//                intent = new Intent(this, QRActivity.class);
                 break;
             default:
                 return false;

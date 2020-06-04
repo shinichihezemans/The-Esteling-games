@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -20,6 +21,9 @@ import android.widget.Toast;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentgame.OpdrachtActivity;
 import com.example.theestelinggames.assignmentlist.Assignment;
+import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.util.MQTTConnection;
+import com.example.theestelinggames.util.Message;
 //import com.r0adkll.slidr.Slidr;
 
 public class ItemDetailActivity extends AppCompatActivity {
@@ -31,7 +35,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
-    private int highScore;
+    private int highScore = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,8 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     }
 
+
+    //updates highscore
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,6 +123,17 @@ public class ItemDetailActivity extends AppCompatActivity {
                 this.updateHighScore();
                 Log.d("THREAD", "High score set!");
             }
+
+            SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+            String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+            String[] string = clientID.split("(?<=\\D)(?=\\d)");
+            String animalName = string[0];
+            int id = Integer.parseInt(string[1]);
+
+            //To send message player object to server
+            MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+
+            mqttConnectionSend.connectOUT(new Message(id, animalName, score));
         }
     }
 

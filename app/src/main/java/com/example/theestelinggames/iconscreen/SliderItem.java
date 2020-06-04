@@ -20,7 +20,7 @@ class SliderItem {
         return image;
     }
 
-    public static final SliderItem[] staticSliderItems = {
+    private static final SliderItem[] staticSliderItems = {
         new SliderItem("Monkey", R.drawable.aaptrans),
         new SliderItem("Bear",R.drawable.beertrans),
         new SliderItem("Hare",R.drawable.haastrans),
@@ -36,7 +36,4 @@ class SliderItem {
         return staticSliderItems;
     }
 
-    public static SliderItem getStaticSliderItem(int id) {
-        return staticSliderItems[id];
-    }
 }

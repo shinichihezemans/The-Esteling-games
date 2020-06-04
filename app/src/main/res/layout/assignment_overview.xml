@@ -16,7 +16,7 @@
         android:id="@+id/linearLayout">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarOL"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryEssteling1"
@@ -29,8 +29,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize"
-        >
+        android:paddingTop="?attr/actionBarSize">
 
         <TextView
             android:id="@+id/titleTextView"
