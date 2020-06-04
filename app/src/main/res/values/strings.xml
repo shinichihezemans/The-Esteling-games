@@ -14,4 +14,6 @@
     <string name="ZwevendeBelgInformation">De Zwevende Belg is a combination of a walk area, a wattercoaster and a ‘darkride’ with boats. It’s located in the Stoerland part of the Essteling</string>
     <string name="JohanInformation">Johan en de Eenhoorn is a wooden racing-rollercoaster, build around the legend of Saint Johan and the Unicorn. Is your rollercoaster ride faster than the opponent? Do you know how to overtake and catch the Unicorn? Experience it!</string>
     <string name="CobraInformation">The Cobra is a classic rollercoaster which was once the first steal rollercoaster in the Essteling. It is still populair because of its speed and loopings</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
 </resources>
