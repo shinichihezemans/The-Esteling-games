@@ -38,8 +38,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
