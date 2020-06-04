@@ -15,9 +15,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.ItemDetailActivity;
 import com.example.theestelinggames.QRActivity;
 import com.example.theestelinggames.R;
+import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
@@ -146,9 +146,10 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
                  intent = new Intent(this, ScoreboardListActivity.class);
                 break;
             case R.id.nav_qr:
-                     intent = new Intent(this, )
+                     intent = new Intent(this, QRActivity.class);
                 break;
         }
+        startActivity(intent);
         return false;
     }
 }
