@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.UUID;
 
 import com.example.theestelinggames.assignmentlist.Assignment;
+import com.r0adkll.slidr.Slidr;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_item_detail);
+        Slidr.attach(this);
 
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
 //        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
