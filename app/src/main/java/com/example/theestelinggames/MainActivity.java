@@ -2,16 +2,26 @@ package com.example.theestelinggames;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.theestelinggames.assignmentlist.Assignment;
+import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 
+import java.time.LocalDate;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String globalInfo = "globalInfo";
+    private static final String DATE_KEY = "date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,44 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkSharedPreferences();
+    }
+
+    private void checkSharedPreferences() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDate now = LocalDate.now();
+            if (LocalDate.parse(getSharedPreferences(globalInfo, MODE_PRIVATE).getString(DATE_KEY, LocalDate.MIN.toString())).isBefore(now)) {
+                wipeSharedPreferences();
+                getSharedPreferences(globalInfo, MODE_PRIVATE)
+                        .edit()
+                        .putString(DATE_KEY, now.toString())
+                        .apply();
+            }
+        }
+        if (!getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AssignmentListActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void wipeSharedPreferences() {
+        SharedPreferences sharedPreferences;
+        String[] files = {globalInfo, CharacterActivity.USERCREDENTIALS, Assignment.SHARED_PREFERENCES};
+
+        for (String fileName : files) {
+            sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
+            sharedPreferences
+                    .edit()
+                    .clear()
+                    .commit();
+            Log.i("wipe sharedpreferences", " keys are now" + sharedPreferences.getAll().keySet());
+        }
     }
 }
 

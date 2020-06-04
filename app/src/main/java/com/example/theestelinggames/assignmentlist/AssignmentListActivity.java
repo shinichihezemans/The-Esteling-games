@@ -26,23 +26,14 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     AssignmentAdapter minigamesAdapter;
 
-    //uncheck clickable in assignment overview item
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-        Log.i("sharedprefrences before", "" + getSharedPreferences(Assignment.SHARED_PREFERENCES, MODE_PRIVATE).getAll().keySet());
+//        Log.i("sharedprefrences before", "" + getSharedPreferences(Assignment.SHARED_PREFERENCES, MODE_PRIVATE).getAll().keySet());
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
-
-        //doesnt work
-//        for (Assignment assignment: assignments) {
-//            assignment.setSharedPreferences(this);
-//            assignment.saveData();
-//            assignment.loadData();
-//        }
 
         RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
         minigamesAdapter = new AssignmentAdapter(
@@ -53,52 +44,20 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public void onItemClick(int clickedPosition) {
-
-        printList();
-
-//        saveSettings();
-
         Intent intent = new Intent(this, ItemDetail.class);
         intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         saveSettings();
     }
 
-    public void printList() {
-        for (Assignment assignment :
-                assignments) {
-//            Log.i("LISTLIST",assignment.getName() + " " + assignment.isCompleted() );
-        }
-    }
 
     public void saveSettings() {
-
         for (Assignment assignment : assignments) {
-
-            //Name
-//            TextView minigameName = findViewById(R.id.minigameName);
-//            assignment.setName(minigameName.getText().toString());
-//            Log.i("SaveSettings", assignment.getName());
-
-//            //attempts
-//            TextView minigameAttempts = findViewById(R.id.minigameAttempts);
-//            String attemptsText = minigameAttempts.getText().toString();
-//            String[] splitString = attemptsText.split("/");
-//            int attemptsINT = Integer.parseInt(splitString[0]);
-//            assignment.setAttempts(attemptsINT);
-//            Log.i("Save", String.valueOf(assignment.getAttempts()));
-
-            //status
-            CheckBox checkBox = findViewById(R.id.checkBox);
-            boolean isCompleted = checkBox.isChecked();
-            assignment.setCompleted(isCompleted);
-//            Log.i("SaveSettings",String.valueOf(assignment.isCompleted()));
-
             assignment.saveData();
         }
     }

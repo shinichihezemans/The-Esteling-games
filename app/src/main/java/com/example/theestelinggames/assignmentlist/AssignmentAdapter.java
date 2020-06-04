@@ -57,16 +57,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 //        Log.i("Info", assignment.getAttempts() + "/3");
         minigameAttempts.setText(assignment.getAttempts() + "/3");
 
-        //status
-        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
-        boolean isCompleted = assignment.isCompleted();
-        Log.i("stuff", assignment.getName() + "is completed" + assignment.isCompleted());
-        if(isCompleted){
-            checkBox.setVisibility(View.VISIBLE);
-            checkBox.setChecked(assignment.isCompleted());
-        }else {
-//            checkBox.setVisibility(View.INVISIBLE);
-        }
+//        TextView minigameScore = holder.itemView.findViewById(R.id.minigameScore);
+//
+//        minigameScore.setText(assignment.getScore());
     }
 
     @Override
