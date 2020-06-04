@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">The Esteling games</string>
+    <string name="PopUpText">Welkom bij de Essteling games, het spel voor tussen de attracties door. Heb je zin om mee te spelen, druk dan snel op start en kies een karakter uit op het volgende scherm. Daarna kun je beginnen met de opdrachten en strijden tegen iedereen in het park succes.</string>
+    <string name="CancelButton">Annuleren</string>
+    <string name="StartButton">Begin</string>
+    <string name="attempts_placeholder">pogingen placeholder</string>
+    <string name="minigamename_placeholder">minigame naam placeholder</string>
+    <string name="title_text">Minigamesas</string>
+    <string name="scan">SCAN</string>
+    <string name="minigame_introduction">minigame Introductie</string>
+    <string name="animal_name">dier naam</string>
+    <string name="choose_your_character">Kies jouw karakter!</string>
+    <string name="DroomReisInformation">In de attractie Droomreis gaat de bezoeker op reis door onbekende werelden vol exotische planten en dieren. Je vliegt in een zeppelin door het landschap, soms omhoog, soms omlaag, soms sneller, soms harder, en eindigend in een mooie zweefvlucht land je op een grasveld. Alle zintuigen komen aan bod: voelen, zien, horen en ruiken. Daarom ook zeer geschikt voor mensen met een beperking.</string>
+    <string name="ZwevendeBelgInformation">De Zwevende Belg is een combinatie van een loopgedeelte, een waterachtbaan en een darkride met bootjes. Hij staat in het Stoerland deel van de Essteling </string>
+    <string name="JohanInformation">Johan en de Eenhoorn is een houten race-achtbaan, opgebouwd rondom de legende van Sankt Johan en de Eenhoorn. Is jouw achtbaantrein sneller dan de tegenstander? Weet jij de Eenhoorn in te halen en te vangen? Maak het mee!</string>
+    <string name="CobraInformation">De Cobra is een klassieke achtbaan en was ooit de eerste stalen achtbaan in de Essteling. En nog steeds populair door de snelheid en de loopings.</string>
+</resources>
