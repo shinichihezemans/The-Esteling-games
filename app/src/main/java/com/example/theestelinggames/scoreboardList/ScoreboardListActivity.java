@@ -14,13 +14,13 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.mqttconnection.MQTTConnection;
 import com.example.theestelinggames.util.OnItemClickListener;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
+//import org.eclipse.paho.android.service.MqttAndroidClient;
 
 import java.util.ArrayList;
 
 public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener {
 
-    MqttAndroidClient client;
+    //MqttAndroidClient client;
 
     ArrayList<Scoreboard> scoreboard;
 
