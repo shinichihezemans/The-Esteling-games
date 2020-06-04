@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="temp text">
+    <item
+        android:id="@+id/navUserID"
+        android:title="temp text">
         <menu>
             <item
                 android:id="@+id/nav_assignments"
@@ -12,7 +14,7 @@
             <item
                 android:id="@+id/nav_scoreboard"
                 android:icon="@drawable/ic_launcher_foreground"
-                android:title="ScoreBoard" />
+                android:title="Leaderboard" />
             <item
                 android:id="@+id/nav_qr"
                 android:icon="@drawable/ic_launcher_foreground"

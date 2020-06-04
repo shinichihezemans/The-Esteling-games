@@ -15,11 +15,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.theestelinggames.QRcode.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
-import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
+import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
 import com.example.theestelinggames.util.OnItemClickListener;
 import com.google.android.material.navigation.NavigationView;
@@ -32,12 +33,17 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     private static final String LOGTAG = AssignmentListActivity.class.getName();
 
+    public static final String USERSENT = "HasSent";
+
+    public static final String playerSent = "playerSent";
+
+    private boolean hasSent = false;
+
     ArrayList<Assignment> assignments;
 
     AssignmentAdapter minigamesAdapter;
 
     String clientID;
-    MQTTConnection mqttConnectionSend= MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
     private DrawerLayout drawer;
 
@@ -46,14 +52,14 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarOL);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -72,10 +78,31 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         String animalName = string[0];
         int id = Integer.parseInt(string[1]);
 
+//        SharedPreferences sharedPreferencesPlayerData = getSharedPreferences(AssignmentListActivity.USERSENT,MODE_PRIVATE);
+//        if(hasSent) {
+//            hasSent =  sharedPreferencesPlayerData.getBoolean(playerSent, false);
+//            Toast toast = Toast.makeText(getApplicationContext(),"true",Toast.LENGTH_SHORT);
+//            toast.show();
+//        } else {
+//            hasSent = true;
+//            SharedPreferences.Editor editor = sharedPreferencesPlayerData.edit();
+//            editor.putBoolean(playerSent, hasSent);
+//            editor.apply();
+//            Toast toast = Toast.makeText(getApplicationContext(),"false",Toast.LENGTH_SHORT);
+//            toast.show();
+
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
-        mqttConnectionSend.connectOUT(new Message(id, animalName));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,10));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,105));
+        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,1325));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,1535));
+//
+//        }
+
     }
 
     public void navigateScoreboard(View view) {
@@ -98,9 +125,9 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
                 super.onBackPressed();
             } else {
@@ -134,20 +161,27 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         }
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_assignments:
-                 intent = new Intent(this, AssignmentListActivity.class);
+                intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
-                 intent = new Intent(this, ScoreboardListActivity.class);
+                intent = new Intent(this, ScoreboardListActivity.class);
+                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-                     intent = new Intent(this, )
+                intent = new Intent(this, QRActivity.class);
                 break;
+            default:
+                return false;
         }
-        return false;
+        startActivity(intent);
+        return true;
     }
+
 }

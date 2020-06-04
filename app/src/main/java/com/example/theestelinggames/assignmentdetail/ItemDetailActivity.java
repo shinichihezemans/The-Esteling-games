@@ -133,7 +133,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             //To send message player object to server
             MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
-            mqttConnectionSend.connectOUT(new Message(id, animalName));
+            mqttConnectionSend.connectOUT(new Message(id, animalName, score));
         }
     }
 

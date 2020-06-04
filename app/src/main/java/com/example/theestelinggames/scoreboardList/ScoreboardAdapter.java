@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,8 +47,44 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         //score
         TextView minigameAttempts = holder.itemView.findViewById(R.id.scoreTextView);
-        minigameAttempts.setText(String.valueOf(score.getScore()));
+        minigameAttempts.setText("Total score: " + score.getScore());
 
+        //Image
+        ImageView imageView = holder.itemView.findViewById(R.id.iconImageViewHS);
+
+        String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        switch (animalName) {
+            case "Monkey":
+                imageView.setImageResource(R.drawable.aaptrans);
+                break;
+            case "Bear":
+                imageView.setImageResource(R.drawable.beertrans);
+                break;
+            case "Hare":
+                imageView.setImageResource(R.drawable.haastrans);
+                break;
+            case "Lion":
+                imageView.setImageResource(R.drawable.leeuwtrans);
+                break;
+            case "Rhino":
+                imageView.setImageResource(R.drawable.neushoorntrans);
+                break;
+            case "Hippo":
+                imageView.setImageResource(R.drawable.nijlpaardtrans);
+                break;
+            case "Elephant":
+                imageView.setImageResource(R.drawable.olifanttrans);
+                break;
+            case "Wolf":
+                imageView.setImageResource(R.drawable.wolftrans);
+                break;
+            case "Zebra":
+                imageView.setImageResource(R.drawable.zebratrans);
+                break;
+            default:
+
+        }
 
     }
 
