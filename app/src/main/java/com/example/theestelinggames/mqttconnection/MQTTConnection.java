@@ -45,20 +45,40 @@ public class MQTTConnection {
         this.will = this.clientID + " has disconnected";
     }
 
-    public void connectWithMessage(final int id, final String animalName) {
+    public void connectOUT(String text) {
+        connectOUT(text, 0, "");
+    }
+
+    public void connectOUT(int id, String animalName) {
+        connectOUT("", id, animalName);
+    }
+
+    private void connectOUT(final String text, final int id, final String animalName) {
         try {
-            IMqttToken token = client.connect(ConnectOptions());
+            final IMqttToken token = client.connect(ConnectOptions());
 
             token.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
 
                     try {
-                        IMqttToken subToken = client.subscribe(TOPIC_OUT, QOS);
+                        final IMqttToken subToken = client.subscribe(TOPIC_OUT, QOS);
                         subToken.setActionCallback(new IMqttActionListener() {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
-                                sendMessage(new Message(id, animalName));
+
+                                if (text.equals("")) {
+                                    sendMessage(new Message(clientID + " has connected"), false);
+                                    sendMessage(new Message(id, animalName), true);
+                                } else {
+                                    sendMessage(new Message(text), false);
+                                }
+
+                                try {
+                                    client.disconnect();
+                                } catch (MqttException e) {
+                                    e.printStackTrace();
+                                }
                             }
 
                             @Override
@@ -83,7 +103,7 @@ public class MQTTConnection {
         }
     }
 
-    public void connectAndListen(final ScoreboardListActivity scoreboardListActivity) {
+    public void connectIN(final ScoreboardListActivity scoreboardListActivity) {
 
         try {
             IMqttToken token = client.connect(ConnectOptions());
@@ -121,8 +141,12 @@ public class MQTTConnection {
 
                             String s = new String(message.getPayload());
 
-                            scoreboardListActivity.addScore(s);
-                            scoreboardListActivity.update();
+                            String[] split = s.split(",");
+                            String username = split[0];
+                            int score = Integer.parseInt(split[1]);
+
+                            scoreboardListActivity.addScore(username, score);
+
                         }
 
                         @Override
@@ -145,9 +169,13 @@ public class MQTTConnection {
     }
 
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message, boolean isJson) {
         try {
-            client.publish(TOPIC_OUT, message.jsonMessage());
+            if (isJson) {
+                client.publish(TOPIC_OUT, message.jsonMessage());
+            } else {
+                client.publish(TOPIC_OUT, message.textMessage());
+            }
         } catch (MqttException e) {
             e.printStackTrace();
         }
