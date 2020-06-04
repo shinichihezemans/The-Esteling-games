@@ -26,7 +26,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     ScoreboardAdapter scoreboardAdapter;
 
-//    MQTTConnection mqttConnectionReceive;
+    MQTTConnection mqttConnectionReceive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         scoreboard = new ArrayList<>(10);
         RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
         scoreboardAdapter = new ScoreboardAdapter(
-                this, scoreboard, this);
+                this, scoreboard);
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -45,8 +45,9 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
 
         //Receives scoreboard
-        MQTTConnection mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
-        mqttConnectionReceive.connectIN(this);
+        mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
+        mqttConnectionReceive.setScoreboardListActivity(this);
+        mqttConnectionReceive.connectIN();
     }
 
     public void update() {
@@ -60,8 +61,14 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public void onItemClick(int clickedPosition) {
-        Intent intent = new Intent(this, ItemDetailActivity.class);
-        intent.putExtra(Scoreboard.SCOREBOARD_ID, clickedPosition);
-        startActivity(intent);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        mqttConnectionReceive.closeConnection();
+        mqttConnectionReceive.setScoreboardListActivity(null);
+        super.onBackPressed();
+
     }
 }

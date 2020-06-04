@@ -14,6 +14,7 @@ import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
+import com.example.theestelinggames.util.Message;
 import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -29,9 +30,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     AssignmentAdapter minigamesAdapter;
 
     String clientID;
-    MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-
-    //uncheck clickable in assignment overview item
+    MQTTConnection mqttConnectionSend= MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +56,9 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         int id = Integer.parseInt(string[1]);
 
         //To send message player object to server
-//        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT(id, animalName);
+        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
-
-
+        mqttConnectionSend.connectOUT(new Message(id, animalName));
     }
 
     public void navigateScoreboard(View view) {
@@ -69,7 +66,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
 //        Requests scoreboard
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT("get Scoreboard");
+        mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
         startActivity(intent);
     }
 

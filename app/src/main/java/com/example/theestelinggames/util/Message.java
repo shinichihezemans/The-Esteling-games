@@ -13,18 +13,20 @@ public class Message {
     private int score;
     private String text;
 
-    public Message(int id, String character) {
-        this.id = id;
-        this.character = character;
-        this.score = 0;
-    }
 
     public Message(int id, String character, int score) {
-        this(id, character);
+        this.id = id;
+        this.character = character;
         this.score = score;
+        this.text = "";
     }
 
-    public Message(String text){
+    public Message(int id, String character) {
+        this(id, character, 0);
+    }
+
+    public Message(String text) {
+        this(0,"",0);
         this.text = text;
     }
 
@@ -32,7 +34,7 @@ public class Message {
         return text;
     }
 
-    public MqttMessage textMessage(){
+    public MqttMessage textMessage() {
         return new MqttMessage(getText().getBytes(StandardCharsets.UTF_8));
     }
 

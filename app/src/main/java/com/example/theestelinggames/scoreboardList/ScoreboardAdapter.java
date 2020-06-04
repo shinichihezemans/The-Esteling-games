@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.R;
-import com.example.theestelinggames.assignmentlist.AssignmentAdapter;
-import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.List;
 
@@ -22,21 +20,19 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     private Context context;
     private List<Scoreboard> scoreboard;
-    private OnItemClickListener listener;
 
-    ScoreboardAdapter(Context context, List<Scoreboard> scoreboard, OnItemClickListener listener) {
+    ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
         this.context = context;
         this.scoreboard = scoreboard;
-        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG,"onCreateViewHolder()");
+        Log.d(LOGTAG, "onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.scoreboard_overview_item,
-                parent,false);
-        return new ScoreboardAdapter.ScoreboardViewHolder(itemView, listener);
+                parent, false);
+        return new ScoreboardAdapter.ScoreboardViewHolder(itemView);
     }
 
     @Override
@@ -60,24 +56,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
         return scoreboard.size();
     }
 
-    public static class ScoreboardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String LOGTAG = AssignmentAdapter.AssignmentViewHolder.class.getName();
-
-        private OnItemClickListener clickListener;
-
-        ScoreboardViewHolder(View itemView, OnItemClickListener listener) {
+    static class ScoreboardViewHolder extends RecyclerView.ViewHolder {
+        ScoreboardViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
-            clickListener = listener;
         }
-
-        @Override
-        public void onClick(View view) {
-            int clickedPosition = getAdapterPosition();
-            Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
-            clickListener.onItemClick(clickedPosition);
-        }
-
-
     }
 }
