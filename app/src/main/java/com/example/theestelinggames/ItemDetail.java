@@ -32,8 +32,6 @@ public class ItemDetail extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
@@ -43,16 +41,16 @@ public class ItemDetail extends AppCompatActivity {
         setContentView(R.layout.assignment_item_detail);
 
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
-//        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
+        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
 
-        this.assignment = Assignment.getStaticAssignment(id);
+        this.assignment = Assignment.getAssignment(this, id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
-        TextView minigameName = (TextView) findViewById(R.id.minigameName);
+        TextView minigameName = (TextView) findViewById(R.id.nameIDTextView);
         minigameName.setText(this.assignment.getName());
 
         TextView introduction = (TextView) findViewById(R.id.minigameIntroduction);
-        introduction.setText("TODO");
+        introduction.setText(this.assignment.getInformation());
 
         ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
         attractionImage.setImageResource(assignment.getImageResourceId());
