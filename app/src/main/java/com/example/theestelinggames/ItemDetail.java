@@ -17,7 +17,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +24,8 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.UUID;
+
+import com.example.theestelinggames.assignmentlist.Assignment;
 
 public class ItemDetail extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class ItemDetail extends AppCompatActivity {
         setContentView(R.layout.assignment_item_detail);
 
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
-        Log.d(LOGTAG, "onCreate called with EXTRA_ZODIAC_ID = " + id);
+//        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
 
         this.assignment = Assignment.getStaticAssignment(id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
@@ -57,8 +58,12 @@ public class ItemDetail extends AppCompatActivity {
         this.highScoreLabel = (TextView) findViewById(R.id.minigameIntroduction);
         highScoreLabel.setText("High score: ");
 
-//        ImageView attractionImage = (ImageView) findViewById();
-//        attractionImage.setImageResource();
+        ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
+        attractionImage.setImageResource(assignment.getImageResourceId());
+
+        //doesnt work
+//        assignment.saveData();
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
