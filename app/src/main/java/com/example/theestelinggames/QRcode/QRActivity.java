@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.theestelinggames.R;
@@ -45,6 +46,11 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+
         Toolbar toolbar = findViewById(R.id.toolbarQR);
         setSupportActionBar(toolbar);
 
@@ -52,14 +58,21 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(true);
+
+        MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
+        item.setTitle(clientID);
+//        getIcon(item,animalName);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         ImageView imageView = (ImageView) findViewById(R.id.qr_imageView);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+
 
         if (clientID != null) {
             Pattern p = Pattern.compile("\\d+");
@@ -84,6 +97,42 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             }
         }
     }
+//
+//    public void getIcon(MenuItem item, String animalName) {
+//
+//        switch (animalName) {
+//            case "Monkey":
+//                item.setIcon(R.drawable.aaptrans);
+//                break;
+//            case "Bear":
+//                item.setIcon(R.drawable.beertrans);
+//                break;
+//            case "Hare":
+//                item.setIcon(R.drawable.haastrans);
+//                break;
+//            case "Lion":
+//                item.setIcon(R.drawable.leeuwtrans);
+//                break;
+//            case "Rhino":
+//                item.setIcon(R.drawable.neushoorntrans);
+//                break;
+//            case "Hippo":
+//                item.setIcon(R.drawable.nijlpaardtrans);
+//                break;
+//            case "Elephant":
+//                item.setIcon(R.drawable.olifanttrans);
+//                break;
+//            case "Wolf":
+//                item.setIcon(R.drawable.wolftrans);
+//                break;
+//            case "Zebra":
+//                item.setIcon(R.drawable.zebratrans);
+//                break;
+//            default:
+//
+//        }
+//
+//    }
 
     @Override
     public void onBackPressed() {
@@ -114,7 +163,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-                intent = new Intent(this, QRActivity.class);
+//                intent = new Intent(this, QRActivity.class);
                 break;
             default:
                 return false;

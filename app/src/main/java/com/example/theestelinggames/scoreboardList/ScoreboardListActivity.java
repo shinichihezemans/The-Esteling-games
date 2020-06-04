@@ -19,7 +19,6 @@ import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
-import com.example.theestelinggames.util.Message;
 import com.example.theestelinggames.util.OnItemClickListener;
 import com.google.android.material.navigation.NavigationView;
 
@@ -44,12 +43,25 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+
         Toolbar toolbar = findViewById(R.id.toolbarHS);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(true);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+
+        MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
+        item.setTitle(clientID);
+//        getIcon(item, animalName);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -63,15 +75,48 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-
         //Receives scoreboard
         mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
         mqttConnectionReceive.setScoreboardListActivity(this);
         mqttConnectionReceive.connectIN();
     }
+
+
+//    public void getIcon(MenuItem item, String animalName) {
+//
+//        switch (animalName) {
+//            case "Monkey":
+//                item.setIcon(R.drawable.aaptrans);
+//                break;
+//            case "Bear":
+//                item.setIcon(R.drawable.beertrans);
+//                break;
+//            case "Hare":
+//                item.setIcon(R.drawable.haastrans);
+//                break;
+//            case "Lion":
+//                item.setIcon(R.drawable.leeuwtrans);
+//                break;
+//            case "Rhino":
+//                item.setIcon(R.drawable.neushoorntrans);
+//                break;
+//            case "Hippo":
+//                item.setIcon(R.drawable.nijlpaardtrans);
+//                break;
+//            case "Elephant":
+//                item.setIcon(R.drawable.olifanttrans);
+//                break;
+//            case "Wolf":
+//                item.setIcon(R.drawable.wolftrans);
+//                break;
+//            case "Zebra":
+//                item.setIcon(R.drawable.zebratrans);
+//                break;
+//            default:
+//
+//        }
+//
+//    }
 
     public void update() {
         scoreboardAdapter.notifyDataSetChanged();
@@ -111,11 +156,11 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
-                intent = new Intent(this, ScoreboardListActivity.class);
-                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
+//                intent = new Intent(this, ScoreboardListActivity.class);
+//                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+//                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+//                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+//                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
                 intent = new Intent(this, QRActivity.class);

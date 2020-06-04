@@ -53,6 +53,13 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        int id = Integer.parseInt(string[1]);
+
         Toolbar toolbar = findViewById(R.id.toolbarOL);
         setSupportActionBar(toolbar);
 
@@ -68,8 +75,9 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
 
-        TextView textView = navigationView.getHeaderView(0).findViewById(R.id.character_name_TextView);
-        textView.setText(getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey,"oops didn't find a name"));
+        MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
+        item.setTitle(clientID);
+//        getIcon(item,animalName);
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
@@ -79,11 +87,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
-        int id = Integer.parseInt(string[1]);
+
+
 
 //        SharedPreferences sharedPreferencesPlayerData = getSharedPreferences(AssignmentListActivity.USERSENT,MODE_PRIVATE);
 //        if(hasSent) {
@@ -111,6 +116,42 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 //        }
 
     }
+
+//    public void getIcon(MenuItem item, String animalName) {
+//
+//        switch (animalName) {
+//            case "Monkey":
+//                item.setIcon(R.drawable.aaptrans);
+//                break;
+//            case "Bear":
+//                item.setIcon(R.drawable.beertrans);
+//                break;
+//            case "Hare":
+//                item.setIcon(R.drawable.haastrans);
+//                break;
+//            case "Lion":
+//                item.setIcon(R.drawable.leeuwtrans);
+//                break;
+//            case "Rhino":
+//                item.setIcon(R.drawable.neushoorntrans);
+//                break;
+//            case "Hippo":
+//                item.setIcon(R.drawable.nijlpaardtrans);
+//                break;
+//            case "Elephant":
+//                item.setIcon(R.drawable.olifanttrans);
+//                break;
+//            case "Wolf":
+//                item.setIcon(R.drawable.wolftrans);
+//                break;
+//            case "Zebra":
+//                item.setIcon(R.drawable.zebratrans);
+//                break;
+//            default:
+//
+//        }
+//
+//    }
 
     public void navigateScoreboard(View view) {
         Intent intent = new Intent(this, ScoreboardListActivity.class);
@@ -174,7 +215,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Intent intent = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_assignments:
-                intent = new Intent(this, AssignmentListActivity.class);
+//                intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
