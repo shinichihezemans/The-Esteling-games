@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -46,17 +47,17 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        //hardcoded stuff
+        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(true);
+        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
 
+        TextView textView = navigationView.getHeaderView(0).findViewById(R.id.character_name_TextView);
+        textView.setText(getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey,"oops didn't find a name"));
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
@@ -140,9 +141,11 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Intent intent = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_assignments:
-                 intent = new Intent(this, AssignmentListActivity.class);
+//                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
+                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+                mqttConnectionSend.connectOUT("get Scoreboard");
                  intent = new Intent(this, ScoreboardListActivity.class);
                 break;
             case R.id.nav_qr:
