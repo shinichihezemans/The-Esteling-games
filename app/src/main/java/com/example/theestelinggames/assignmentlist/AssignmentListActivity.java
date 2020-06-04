@@ -43,6 +43,18 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     }
 
     @Override
+    public void onBackPressed() {
+        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            super.onBackPressed();
+        }else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void onItemClick(int clickedPosition) {
         Intent intent = new Intent(this, ItemDetail.class);
         intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);

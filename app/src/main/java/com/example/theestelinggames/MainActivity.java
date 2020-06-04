@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkSharedPreferences();
         setContentView(R.layout.activity_start);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -59,7 +60,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        checkSharedPreferences();
+        if (!getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            Intent intent = new Intent(this, AssignmentListActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void checkSharedPreferences() {
