@@ -48,18 +48,18 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         holder.bind(assignment);
         //Name
-        TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
-//        Log.i("Info", assignment.getName());
-        minigameName.setText(assignment.getName());
-
-        //attempts
-        TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
-//        Log.i("Info", assignment.getAttempts() + "/3");
-        minigameAttempts.setText(assignment.getAttempts() + "/3");
-
-//        TextView minigameScore = holder.itemView.findViewById(R.id.minigameScore);
+//        TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
+////        Log.i("Info", assignment.getName());
+//        minigameName.setText(assignment.getName());
 //
-//        minigameScore.setText(assignment.getScore());
+//        //attempts
+//        TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
+////        Log.i("Info", assignment.getAttempts() + "/3");
+//        minigameAttempts.setText(assignment.getAttempts() + "/3");
+//
+////        TextView minigameScore = holder.itemView.findViewById(R.id.minigameScore);
+////
+////        minigameScore.setText(assignment.getScore());
     }
 
     @Override
@@ -82,6 +82,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         public void bind(Assignment assignment){
             this.assignment = assignment;
+            TextView minigameName = itemView.findViewById(R.id.minigameName);
+            minigameName.setText(assignment.getName());
+            TextView minigameAttempts = itemView.findViewById(R.id.minigameAttempts);
+            minigameAttempts.setText(assignment.getAttempts() + "/3");
+            TextView minigameScore = itemView.findViewById(R.id.minigameScore);
+            minigameScore.setText("" + assignment.getScore());
         }
 
         @Override
