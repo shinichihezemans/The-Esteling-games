@@ -31,37 +31,23 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         this.listener = listener;
     }
 
+
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        Log.d(LOGTAG,"onCreateViewHolder()");
+    public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
         return new AssignmentViewHolder(itemView, listener);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-//        Log.d(LOGTAG, "onBindViewHolder() - position: " + position);
+    public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
         Assignment assignment = assignments.get(position);
 //        Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
         holder.bind(assignment);
-        //Name
-//        TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
-////        Log.i("Info", assignment.getName());
-//        minigameName.setText(assignment.getName());
-//
-//        //attempts
-//        TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
-////        Log.i("Info", assignment.getAttempts() + "/3");
-//        minigameAttempts.setText(assignment.getAttempts() + "/3");
-//
-////        TextView minigameScore = holder.itemView.findViewById(R.id.minigameScore);
-////
-////        minigameScore.setText(assignment.getScore());
     }
+
 
     @Override
     public int getItemCount() {
@@ -83,9 +69,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
         public void bind(Assignment assignment){
             this.assignment = assignment;
-            TextView minigameName = itemView.findViewById(R.id.minigameName);
+            TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
             minigameName.setText(assignment.getName());
-            TextView minigameAttempts = itemView.findViewById(R.id.minigameAttempts);
+            TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
             minigameAttempts.setText(assignment.getAttempts() + "/3");
             TextView minigameScore = itemView.findViewById(R.id.minigameScore);
             minigameScore.setText("" + assignment.getScore());

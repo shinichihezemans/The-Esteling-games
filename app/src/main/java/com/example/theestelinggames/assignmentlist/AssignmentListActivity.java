@@ -19,8 +19,6 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.theestelinggames.ItemDetail;
-import com.example.theestelinggames.OnItemClickListener;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.mqttconnection.MQTTConnection;
@@ -83,12 +81,11 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
 //        saveSettings();
 
-        Intent intent = new Intent(this, ItemDetailActivity.class);
-        intent.putExtra(ItemDetailActivity.ASSIGNMENT_ID, clickedPosition);
+
     @Override
     public void onItemClick(int clickedPosition) {
-        Intent intent = new Intent(this, ItemDetail.class);
-        intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra(ItemDetailActivity.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
     }
 
