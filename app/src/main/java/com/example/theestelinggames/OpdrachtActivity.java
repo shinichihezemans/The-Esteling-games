@@ -1,100 +1,134 @@
 package com.example.theestelinggames;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.bluetooth.BluetoothAdapter;
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.UUID;
+public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
 
-public class OpdrachtActivity extends AppCompatActivity {
-    private boolean isStarted = false;//if not started button visible and textView gone else button gone and textView visible
+    private int score;
 
+    private Button button;
     private TextView assignmentTextView;
-    private BluetoothAdapter bluetoothAdapter;
-    private BluetoothDevice device;
-    private BluetoothSocket socket;
-    private DataOutputStream dataOutputStream;
 
-    private static final String LOGTAG = ItemDetailActivity.class.getName();
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private AssignmentContainer selectedAssignment;
+    private BluetoothIOThread bluetoothIOThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opdracht);
+        this.button = findViewById(R.id.assignmentStartButton);
+        this.button.setEnabled(false);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
-        this.device = getIntent().getParcelableExtra(ItemDetailActivity.DEVICE_KEY);
-        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothDevice device = getIntent().getParcelableExtra(ItemDetailActivity.DEVICE_KEY);
 
-        Toast.makeText(getApplicationContext(), "Initialising socket!",
-                Toast.LENGTH_SHORT).show();
+        this.score = 1;
 
-        try {
-            this.socket = device.createRfcommSocketToServiceRecord(MY_UUID);
-            Toast.makeText(getApplicationContext(), "Initialized socket!",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "got socket");
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<String> temp = new ArrayList<>();
+        temp.add("BUTTON 1 (Geel)");
+        temp.add("BUTTON 2 (Rood)");
+        temp.add("BUTTON 3 (Geel)");
+        temp.add("TOUCHSENSOR!");
+
+        this.selectedAssignment = new AssignmentContainer("Johan en de Eenhoorn", "achtbaan", temp);
+        bluetoothIOThread = null;
+
+        if(device != null) {
+            Thread connectThread = new ConnectThread(device, this);
+            connectThread.start();
         }
+    }
 
-        this.bluetoothAdapter.cancelDiscovery();
-
-        if (this.socket != null) {
-            Toast.makeText(getApplicationContext(), "socket niet null",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "socket niet null");
-            try {
-                Toast.makeText(getApplicationContext(), "trying to connect",
-                        Toast.LENGTH_SHORT).show();
-                Log.i(LOGTAG, "trying to connect");
-                this.socket.connect();
-                Toast.makeText(getApplicationContext(), "connected",
-                        Toast.LENGTH_SHORT).show();
-                Log.i(LOGTAG, "connected");
-
-                this.dataOutputStream = new DataOutputStream(this.socket.getOutputStream());
-                dataOutputStream.writeUTF("hi");
-            } catch (IOException e) {
-                e.printStackTrace();
-                try {
-                    Toast.makeText(getApplicationContext(), "closing",
-                            Toast.LENGTH_SHORT).show();
-                    Log.i(LOGTAG, "closing");
-                    this.socket.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "socket null",
-                    Toast.LENGTH_SHORT).show();
-            Log.i(LOGTAG, "socket null");
+    private Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            onReceive((String) msg.obj);
+            super.handleMessage(msg);
         }
+    };
+
+    public Handler handler() {
+        return handler;
     }
 
     public void onStartButtonClicked(View view) {
-        this.isStarted = true;
-        //view.setVisibility(View.GONE);
-        //assignmentTextView.setVisibility(View.VISIBLE);]
-        try {
-            this.dataOutputStream.writeUTF("Hello world!");
-        } catch (IOException e) {
-            e.printStackTrace();
+        this.bluetoothIOThread.writeUTF("start");
+    }
+
+    public void onReceive(String msg){
+        Log.d("THREAD", msg);
+
+        if(msg.contains("START")){
+            button.setVisibility(View.GONE);
+            assignmentTextView.setVisibility(View.VISIBLE);
+        }
+        if(msg.equals("STOP")){
+            onDisconnect(0);
+        }
+        if(msg.contains("TASK")){
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(msg);
+            if(m.find()) {
+                Log.d("THREAD", m.group());
+                assignmentTextView.setText(this.selectedAssignment.getAssignments().get(Integer.parseInt(m.group()) - 1));
+            }
+        }
+        if(msg.contains("CONNECTED")){
+            onConnected();
+        }
+        if(msg.contains("DISCONNECTED")){
+            onDisconnect(this.score);
+        }
+        if(msg.contains("FINNISH")){
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(msg);
+            if(m.find()) {
+                this.score = Integer.parseInt(m.group());
+                Log.d("THREAD", "SCORE: " + this.score);
+            }
+            this.bluetoothIOThread.cancel();
         }
     }
 
-    public void makeToast(String msg){
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+    public void onConnected() {
+        Log.d("THREAD", "Connected");
+        this.button.setEnabled(true);
+    }
+
+
+    public void onDisconnect(int scoreResult) {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", scoreResult);
+
+        if(scoreResult > 0) {
+            setResult(Activity.RESULT_OK, returnIntent);
+        } else {
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }
+        finish();
+    }
+
+    @Override
+    public void setThreads(ConnectThread connectThread, BluetoothIOThread bluetoothIOThread) {
+        this.bluetoothIOThread = bluetoothIOThread;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.theestelinggames;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -16,9 +17,8 @@ import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.UUID;
-
 import com.example.theestelinggames.assignmentlist.Assignment;
+//import com.r0adkll.slidr.Slidr;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
@@ -26,18 +26,19 @@ public class ItemDetailActivity extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
+
+    private int highScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_item_detail);
+        //Slidr.attach(this);
 
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
-//        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
+        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
 
         this.assignment = Assignment.getAssignment(this, id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
@@ -97,6 +98,30 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data == null){
+            return;
+        }
+
+        Log.d("THREAD", "" + data.getIntExtra("result", 0));
+
+        if(data.hasExtra("result")){
+            int score = data.getIntExtra("result", 0);
+
+            if(this.highScore < score){
+                this.highScore = score;
+                this.updateHighScore();
+                Log.d("THREAD", "High score set!");
+            }
+        }
+    }
+
+    private void updateHighScore(){
+        Toast.makeText(this, "High score: " + this.highScore, Toast.LENGTH_SHORT).show();
+        //this.highScoreLabel.setText("High score: " + this.highScore);
+    }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -154,10 +179,10 @@ public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try {
+        try{
             unregisterReceiver(broadcastReceiver);
-        } catch (RuntimeException e) {
-//            e.printStackTrace();
+        } catch (RuntimeException e){
+            e.printStackTrace();
         }
     }
 

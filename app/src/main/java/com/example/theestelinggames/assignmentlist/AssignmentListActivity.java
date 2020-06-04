@@ -3,7 +3,6 @@ package com.example.theestelinggames.assignmentlist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,19 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.ItemDetailActivity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.CheckBox;
-import android.widget.TextView;
-
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.mqttconnection.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.OnItemClickListener;
-import com.example.theestelinggames.iconscreen.CharacterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
