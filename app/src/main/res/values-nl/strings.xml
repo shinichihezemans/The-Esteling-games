@@ -6,7 +6,7 @@
     <string name="StartButton">Begin</string>
     <string name="attempts_placeholder">pogingen placeholder</string>
     <string name="minigamename_placeholder">minigame naam placeholder</string>
-    <string name="title_text">Minigamesas</string>
+    <string name="title_text">Minigames</string>
     <string name="scan">SCAN</string>
     <string name="minigame_introduction">minigame Introductie</string>
     <string name="animal_name">dier naam</string>
@@ -15,4 +15,5 @@
     <string name="ZwevendeBelgInformation">De Zwevende Belg is een combinatie van een loopgedeelte, een waterachtbaan en een darkride met bootjes. Hij staat in het Stoerland deel van de Essteling </string>
     <string name="JohanInformation">Johan en de Eenhoorn is een houten race-achtbaan, opgebouwd rondom de legende van Sankt Johan en de Eenhoorn. Is jouw achtbaantrein sneller dan de tegenstander? Weet jij de Eenhoorn in te halen en te vangen? Maak het mee!</string>
     <string name="CobraInformation">De Cobra is een klassieke achtbaan en was ooit de eerste stalen achtbaan in de Essteling. En nog steeds populair door de snelheid en de loopings.</string>
+    <string name="minigamescore">minigameScore</string>
 </resources>

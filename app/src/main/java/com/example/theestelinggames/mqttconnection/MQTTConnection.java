@@ -17,11 +17,9 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MQTTConnection {
 
-    public static final String ID = MQTTConnection.class.getName();
-
     private final String URL = "tcp://maxwell.bps-software.nl:1883";
-    private final String TOPIC_OUT = "A1/TheEsstelingGames/AndroidData";
-    private final String TOPIC_IN = "A1/TheEsstelingGames/Scoreboard";
+    private final String TOPIC_PUBLISH = "A1/TheEsstelingGames/AndroidData";
+    private final String TOPIC_SUBSCRIBE = "A1/TheEsstelingGames/Scoreboard";
 
     private final String USERNAME = "androidTI";
     private final char[] PASSWORD = "&FN+g$$Qhm7j".toCharArray();
@@ -53,6 +51,7 @@ public class MQTTConnection {
         connectOUT("", id, animalName);
     }
 
+    //sends messages to topic androidData
     private void connectOUT(final String text, final int id, final String animalName) {
         try {
             final IMqttToken token = client.connect(ConnectOptions());
@@ -62,7 +61,7 @@ public class MQTTConnection {
                 public void onSuccess(IMqttToken asyncActionToken) {
 
                     try {
-                        final IMqttToken subToken = client.subscribe(TOPIC_OUT, QOS);
+                        final IMqttToken subToken = client.subscribe(TOPIC_PUBLISH, QOS);
                         subToken.setActionCallback(new IMqttActionListener() {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
@@ -103,6 +102,7 @@ public class MQTTConnection {
         }
     }
 
+    //receives messages from topic scoreboard
     public void connectIN(final ScoreboardListActivity scoreboardListActivity) {
 
         try {
@@ -112,8 +112,7 @@ public class MQTTConnection {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     try {
-
-                        IMqttToken subToken = client.subscribe(TOPIC_IN, QOS);
+                        IMqttToken subToken = client.subscribe(TOPIC_SUBSCRIBE, QOS);
                         subToken.setActionCallback(new IMqttActionListener() {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
@@ -131,7 +130,7 @@ public class MQTTConnection {
                     client.setCallback(new MqttCallback() {
                         @Override
                         public void connectionLost(Throwable cause) {
-                            Toast toast = Toast.makeText(context, "Warning: you got disconnected", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(context, "Warning: you got disconnected callback", Toast.LENGTH_SHORT);
                             toast.show();
 
                         }
@@ -139,13 +138,16 @@ public class MQTTConnection {
                         @Override
                         public void messageArrived(String topic, MqttMessage message) {
 
-                            String s = new String(message.getPayload());
 
+                            String s = new String(message.getPayload());
+//
                             String[] split = s.split(",");
                             String username = split[0];
                             int score = Integer.parseInt(split[1]);
 
+
                             scoreboardListActivity.addScore(username, score);
+                            scoreboardListActivity.update();
 
                         }
 
@@ -172,9 +174,9 @@ public class MQTTConnection {
     public void sendMessage(Message message, boolean isJson) {
         try {
             if (isJson) {
-                client.publish(TOPIC_OUT, message.jsonMessage());
+                client.publish(TOPIC_PUBLISH, message.jsonMessage());
             } else {
-                client.publish(TOPIC_OUT, message.textMessage());
+                client.publish(TOPIC_PUBLISH, message.textMessage());
             }
         } catch (MqttException e) {
             e.printStackTrace();
@@ -187,9 +189,13 @@ public class MQTTConnection {
         mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setUserName(USERNAME);
         mqttConnectOptions.setPassword(PASSWORD);
-        mqttConnectOptions.setWill(TOPIC_OUT, will.getBytes(), QOS, false);
+        mqttConnectOptions.setWill(TOPIC_PUBLISH, will.getBytes(), QOS, false);
 
         return mqttConnectOptions;
+    }
+
+    public boolean isConnectedWithServer(){
+        return client.isConnected();
     }
 
 

@@ -56,16 +56,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         editor.apply();
         Log.i("Username", sharedPreferences.getString(usernameKey, "nameless"));
 
-
-        //To send message player object to server
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID+"OUT");
-        mqttConnectionSend.connectOUT(id, animalName);
-
-//        Log.i(LOGTAG, String.valueOf(sharedPreferences.getAll().keySet()));
-
         final Intent intent = new Intent(this, AssignmentListActivity.class);
-        //not sure
-//        intent.putExtra(MQTTConnection.ID,mqttConnection);
 
         startActivity(intent);
     }

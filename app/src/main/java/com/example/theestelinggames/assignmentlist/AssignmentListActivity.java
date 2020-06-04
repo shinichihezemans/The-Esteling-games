@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +29,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     AssignmentAdapter minigamesAdapter;
 
-    MQTTConnection mqttConnection;
+    String clientID;
+    MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
     //uncheck clickable in assignment overview item
 
@@ -46,7 +48,30 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
                 this, assignments, this);
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        int id = Integer.parseInt(string[1]);
+
+        //To send message player object to server
+//        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT(id, animalName);
+
+
+
     }
+
+    public void navigateScoreboard(View view) {
+        Intent intent = new Intent(this, ScoreboardListActivity.class);
+
+//        Requests scoreboard
+        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT("get Scoreboard");
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onResume() {
@@ -60,15 +85,13 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     public void onBackPressed() {
         if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
             super.onBackPressed();
-        }else {
+        } else {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
-
-//        saveSettings();
 
 
     @Override
@@ -78,21 +101,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         startActivity(intent);
     }
 
-    public void navigateScoreboard(View view) {
-        Intent intent = new Intent(this, ScoreboardListActivity.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
-        int id = Integer.parseInt(string[1]);
-
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT("get Scoreboard");
-        startActivity(intent);
-    }
-
-    //doesnt work
     @Override
     protected void onStop() {
         super.onStop();
