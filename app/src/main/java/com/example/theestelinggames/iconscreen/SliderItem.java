@@ -21,15 +21,15 @@ class SliderItem {
     }
 
     public static final SliderItem[] staticSliderItems = {
-        new SliderItem("Monkey", R.drawable.aap),
-        new SliderItem("Bear",R.drawable.beer),
-        new SliderItem("Hare",R.drawable.haas),
-        new SliderItem("Lion",R.drawable.leeuw),
-        new SliderItem("Rhino",R.drawable.neushoorn),
-        new SliderItem("Hippo",R.drawable.nijlpaard),
-        new SliderItem("Elephant",R.drawable.olifant),
-        new SliderItem("Wolf",R.drawable.wolf),
-        new SliderItem("Zebra",R.drawable.zebra),
+        new SliderItem("Monkey", R.drawable.aaptrans),
+        new SliderItem("Bear",R.drawable.beertrans),
+        new SliderItem("Hare",R.drawable.haastrans),
+        new SliderItem("Lion",R.drawable.leeuwtrans),
+        new SliderItem("Rhino",R.drawable.neushoorntrans),
+        new SliderItem("Hippo",R.drawable.nijlpaardtrans),
+        new SliderItem("Elephant",R.drawable.olifanttrans),
+        new SliderItem("Wolf",R.drawable.wolftrans),
+        new SliderItem("Zebra",R.drawable.zebratrans),
     };
 
     public static SliderItem[] getStaticSliderItems() {
