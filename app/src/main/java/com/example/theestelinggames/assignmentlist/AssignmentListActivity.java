@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.mqttconnection.MQTTConnection;
-import com.example.theestelinggames.mqttconnection.Message;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.OnItemClickListener;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
@@ -90,8 +88,17 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     }
 
     public void navigateScoreboard(View view) {
-            Intent intent = new Intent(this, ScoreboardListActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(this, ScoreboardListActivity.class);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        int id = Integer.parseInt(string[1]);
+
+        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT("get Scoreboard");
+        startActivity(intent);
     }
 
     //doesnt work
