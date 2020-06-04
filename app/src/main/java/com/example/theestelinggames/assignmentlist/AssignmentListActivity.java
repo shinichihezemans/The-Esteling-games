@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.ItemDetailActivity;
+import com.example.theestelinggames.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.mqttconnection.MQTTConnection;
