@@ -138,13 +138,10 @@ public class MQTTConnection {
                         @Override
                         public void messageArrived(String topic, MqttMessage message) {
 
-
                             String s = new String(message.getPayload());
-//
                             String[] split = s.split(",");
                             String username = split[0];
                             int score = Integer.parseInt(split[1]);
-
 
                             scoreboardListActivity.addScore(username, score);
                             scoreboardListActivity.update();
