@@ -11,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
-import com.example.theestelinggames.mqttconnection.MQTTConnection;
 import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;

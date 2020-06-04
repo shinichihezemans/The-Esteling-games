@@ -3,16 +3,15 @@ package com.example.theestelinggames.scoreboardList;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.ItemDetailActivity;
+import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
-import com.example.theestelinggames.mqttconnection.MQTTConnection;
+import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;

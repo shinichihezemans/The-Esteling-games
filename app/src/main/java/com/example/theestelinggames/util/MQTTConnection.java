@@ -1,4 +1,4 @@
-package com.example.theestelinggames.mqttconnection;
+package com.example.theestelinggames.util;
 
 import android.content.Context;
 import android.widget.Toast;
