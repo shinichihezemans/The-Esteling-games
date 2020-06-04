@@ -16,4 +16,5 @@
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="CobraInformation">The Cobra is a classic rollercoaster which was once the first steal rollercoaster in the Essteling. It is still popular because of its high velocity and head spinning loops.</string>
+    <string name="minigamescore">minigamescore</string>
 </resources>
