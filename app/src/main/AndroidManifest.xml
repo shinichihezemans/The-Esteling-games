@@ -25,13 +25,13 @@
 
         <activity android:name=".iconscreen.CharacterActivity"> </activity>
 
-        <activity android:name=".OpdrachtActivity"> </activity>
+        <activity android:name=".assignmentgame.OpdrachtActivity"> </activity>
 
         <activity android:name=".scoreboardList.ScoreboardListActivity"> </activity>
 
-        <activity android:name=".ItemDetailActivity" />
+        <activity android:name=".assignmentdetail.ItemDetailActivity" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".startscreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

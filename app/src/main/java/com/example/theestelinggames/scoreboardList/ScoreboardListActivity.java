@@ -8,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.ItemDetailActivity;
+import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
-import com.example.theestelinggames.mqttconnection.MQTTConnection;
+import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.OnItemClickListener;
 
-//import org.eclipse.paho.android.service.MqttAndroidClient;
-
 import java.util.ArrayList;
+
+//import org.eclipse.paho.android.service.MqttAndroidClient;
 
 public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener {
 
@@ -26,7 +26,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     ScoreboardAdapter scoreboardAdapter;
 
-    MQTTConnection mqttConnectionReceive;
+//    MQTTConnection mqttConnectionReceive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +40,22 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
         String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-//        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-//        String animalName = string[0];
-//        int id = Integer.parseInt(string[1]);
 
-        //YOU CAN CONNECT TO THE SAME MQTT SERVER IF YOU HAVE THE SAME CLIENTID. SO YOU CAN ALWAYS MAKE NEW MQTTCONNECTIONS IF YOU FILL IN THE SAME CLIENTID.
-        mqttConnectionReceive = MQTTConnection.newMQTTConnection(this,clientID+"IN");
+        //Receives scoreboard
+        MQTTConnection mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
         mqttConnectionReceive.connectIN(this);
     }
 
-    public void update(){
+    public void update() {
         scoreboardAdapter.notifyDataSetChanged();
     }
 
-    public ArrayList<Scoreboard> getScoreboard() {
-        return scoreboard;
-    }
 
-    public void setScoreboard(ArrayList<Scoreboard> scoreboard) {
-        this.scoreboard = scoreboard;
-    }
-
-    public void addScore(String username, int id){
+    public void addScore(String username, int id) {
         scoreboard.add(new Scoreboard(username, id));
-        update();
     }
 
     @Override

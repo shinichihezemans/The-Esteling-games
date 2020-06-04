@@ -13,10 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.ItemDetailActivity;
+import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
-import com.example.theestelinggames.mqttconnection.MQTTConnection;
+import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.OnItemClickListener;
 
@@ -32,7 +32,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     AssignmentAdapter minigamesAdapter;
 
-    MQTTConnection mqttConnection;
+    String clientID;
+    MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
     private DrawerLayout drawer;
 
@@ -58,7 +59,30 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
                 this, assignments, this);
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        int id = Integer.parseInt(string[1]);
+
+        //To send message player object to server
+//        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT(id, animalName);
+
+
+
     }
+
+    public void navigateScoreboard(View view) {
+        Intent intent = new Intent(this, ScoreboardListActivity.class);
+
+//        Requests scoreboard
+        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT("get Scoreboard");
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onResume() {
@@ -92,21 +116,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         startActivity(intent);
     }
 
-    public void navigateScoreboard(View view) {
-        Intent intent = new Intent(this, ScoreboardListActivity.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
-        int id = Integer.parseInt(string[1]);
-
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT("get Scoreboard");
-        startActivity(intent);
-    }
-
-    //doesnt work
     @Override
     protected void onStop() {
         super.onStop();

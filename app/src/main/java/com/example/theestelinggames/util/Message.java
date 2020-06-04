@@ -1,4 +1,4 @@
-package com.example.theestelinggames.mqttconnection;
+package com.example.theestelinggames.util;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.theestelinggames;
+package com.example.theestelinggames.startscreen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.Assignment;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;

@@ -1,4 +1,4 @@
-package com.example.theestelinggames;
+package com.example.theestelinggames.assignmentgame;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
+import com.example.theestelinggames.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
