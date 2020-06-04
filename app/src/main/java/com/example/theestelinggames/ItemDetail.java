@@ -1,5 +1,6 @@
 package com.example.theestelinggames;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -31,11 +32,12 @@ public class ItemDetail extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private TextView highScoreLabel;
 
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
+    private int highScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,12 @@ public class ItemDetail extends AppCompatActivity {
         this.assignment = Assignment.getStaticAssignment(id);
         Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
+
         TextView minigameName = (TextView) findViewById(R.id.minigameName);
         minigameName.setText(this.assignment.getName());
 
-        TextView forecast = (TextView) findViewById(R.id.minigameIntroduction);
-        forecast.setText("TODO");
+        this.highScoreLabel = (TextView) findViewById(R.id.minigameIntroduction);
+        highScoreLabel.setText("High score: ");
 
 //        ImageView attractionImage = (ImageView) findViewById();
 //        attractionImage.setImageResource();
@@ -147,18 +150,42 @@ public class ItemDetail extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data == null){
+            return;
+        }
+
+        Log.d("THREAD", "" + data.getIntExtra("result", 0));
+
+        if(data.hasExtra("result")){
+            int score = data.getIntExtra("result", 0);
+
+            if(this.highScore < score){
+                this.highScore = score;
+                this.updateHighScore();
+                Log.d("THREAD", "High score set!");
+            }
+        }
+    }
+
+    private void updateHighScore(){
+        this.highScoreLabel.setText("High score: " + this.highScore);
+    }
+
     private void onConnected(BluetoothDevice bluetoothDevice) {
         Intent assignmentIntent = new Intent(ItemDetail.this, OpdrachtActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
-        startActivity(assignmentIntent);
+        startActivityForResult(assignmentIntent, 1);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        try{
+        try {
             unregisterReceiver(broadcastReceiver);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
     }
