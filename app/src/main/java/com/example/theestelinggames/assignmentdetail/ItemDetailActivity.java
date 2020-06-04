@@ -1,4 +1,4 @@
-package com.example.theestelinggames;
+package com.example.theestelinggames.assignmentdetail;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.theestelinggames.R;
+import com.example.theestelinggames.assignmentgame.OpdrachtActivity;
 import com.example.theestelinggames.assignmentlist.Assignment;
 //import com.r0adkll.slidr.Slidr;
 

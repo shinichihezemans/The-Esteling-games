@@ -11,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
-import com.example.theestelinggames.mqttconnection.MQTTConnection;
 import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -56,16 +55,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         editor.apply();
         Log.i("Username", sharedPreferences.getString(usernameKey, "nameless"));
 
-
-        //To send message player object to server
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID+"OUT");
-        mqttConnectionSend.connectOUT(id, animalName);
-
-//        Log.i(LOGTAG, String.valueOf(sharedPreferences.getAll().keySet()));
-
         final Intent intent = new Intent(this, AssignmentListActivity.class);
-        //not sure
-//        intent.putExtra(MQTTConnection.ID,mqttConnection);
 
         startActivity(intent);
     }
