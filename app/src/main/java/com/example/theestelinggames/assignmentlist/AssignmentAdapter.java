@@ -12,12 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.OnItemClickListener;
+import com.example.theestelinggames.util.OnItemClickListener;
 import com.example.theestelinggames.R;
 
 import java.util.List;
 
-public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ItemViewHolder> {
+public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
+
     private static final String LOGTAG = AssignmentAdapter.class.getName();
 
     private Context context;
@@ -30,67 +31,59 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         this.listener = listener;
     }
 
+
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG,"onCreateViewHolder()");
+    public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
-        return new ItemViewHolder(itemView, listener);
+        return new AssignmentViewHolder(itemView, listener);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        Log.d(LOGTAG, "onBindViewHolder() - position: " + position);
+    public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
         Assignment assignment = assignments.get(position);
-        Log.d(LOGTAG, "Assignment: " + assignment.getName());
+//        Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
-        //Name
-        TextView minigameName = holder.itemView.findViewById(R.id.minigameName);
-        Log.i("Info", assignment.getName());
-        minigameName.setText(assignment.getName());
-
-        //attempts
-        TextView minigameAttempts = holder.itemView.findViewById(R.id.minigameAttempts);
-        Log.i("Info", assignment.getAttempts() + "/3");
-        minigameAttempts.setText(assignment.getAttempts() + "/3");
-
-        //status
-        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
-        boolean isCompleted = assignment.isCompleted();
-        if(isCompleted){
-            checkBox.setVisibility(View.VISIBLE);
-            checkBox.setChecked(assignment.isCompleted());
-        }else {
-            checkBox.setVisibility(View.INVISIBLE);
-        }
+        holder.bind(assignment);
     }
+
 
     @Override
     public int getItemCount() {
-        Log.d(LOGTAG, "getItemCount()");
+//        Log.d(LOGTAG, "getItemCount()");
         return assignments.size();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String LOGTAG = ItemViewHolder.class.getName();
+    public static class AssignmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String LOGTAG = AssignmentViewHolder.class.getName();
 
         private OnItemClickListener clickListener;
+        private Assignment assignment;
 
-        ItemViewHolder(View itemView, OnItemClickListener listener) {
+        AssignmentViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             itemView.setOnClickListener(this);
             clickListener = listener;
         }
 
+        public void bind(Assignment assignment){
+            this.assignment = assignment;
+            TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
+            minigameName.setText(assignment.getName());
+            TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
+            minigameAttempts.setText(assignment.getAttempts() + "/3");
+            TextView minigameScore = itemView.findViewById(R.id.minigameScore);
+            minigameScore.setText("" + assignment.getScore());
+        }
+
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
+            assignment.setLineLength(assignment.getLineLength() + 1);
+            assignment.saveData();
             Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
             clickListener.onItemClick(clickedPosition);
         }
-
-
     }
 }
