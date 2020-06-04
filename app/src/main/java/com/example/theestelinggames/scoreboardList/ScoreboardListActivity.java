@@ -48,7 +48,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
         //YOU CAN CONNECT TO THE SAME MQTT SERVER IF YOU HAVE THE SAME CLIENTID. SO YOU CAN ALWAYS MAKE NEW MQTTCONNECTIONS IF YOU FILL IN THE SAME CLIENTID.
         mqttConnectionReceive = MQTTConnection.newMQTTConnection(this,clientID+"IN");
-        mqttConnectionReceive.connectAndListen(this);
+        mqttConnectionReceive.connectIN(this);
     }
 
     public void update(){
@@ -63,8 +63,9 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         this.scoreboard = scoreboard;
     }
 
-    public void addScore(String score){
-        scoreboard.add(new Scoreboard(score));
+    public void addScore(String username, int id){
+        scoreboard.add(new Scoreboard(username, id));
+        update();
     }
 
     @Override

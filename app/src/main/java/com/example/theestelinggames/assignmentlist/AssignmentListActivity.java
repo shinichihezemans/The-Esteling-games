@@ -78,8 +78,17 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     }
 
     public void navigateScoreboard(View view) {
-            Intent intent = new Intent(this, ScoreboardListActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(this, ScoreboardListActivity.class);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String[] string = clientID.split("(?<=\\D)(?=\\d)");
+        String animalName = string[0];
+        int id = Integer.parseInt(string[1]);
+
+        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+        mqttConnectionSend.connectOUT("get Scoreboard");
+        startActivity(intent);
     }
 
     //doesnt work
