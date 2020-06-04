@@ -1,16 +1,23 @@
 package com.example.theestelinggames.assignmentlist;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-
-import com.example.theestelinggames.ItemDetail;
-import com.example.theestelinggames.OnItemClickListener;
+import com.example.theestelinggames.ItemDetailActivity;
 import com.example.theestelinggames.R;
+import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.mqttconnection.MQTTConnection;
+import com.example.theestelinggames.mqttconnection.Message;
+import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
+import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +25,13 @@ import java.util.Arrays;
 
 public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener {
 
+    private static final String LOGTAG = AssignmentListActivity.class.getName();
+
     ArrayList<Assignment> assignments;
 
     AssignmentAdapter minigamesAdapter;
+
+    MQTTConnection mqttConnection;
 
     //uncheck clickable in assignment overview item
 
@@ -52,9 +63,14 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
 //        saveSettings();
 
-        Intent intent = new Intent(this, ItemDetail.class);
-        intent.putExtra(ItemDetail.ASSIGNMENT_ID, clickedPosition);
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra(ItemDetailActivity.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
+    }
+
+    public void navigateScoreboard(View view) {
+            Intent intent = new Intent(this, ScoreboardListActivity.class);
+            startActivity(intent);
     }
 
     //doesnt work
@@ -67,10 +83,10 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     }
 
-    public void printList(){
+    public void printList() {
         for (Assignment assignment :
                 assignments) {
-            Log.i("LISTLIST",assignment.getName() + " " + assignment.isCompleted() );
+            Log.i(LOGTAG, assignment.getName() + " - status: " + assignment.isCompleted());
         }
     }
 
