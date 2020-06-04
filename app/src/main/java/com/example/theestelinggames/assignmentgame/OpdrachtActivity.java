@@ -2,7 +2,6 @@ package com.example.theestelinggames.assignmentgame;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -80,7 +79,8 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         Log.d("THREAD", msg);
 
         if(msg.contains("START")){
-            button.setVisibility(View.GONE);
+            button.setText("GO!");
+            button.setEnabled(false);
             assignmentTextView.setVisibility(View.VISIBLE);
         }
         if(msg.equals("STOP")){
