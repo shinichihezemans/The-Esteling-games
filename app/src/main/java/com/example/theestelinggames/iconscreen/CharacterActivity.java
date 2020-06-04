@@ -61,6 +61,8 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID+"OUT");
         mqttConnectionSend.connectOUT(id, animalName);
 
+//        Log.i(LOGTAG, String.valueOf(sharedPreferences.getAll().keySet()));
+
         final Intent intent = new Intent(this, AssignmentListActivity.class);
         //not sure
 //        intent.putExtra(MQTTConnection.ID,mqttConnection);

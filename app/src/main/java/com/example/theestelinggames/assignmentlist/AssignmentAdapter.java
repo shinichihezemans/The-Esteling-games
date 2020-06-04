@@ -31,46 +31,27 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         this.listener = listener;
     }
 
+
     @NonNull
     @Override
     public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG,"onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
         return new AssignmentViewHolder(itemView, listener);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
-        Log.d(LOGTAG, "onBindViewHolder() - position: " + position);
         Assignment assignment = assignments.get(position);
-        Log.d(LOGTAG, "Assignment: " + assignment.getName());
+//        Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
-        //Name
-        TextView minigameName = holder.itemView.findViewById(R.id.nameIDTextView);
-        Log.i("Info", assignment.getName());
-        minigameName.setText(assignment.getName());
-
-        //attempts
-        TextView minigameAttempts = holder.itemView.findViewById(R.id.attemptTextView);
-        Log.i("Info", assignment.getAttempts() + "/3");
-        minigameAttempts.setText(assignment.getAttempts() + "/3");
-
-        //status
-        CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
-        boolean isCompleted = assignment.isCompleted();
-        if(isCompleted){
-            checkBox.setVisibility(View.VISIBLE);
-            checkBox.setChecked(assignment.isCompleted());
-        }else {
-            checkBox.setVisibility(View.INVISIBLE);
-        }
+        holder.bind(assignment);
     }
+
 
     @Override
     public int getItemCount() {
-        Log.d(LOGTAG, "getItemCount()");
+//        Log.d(LOGTAG, "getItemCount()");
         return assignments.size();
     }
 
@@ -78,6 +59,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         private static final String LOGTAG = AssignmentViewHolder.class.getName();
 
         private OnItemClickListener clickListener;
+        private Assignment assignment;
 
         AssignmentViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -85,13 +67,23 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             clickListener = listener;
         }
 
+        public void bind(Assignment assignment){
+            this.assignment = assignment;
+            TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
+            minigameName.setText(assignment.getName());
+            TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
+            minigameAttempts.setText(assignment.getAttempts() + "/3");
+            TextView minigameScore = itemView.findViewById(R.id.minigameScore);
+            minigameScore.setText("" + assignment.getScore());
+        }
+
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
+            assignment.setLineLength(assignment.getLineLength() + 1);
+            assignment.saveData();
             Log.d(LOGTAG, "Item " + clickedPosition + " clicked");
             clickListener.onItemClick(clickedPosition);
         }
-
-
     }
 }
