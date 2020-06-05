@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -55,6 +56,9 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
         attractionImage.setImageResource(assignment.getImageResourceId());
+
+        Button button = (Button) findViewById(R.id.connectButton);
+        button.setEnabled(this.assignment.getAttempts() < 3);
 
         //doesnt work
 //        assignment.saveData();
@@ -127,6 +131,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                 Log.d("THREAD", "High score set!");
             }
         }
+
+        assignment.saveData();
+        assignment.syncWithPreferences();
     }
 
     private void updateHighScore(int score){
