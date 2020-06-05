@@ -126,7 +126,13 @@ public class ItemDetailActivity extends AppCompatActivity {
                 this.updateHighScore(score);
                 Log.d("THREAD", "High score set!");
             }
+        }
+    }
 
+    private void updateHighScore(int score){
+        //this.highScoreLabel.setText("High score: " + this.highScore);
+        if(assignment.setHighScore(score)){
+            Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
             String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
             String[] string = clientID.split("(?<=\\D)(?=\\d)");
@@ -137,13 +143,6 @@ public class ItemDetailActivity extends AppCompatActivity {
             MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
             mqttConnectionSend.connectOUT(new Message(id, animalName, score));
-        }
-    }
-
-    private void updateHighScore(int score){
-        //this.highScoreLabel.setText("High score: " + this.highScore);
-        if(assignment.setHighScore(score)){
-            Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
         }
 
         //voor de zekerheid
