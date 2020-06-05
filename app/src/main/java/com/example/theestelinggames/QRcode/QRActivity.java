@@ -52,7 +52,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

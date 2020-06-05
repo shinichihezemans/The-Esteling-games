@@ -49,7 +49,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarHS);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

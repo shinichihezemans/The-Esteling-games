@@ -61,7 +61,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         int id = Integer.parseInt(string[1]);
 
         Toolbar toolbar = findViewById(R.id.toolbarOL);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -152,16 +152,6 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 //        }
 //
 //    }
-
-    public void navigateScoreboard(View view) {
-        Intent intent = new Intent(this, ScoreboardListActivity.class);
-
-//        Requests scoreboard
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
-        startActivity(intent);
-    }
-
 
     @Override
     protected void onResume() {
