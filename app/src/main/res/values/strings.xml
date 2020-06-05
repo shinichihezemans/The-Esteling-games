@@ -19,4 +19,6 @@
     <string name="minigamescore">minigamescore</string>
     <string name="qr_explanation">Show this QR-code to one of our employees to redeem your price!</string>
     <string name="play">PLAY!</string>
+    <string name="attempts">Attempts</string>
+    <string name="score">Score</string>
 </resources>
