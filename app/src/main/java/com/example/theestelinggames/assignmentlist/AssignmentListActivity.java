@@ -61,7 +61,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         int id = Integer.parseInt(string[1]);
 
         Toolbar toolbar = findViewById(R.id.toolbarOL);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -106,10 +106,10 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
-//        mqttConnectionSend.connectOUT(new Message(id, animalName));
+        mqttConnectionSend.connectOUT(new Message(id, animalName));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,10));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,105));
-        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,1325));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,1535));
 //
@@ -152,16 +152,6 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 //        }
 //
 //    }
-
-    public void navigateScoreboard(View view) {
-        Intent intent = new Intent(this, ScoreboardListActivity.class);
-
-//        Requests scoreboard
-        MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-        mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
-        startActivity(intent);
-    }
-
 
     @Override
     protected void onResume() {
@@ -215,8 +205,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Intent intent = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_assignments:
-//                intent = new Intent(this, AssignmentListActivity.class);
-                break;
+                return true;
+
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");

@@ -52,7 +52,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -163,8 +163,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-//                intent = new Intent(this, QRActivity.class);
-                break;
+return true;
             default:
                 return false;
         }

@@ -49,7 +49,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarHS);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -81,8 +81,16 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         mqttConnectionReceive.connectIN();
     }
 
+    public void clear(){
 
-//    public void getIcon(MenuItem item, String animalName) {
+        scoreboard.clear();
+    }
+
+    public ArrayList<Scoreboard> getScoreboard() {
+        return scoreboard;
+    }
+
+    //    public void getIcon(MenuItem item, String animalName) {
 //
 //        switch (animalName) {
 //            case "Monkey":
@@ -124,6 +132,9 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
 
     public void addScore(String username, int id) {
+        if(scoreboard.size()>=10) {
+            scoreboard.clear();
+        }
         scoreboard.add(new Scoreboard(username, id));
     }
 
@@ -156,12 +167,8 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
-//                intent = new Intent(this, ScoreboardListActivity.class);
-//                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-//                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-//                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-//                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
-                break;
+                return true;
+
             case R.id.nav_qr:
                 intent = new Intent(this, QRActivity.class);
                 break;
