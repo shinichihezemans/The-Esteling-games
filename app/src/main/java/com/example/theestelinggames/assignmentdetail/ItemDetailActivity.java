@@ -140,6 +140,11 @@ public class ItemDetailActivity extends AppCompatActivity {
     private void updateHighScore(){
         Toast.makeText(this, "High score: " + this.highScore, Toast.LENGTH_SHORT).show();
         //this.highScoreLabel.setText("High score: " + this.highScore);
+        assignment.setScore(this.highScore);
+
+        //voor de zekerheid
+        assignment.saveData();
+        assignment.syncWithPreferences();
     }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
