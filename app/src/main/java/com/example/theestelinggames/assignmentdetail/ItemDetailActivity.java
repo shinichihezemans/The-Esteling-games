@@ -35,8 +35,6 @@ public class ItemDetailActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
-    private int highScore = 50;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +64,11 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     public void onConnectButtonClicked(View view) {
 //        Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show();
+
+        if(this.assignment.getAttempts()  == 3 || this.assignment.getAttempts() > 3){
+            Toast.makeText(this, "You don't have any attempts left!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "bluetooth not supported", Toast.LENGTH_SHORT).show();
@@ -113,14 +116,14 @@ public class ItemDetailActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d("THREAD", "" + data.getIntExtra("result", 0));
+        Log.d("THREAD", "received score" + data.getIntExtra("result", 0));
+        this.assignment.setAttempts(this.assignment.getAttempts() + 1);
 
         if(data.hasExtra("result")){
             int score = data.getIntExtra("result", 0);
 
-            if(this.highScore < score){
-                this.highScore = score;
-                this.updateHighScore();
+            if(assignment.getScore() < score){
+                this.updateHighScore(score);
                 Log.d("THREAD", "High score set!");
             }
 
@@ -137,10 +140,11 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void updateHighScore(){
-        Toast.makeText(this, "High score: " + this.highScore, Toast.LENGTH_SHORT).show();
+    private void updateHighScore(int score){
         //this.highScoreLabel.setText("High score: " + this.highScore);
-        assignment.setScore(this.highScore);
+        if(assignment.setHighScore(score)){
+            Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
+        }
 
         //voor de zekerheid
         assignment.saveData();
@@ -197,7 +201,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private void onConnected(BluetoothDevice bluetoothDevice) {
         Intent assignmentIntent = new Intent(ItemDetailActivity.this, OpdrachtActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
-        startActivity(assignmentIntent);
+        startActivityForResult(assignmentIntent, 1);
     }
 
     @Override
