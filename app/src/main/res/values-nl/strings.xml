@@ -20,5 +20,7 @@
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="minigamescore">minigamescore</string>
     <string name="play">SPEEL!</string>
+    <string name="attempts">Pogingen</string>
+    <string name="score">Score</string>
 
 </resources>

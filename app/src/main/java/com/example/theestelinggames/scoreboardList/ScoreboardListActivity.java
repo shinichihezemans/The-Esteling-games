@@ -24,11 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-//import org.eclipse.paho.android.service.MqttAndroidClient;
-
 public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
-
-    //MqttAndroidClient client;
 
     ArrayList<Scoreboard> scoreboard;
 
@@ -61,7 +57,6 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
-//        getIcon(item, animalName);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -81,58 +76,16 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         mqttConnectionReceive.connectIN();
     }
 
-    public void clear(){
-
+    public void clear() {
         scoreboard.clear();
     }
-
-    public ArrayList<Scoreboard> getScoreboard() {
-        return scoreboard;
-    }
-
-    //    public void getIcon(MenuItem item, String animalName) {
-//
-//        switch (animalName) {
-//            case "Monkey":
-//                item.setIcon(R.drawable.aaptrans);
-//                break;
-//            case "Bear":
-//                item.setIcon(R.drawable.beertrans);
-//                break;
-//            case "Hare":
-//                item.setIcon(R.drawable.haastrans);
-//                break;
-//            case "Lion":
-//                item.setIcon(R.drawable.leeuwtrans);
-//                break;
-//            case "Rhino":
-//                item.setIcon(R.drawable.neushoorntrans);
-//                break;
-//            case "Hippo":
-//                item.setIcon(R.drawable.nijlpaardtrans);
-//                break;
-//            case "Elephant":
-//                item.setIcon(R.drawable.olifanttrans);
-//                break;
-//            case "Wolf":
-//                item.setIcon(R.drawable.wolftrans);
-//                break;
-//            case "Zebra":
-//                item.setIcon(R.drawable.zebratrans);
-//                break;
-//            default:
-//
-//        }
-//
-//    }
 
     public void update() {
         scoreboardAdapter.notifyDataSetChanged();
     }
 
-
     public void addScore(String username, int id) {
-        if(scoreboard.size()>=10) {
+        if (scoreboard.size() >= 10) {
             scoreboard.clear();
         }
         scoreboard.add(new Scoreboard(username, id));
