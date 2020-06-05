@@ -47,7 +47,8 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         //score
         TextView minigameAttempts = holder.itemView.findViewById(R.id.scoreTextView);
-        minigameAttempts.setText("Total score: " + score.getScore());
+        String totalScore = context.getString(R.string.total_score);
+        minigameAttempts.setText(totalScore + ": " + score.getScore());
 
         //Image
         ImageView imageView = holder.itemView.findViewById(R.id.iconImageViewHS);

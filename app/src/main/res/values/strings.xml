@@ -19,4 +19,7 @@
     <string name="minigamescore">minigamescore</string>
     <string name="qr_explanation">Show this QR-code to one of our employees to redeem your price!</string>
     <string name="play">PLAY!</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="total_score">Total score</string>
+    <string name="assignment">Assignments</string>
 </resources>

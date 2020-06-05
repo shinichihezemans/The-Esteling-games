@@ -20,5 +20,8 @@
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="minigamescore">minigamescore</string>
     <string name="play">SPEEL!</string>
+    <string name="leaderboard">Scoreboard</string>
+    <string name="total_score">Totale score</string>
+    <string name="assignment">Opdrachten</string>
 
 </resources>
