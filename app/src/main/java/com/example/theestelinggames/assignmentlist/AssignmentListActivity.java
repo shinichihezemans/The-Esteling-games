@@ -106,10 +106,10 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
-//        mqttConnectionSend.connectOUT(new Message(id, animalName));
+        mqttConnectionSend.connectOUT(new Message(id, animalName));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,10));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,105));
-        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
+//        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,1325));
 //        mqttConnectionSend.connectOUT(new Message(id, animalName,1535));
 //

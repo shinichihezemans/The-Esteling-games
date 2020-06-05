@@ -81,8 +81,16 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         mqttConnectionReceive.connectIN();
     }
 
+    public void clear(){
 
-//    public void getIcon(MenuItem item, String animalName) {
+        scoreboard.clear();
+    }
+
+    public ArrayList<Scoreboard> getScoreboard() {
+        return scoreboard;
+    }
+
+    //    public void getIcon(MenuItem item, String animalName) {
 //
 //        switch (animalName) {
 //            case "Monkey":
@@ -124,6 +132,9 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
 
     public void addScore(String username, int id) {
+        if(scoreboard.size()>=10) {
+            scoreboard.clear();
+        }
         scoreboard.add(new Scoreboard(username, id));
     }
 
