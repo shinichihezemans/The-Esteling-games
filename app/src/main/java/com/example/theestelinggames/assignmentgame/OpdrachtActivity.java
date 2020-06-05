@@ -123,6 +123,8 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", scoreResult);
 
+        Log.d("THREAD", "ONDISCONNECT! scoreresult: " + scoreResult);
+
         if(scoreResult > 0) {
             setResult(Activity.RESULT_OK, returnIntent);
         } else {

@@ -52,7 +52,9 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     public void setAttempts(int attempts) {
-        this.attempts = attempts;
+        if(attempts < 4) {
+            this.attempts = attempts;
+        }
     }
 
     public int getImageResourceId() {
@@ -69,6 +71,14 @@ public class Assignment implements Comparable<Assignment> {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean setHighScore(int score){
+        if(this.score < score){
+            this.score = score;
+            return true;
+        }
+        return false;
     }
 
     public int getInformation() {
