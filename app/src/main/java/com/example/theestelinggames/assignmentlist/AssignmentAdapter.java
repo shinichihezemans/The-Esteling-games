@@ -74,7 +74,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
             minigameAttempts.setText(assignment.getAttempts() + "/3");
             TextView minigameScore = itemView.findViewById(R.id.minigameScore);
-            minigameScore.setText("" + assignment.getScore());
+            minigameScore.setText("score: " + assignment.getScore());
         }
 
         @Override
