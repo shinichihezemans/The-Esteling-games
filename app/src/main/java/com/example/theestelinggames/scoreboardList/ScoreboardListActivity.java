@@ -156,12 +156,8 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
-//                intent = new Intent(this, ScoreboardListActivity.class);
-//                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-//                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-//                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-//                mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
-                break;
+                return true;
+
             case R.id.nav_qr:
                 intent = new Intent(this, QRActivity.class);
                 break;

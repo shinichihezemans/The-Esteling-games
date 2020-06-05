@@ -163,8 +163,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-//                intent = new Intent(this, QRActivity.class);
-                break;
+return true;
             default:
                 return false;
         }

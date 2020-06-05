@@ -205,8 +205,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Intent intent = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_assignments:
-//                intent = new Intent(this, AssignmentListActivity.class);
-                break;
+                return true;
+
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");

@@ -65,7 +65,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     public void onConnectButtonClicked(View view) {
-        Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show();
 
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "bluetooth not supported", Toast.LENGTH_SHORT).show();
