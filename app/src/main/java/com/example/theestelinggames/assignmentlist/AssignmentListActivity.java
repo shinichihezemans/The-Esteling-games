@@ -54,12 +54,11 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
-        int id = Integer.parseInt(string[1]);
+        String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY,0));
+        int id = sharedPreferences.getInt(CharacterActivity.ID_KEY,0);
+        clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY,0)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY,-1);
+
 
         Toolbar toolbar = findViewById(R.id.toolbarOL);
 //        setSupportActionBar(toolbar);
@@ -123,7 +122,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(Intent.ACTION_MAIN);

@@ -43,9 +43,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_qr);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
+        String clientID = String.valueOf(sharedPreferences.getInt(CharacterActivity.ID_KEY, -1));
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
 //        setSupportActionBar(toolbar);
@@ -96,7 +94,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this,AssignmentListActivity.class);
@@ -115,7 +113,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+                String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY,-1);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;

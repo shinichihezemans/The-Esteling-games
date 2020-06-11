@@ -69,7 +69,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     public void onConnectButtonClicked(View view) {
 //        Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show();
 
-        if(this.assignment.getAttempts()  == 3 || this.assignment.getAttempts() > 3){
+        if (this.assignment.getAttempts() == 3 || this.assignment.getAttempts() > 3) {
             Toast.makeText(this, "You don't have any attempts left!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -116,17 +116,17 @@ public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data == null){
+        if (data == null) {
             return;
         }
 
         Log.d("THREAD", "received score" + data.getIntExtra("result", 0));
         this.assignment.setAttempts(this.assignment.getAttempts() + 1);
 
-        if(data.hasExtra("result")){
+        if (data.hasExtra("result")) {
             int score = data.getIntExtra("result", 0);
 
-            if(assignment.getScore() < score){
+            if (assignment.getScore() < score) {
                 this.updateHighScore(score);
                 Log.d("THREAD", "High score set!");
             }
@@ -136,15 +136,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         assignment.syncWithPreferences();
     }
 
-    private void updateHighScore(int score){
+    private void updateHighScore(int score) {
         //this.highScoreLabel.setText("High score: " + this.highScore);
-        if(assignment.setHighScore(score)){
+        if (assignment.setHighScore(score)) {
             Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-            String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-            String[] string = clientID.split("(?<=\\D)(?=\\d)");
-            String animalName = string[0];
-            int id = Integer.parseInt(string[1]);
+            String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1));
+            int id = sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
+            String clientID = animalName + " " + id;
 
             //To send message player object to server
             MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
@@ -213,9 +212,9 @@ public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try{
+        try {
             unregisterReceiver(broadcastReceiver);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
     }
