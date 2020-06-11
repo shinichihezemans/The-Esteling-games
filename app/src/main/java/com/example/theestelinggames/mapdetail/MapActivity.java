@@ -36,7 +36,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_map);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
         Toolbar toolbar = findViewById(R.id.toolbarMAP);
         setSupportActionBar(toolbar);
@@ -66,7 +66,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.ID_KEY, "no name").equals("no name")) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -87,7 +87,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+                String clientID = sharedPreferences.getString(CharacterActivity.ID_KEY, null);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;

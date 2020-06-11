@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.mapdetail.MapActivity;
-import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;

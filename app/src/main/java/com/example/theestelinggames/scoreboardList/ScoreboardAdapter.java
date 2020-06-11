@@ -65,24 +65,25 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
         String animalName = string[0];
+        Log.i("TESTtsetsetest",animalName);
         //doesnt work
-        if (context.getString(R.string.Monkey).equals(animalName)) {
+        if (context.getString(R.string.Monkey).equals(animalName) || animalName.equals("Monkey") || animalName.equals("Aap")) {
             imageView.setImageResource(R.drawable.aaptrans);
-        } else if (context.getString(R.string.Bear).equals(animalName)) {
+        } else if (context.getString(R.string.Bear).equals(animalName) || animalName.equals("Bear") || animalName.equals("Beer")) {
             imageView.setImageResource(R.drawable.beertrans);
-        } else if (context.getString(R.string.Hare).equals(animalName)) {
+        } else if (context.getString(R.string.Hare).equals(animalName) || animalName.equals("Hare") || animalName.equals("Haas")) {
             imageView.setImageResource(R.drawable.haastrans);
-        } else if (context.getString(R.string.Lion).equals(animalName)) {
+        } else if (context.getString(R.string.Lion).equals(animalName) || animalName.equals("Lion") || animalName.equals("Leeuw")) {
             imageView.setImageResource(R.drawable.leeuwtrans);
-        } else if (context.getString(R.string.Rhino).equals(animalName)) {
+        } else if (context.getString(R.string.Rhino).equals(animalName) || animalName.equals("Rhino") || animalName.equals("Neushorn")) {
             imageView.setImageResource(R.drawable.neushoorntrans);
-        } else if (context.getString(R.string.Hippo).equals(animalName)) {
+        } else if (context.getString(R.string.Hippo).equals(animalName) || animalName.equals("Hippo") || animalName.equals("Nijlpaard")) {
             imageView.setImageResource(R.drawable.nijlpaardtrans);
-        } else if (context.getString(R.string.Elephant).equals(animalName)) {
+        } else if (context.getString(R.string.Elephant).equals(animalName) || animalName.equals("Elephant") || animalName.equals("Olifant")) {
             imageView.setImageResource(R.drawable.olifanttrans);
-        } else if (context.getString(R.string.Wolf).equals(animalName)) {
+        } else if (context.getString(R.string.Wolf).equals(animalName) || animalName.equals("Wolf")) {
             imageView.setImageResource(R.drawable.wolftrans);
-        } else if (context.getString(R.string.Zebra).equals(animalName)) {
+        } else if (context.getString(R.string.Zebra).equals(animalName) || animalName.equals("Zebra")) {
             imageView.setImageResource(R.drawable.zebratrans);
         }
 
