@@ -1,58 +1,45 @@
-package com.example.theestelinggames.QRcode;
+package com.example.theestelinggames.mapdetail;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class QRActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static final String USERCREDENTIALS = "UserCredentials";
-    private static final String LOGTAG = "QRActivity";
+public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr);
+        setContentView(R.layout.activity_map);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
         String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
 
-        Toolbar toolbar = findViewById(R.id.toolbarQR);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarMAP);
+        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -60,7 +47,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
 
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(true);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_map).setChecked(true);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
@@ -69,32 +57,10 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        ImageView imageView = (ImageView) findViewById(R.id.qr_imageView);
-
-
-        if (clientID != null) {
-            Pattern p = Pattern.compile("\\d+");
-            Matcher m = p.matcher(clientID);
-            if (m.find()) {
-                clientID = m.group();
-            }
-
-            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-            try {
-                int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
-                BitMatrix bitMatrix = multiFormatWriter.encode(clientID, BarcodeFormat.QR_CODE, size, size);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                imageView.setImageBitmap(bitmap);
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
-        }
+        PhotoView photoView = findViewById(R.id.photoViewMAP);
+        photoView.setImageResource(R.drawable.efteling_map);
     }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -103,7 +69,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
                 super.onBackPressed();
             } else {
-                Intent intent = new Intent(this,AssignmentListActivity.class);
+                Intent intent = new Intent(this, AssignmentListActivity.class);
                 startActivity(intent);
             }
         }
@@ -113,6 +79,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent = null;
         switch (menuItem.getItemId()) {
+            case R.id.nav_map:
+                return true;
             case R.id.nav_assignments:
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
@@ -124,7 +92,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-return true;
+                intent = new Intent(this, QRActivity.class);
+                break;
             default:
                 return false;
         }

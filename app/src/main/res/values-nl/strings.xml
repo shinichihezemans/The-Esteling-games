@@ -36,5 +36,6 @@
     <string name="Wolf">Wolf</string>
     <string name="Zebra">Zebra</string>
     <string name="QRCode">QR-Code</string>
+    <string name="Map">Kaart</string>
 
 </resources>

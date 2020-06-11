@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
         exclude module: 'support-v4'

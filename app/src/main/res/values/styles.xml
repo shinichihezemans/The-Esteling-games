@@ -9,9 +9,9 @@
     </style>
 
     <style name="EsstelingStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryEssteling1</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling1</item>
-        <item name="colorAccent">@color/colorAccentEssteling1</item>
+        <item name="colorPrimary">@color/colorPrimaryEssteling</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling</item>
+        <item name="colorAccent">@color/colorAccentEssteling</item>
     </style>
 
 <!--    <style name="Underline">-->

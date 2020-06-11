@@ -14,7 +14,7 @@
         android:text="@string/StartButton"
         android:textSize="60sp"
         android:textStyle="bold"
-        android:backgroundTint="@color/colorPrimaryEssteling1"
+        android:backgroundTint="@color/colorPrimaryEssteling"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

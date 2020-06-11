@@ -65,6 +65,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
         String animalName = string[0];
+        //doesnt work
         if (context.getString(R.string.Monkey).equals(animalName)) {
             imageView.setImageResource(R.drawable.aaptrans);
         } else if (context.getString(R.string.Bear).equals(animalName)) {

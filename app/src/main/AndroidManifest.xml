@@ -20,11 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/EsstelingStyle">
-        <activity android:name=".QRcode.QRActivity"></activity>
-        <activity android:name=".assignmentlist.AssignmentListActivity"></activity>
-        <activity android:name=".iconscreen.CharacterActivity"></activity>
-        <activity android:name=".assignmentgame.OpdrachtActivity"></activity>
-        <activity android:name=".scoreboardList.ScoreboardListActivity"></activity>
+        <activity android:name=".mapdetail.MapActivity" />
+        <activity android:name=".qrcode.QRActivity" />
+        <activity android:name=".assignmentlist.AssignmentListActivity" />
+        <activity android:name=".iconscreen.CharacterActivity" />
+        <activity android:name=".assignmentgame.OpdrachtActivity" />
+        <activity android:name=".scoreboardList.ScoreboardListActivity" />
         <activity android:name=".assignmentdetail.ItemDetailActivity" />
         <activity android:name=".startscreen.MainActivity">
             <intent-filter>
