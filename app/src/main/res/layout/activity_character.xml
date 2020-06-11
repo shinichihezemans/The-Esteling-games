@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".iconscreen.CharacterActivity">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mirror" />
+
     <TextView
         android:id="@+id/IconMenuTitle"
         android:layout_width="wrap_content"
@@ -34,6 +44,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
