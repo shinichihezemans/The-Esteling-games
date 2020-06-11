@@ -2,10 +2,11 @@ package com.example.theestelinggames.assignmentlist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -67,9 +68,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+
         //hardcoded stuff
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(true);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
@@ -80,24 +79,34 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
-        RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
+        final RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
+        minigamesRecyclerView.setHasFixedSize(true);
         minigamesAdapter = new AssignmentAdapter(
                 this, assignments, this);
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                if (slideOffset >= 0.5)
+                    minigamesAdapter.setColor(Color.TRANSPARENT);
+                if (slideOffset <= 0.5) {
+                    minigamesAdapter.setColor(Color.WHITE);
+                }
+            }
+        };
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
 
 
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
         mqttConnectionSend.connectOUT(new Message(id, animalName));
-//        mqttConnectionSend.connectOUT(new Message(id, animalName,10));
-//        mqttConnectionSend.connectOUT(new Message(id, animalName,105));
-//        mqttConnectionSend.connectOUT(new Message(id, animalName,530));
-//        mqttConnectionSend.connectOUT(new Message(id, animalName,1325));
-//        mqttConnectionSend.connectOUT(new Message(id, animalName,1535));
-//
-//        }
 
     }
 

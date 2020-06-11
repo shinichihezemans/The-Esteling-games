@@ -2,6 +2,7 @@ package com.example.theestelinggames.assignmentlist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.theestelinggames.util.OnItemClickListener;
 import com.example.theestelinggames.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
@@ -25,19 +27,27 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private Context context;
     private List<Assignment> assignments;
     private OnItemClickListener listener;
+    private ArrayList<View> views;
 
     AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener) {
         this.context = context;
         this.assignments = assignments;
         this.listener = listener;
+        views = new ArrayList<>();
     }
 
+    public void setColor(int color){
+        for (View item : views) {
+            item.setBackgroundColor(color);
+        }
+    }
 
     @NonNull
     @Override
     public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
+        views.add(itemView);
         return new AssignmentViewHolder(itemView, listener);
     }
 

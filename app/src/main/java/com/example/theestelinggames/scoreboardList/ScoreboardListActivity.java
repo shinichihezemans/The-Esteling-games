@@ -2,8 +2,10 @@ package com.example.theestelinggames.scoreboardList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -41,8 +43,6 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
         String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarHS);
 //        setSupportActionBar(toolbar);
@@ -58,17 +58,26 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
         scoreboard = new ArrayList<>(10);
-        RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
+        final RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
         scoreboardAdapter = new ScoreboardAdapter(
                 this, scoreboard);
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                if (slideOffset >= 0.5)
+                    scoreboardAdapter.setColor(Color.TRANSPARENT);
+                if (slideOffset <= 0.5) {
+                    scoreboardAdapter.setColor(Color.WHITE);
+                }
+            }
+        };
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         //Receives scoreboard
         mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");

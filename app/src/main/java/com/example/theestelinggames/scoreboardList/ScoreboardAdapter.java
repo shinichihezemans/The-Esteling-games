@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
@@ -21,18 +22,27 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     private Context context;
     private List<Scoreboard> scoreboard;
+    private ArrayList<View> views;
 
     ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
         this.context = context;
         this.scoreboard = scoreboard;
+        views = new ArrayList<>();
+    }
+
+    public void setColor(int color){
+        for (View item : views) {
+            item.setBackgroundColor(color);
+        }
     }
 
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOGTAG, "onCreateViewHolder()");
+//        Log.d(LOGTAG, "onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.scoreboard_overview_item,
                 parent, false);
+        views.add(itemView);
         return new ScoreboardAdapter.ScoreboardViewHolder(itemView);
     }
 
@@ -55,36 +65,24 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
         String animalName = string[0];
-        switch (animalName) {
-            case "Monkey":
-                imageView.setImageResource(R.drawable.aaptrans);
-                break;
-            case "Bear":
-                imageView.setImageResource(R.drawable.beertrans);
-                break;
-            case "Hare":
-                imageView.setImageResource(R.drawable.haastrans);
-                break;
-            case "Lion":
-                imageView.setImageResource(R.drawable.leeuwtrans);
-                break;
-            case "Rhino":
-                imageView.setImageResource(R.drawable.neushoorntrans);
-                break;
-            case "Hippo":
-                imageView.setImageResource(R.drawable.nijlpaardtrans);
-                break;
-            case "Elephant":
-                imageView.setImageResource(R.drawable.olifanttrans);
-                break;
-            case "Wolf":
-                imageView.setImageResource(R.drawable.wolftrans);
-                break;
-            case "Zebra":
-                imageView.setImageResource(R.drawable.zebratrans);
-                break;
-            default:
-
+        if (context.getString(R.string.Monkey).equals(animalName)) {
+            imageView.setImageResource(R.drawable.aaptrans);
+        } else if (context.getString(R.string.Bear).equals(animalName)) {
+            imageView.setImageResource(R.drawable.beertrans);
+        } else if (context.getString(R.string.Hare).equals(animalName)) {
+            imageView.setImageResource(R.drawable.haastrans);
+        } else if (context.getString(R.string.Lion).equals(animalName)) {
+            imageView.setImageResource(R.drawable.leeuwtrans);
+        } else if (context.getString(R.string.Rhino).equals(animalName)) {
+            imageView.setImageResource(R.drawable.neushoorntrans);
+        } else if (context.getString(R.string.Hippo).equals(animalName)) {
+            imageView.setImageResource(R.drawable.nijlpaardtrans);
+        } else if (context.getString(R.string.Elephant).equals(animalName)) {
+            imageView.setImageResource(R.drawable.olifanttrans);
+        } else if (context.getString(R.string.Wolf).equals(animalName)) {
+            imageView.setImageResource(R.drawable.wolftrans);
+        } else if (context.getString(R.string.Zebra).equals(animalName)) {
+            imageView.setImageResource(R.drawable.zebratrans);
         }
 
     }

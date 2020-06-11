@@ -8,11 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="EsstelingStyle1" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="EsstelingStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryEssteling1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling1</item>
         <item name="colorAccent">@color/colorAccentEssteling1</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+<!--    <style name="Underline">-->
+<!--        <item name="android:background">@drawable/border</item>-->
+<!--    </style>-->
 
 </resources>
