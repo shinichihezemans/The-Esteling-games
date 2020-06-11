@@ -27,7 +27,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,7 +44,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_qr);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+        String clientID = String.valueOf(sharedPreferences.getInt(CharacterActivity.ID_KEY, -1));
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
 //        setSupportActionBar(toolbar);
@@ -84,8 +83,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             try {
                 int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
                 BitMatrix bitMatrix = multiFormatWriter.encode(clientID, BarcodeFormat.QR_CODE, size, size);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                BarcodeEncoderLite barcodeEncoderLite = new BarcodeEncoderLite();
+                Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
                 imageView.setImageBitmap(bitmap);
             } catch (WriterException e) {
                 e.printStackTrace();
@@ -98,7 +97,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -120,7 +119,7 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
+                String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY,-1);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;

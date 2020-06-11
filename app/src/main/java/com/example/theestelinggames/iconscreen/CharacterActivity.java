@@ -21,7 +21,8 @@ import java.util.Random;
 public class CharacterActivity extends AppCompatActivity implements OnItemClickListener {
     public static final String LOGTAG = CharacterActivity.class.getName();
 
-    public static final String usernameKey = "USERNAME";
+    public static final String USERNAMEID_KEY = "usernameId";
+    public static final String ID_KEY = "id";
 
     public static final String USERCREDENTIALS = "UserCredentials";
 
@@ -36,15 +37,15 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         sliderItems = new ArrayList<>();
 
         Collections.addAll(sliderItems,
-                new SliderItem(getString(R.string.Monkey), R.drawable.aaptrans),
-                new SliderItem(getString(R.string.Bear), R.drawable.beertrans),
-                new SliderItem(getString(R.string.Hare), R.drawable.haastrans),
-                new SliderItem(getString(R.string.Lion), R.drawable.leeuwtrans),
-                new SliderItem(getString(R.string.Rhino), R.drawable.neushoorntrans),
-                new SliderItem(getString(R.string.Hippo), R.drawable.nijlpaardtrans),
-                new SliderItem(getString(R.string.Elephant), R.drawable.olifanttrans),
-                new SliderItem(getString(R.string.Wolf), R.drawable.wolftrans),
-                new SliderItem(getString(R.string.Zebra), R.drawable.zebratrans));
+                new SliderItem(R.string.Monkey, R.drawable.aaptrans),
+                new SliderItem(R.string.Bear, R.drawable.beertrans),
+                new SliderItem(R.string.Hare, R.drawable.haastrans),
+                new SliderItem(R.string.Lion, R.drawable.leeuwtrans),
+                new SliderItem(R.string.Rhino, R.drawable.neushoorntrans),
+                new SliderItem(R.string.Hippo, R.drawable.nijlpaardtrans),
+                new SliderItem(R.string.Elephant, R.drawable.olifanttrans),
+                new SliderItem(R.string.Wolf, R.drawable.wolftrans),
+                new SliderItem(R.string.Zebra, R.drawable.zebratrans));
 
         viewPager2 = findViewById(R.id.viewPager);
         viewPager2.setAdapter(new SliderAdapter(sliderItems, this));
@@ -55,16 +56,17 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
         Random random = new Random();
         int id = (random.nextInt(100000));
-        SharedPreferences sharedPreferences = this.getSharedPreferences(USERCREDENTIALS, MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String animalName = sliderItems.get(viewPager2.getCurrentItem()).getIconName();
+        int animalNameId = sliderItems.get(viewPager2.getCurrentItem()).getIconName();
 
-        String clientID = animalName + id;
+        String clientID = getString(animalNameId) + " " + id;
         Toast.makeText(this, clientID + " has been chosen!", Toast.LENGTH_SHORT).show();
-        editor.putString(usernameKey, clientID);
-        editor.apply();
-        Log.i("Username", sharedPreferences.getString(usernameKey, "nameless"));
+
+        getSharedPreferences(USERCREDENTIALS, MODE_PRIVATE)
+                .edit()
+                .putInt(USERNAMEID_KEY, animalNameId)
+                .putInt(ID_KEY, id)
+                .apply();
 
         final Intent intent = new Intent(this, AssignmentListActivity.class);
 
