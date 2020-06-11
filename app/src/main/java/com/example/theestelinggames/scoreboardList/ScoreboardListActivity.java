@@ -16,7 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.QRcode.QRActivity;
+import com.example.theestelinggames.mapdetail.MapActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
@@ -54,6 +55,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(true);
         navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_map).setChecked(false);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
@@ -125,12 +127,14 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent = null;
         switch (menuItem.getItemId()) {
+            case R.id.nav_map:
+                intent = new Intent(this, MapActivity.class);
+                break;
             case R.id.nav_assignments:
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
                 return true;
-
             case R.id.nav_qr:
                 intent = new Intent(this, QRActivity.class);
                 break;

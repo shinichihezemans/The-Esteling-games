@@ -6,24 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".mapdetail.MapActivity"
+    tools:openDrawer="start">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout">
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarOL"
+            android:id="@+id/toolbarMAP"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryEssteling"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/title_text" />
+            app:title="@string/Map" />
 
     </LinearLayout>
 
@@ -32,25 +33,28 @@
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="389dp"
-            android:layout_height="147dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.0" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/minigamesRecyclerView"
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photoViewMAP"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline3"
-            android:scrollbars="vertical">
+            app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </com.github.chrisbanes.photoview.PhotoView>
 
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/imageViewMAP"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/colorAccent"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,6 +65,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

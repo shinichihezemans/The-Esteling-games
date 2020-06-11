@@ -1,4 +1,4 @@
-package com.example.theestelinggames.QRcode;
+package com.example.theestelinggames.qrcode;
 
 import android.graphics.Bitmap;
 

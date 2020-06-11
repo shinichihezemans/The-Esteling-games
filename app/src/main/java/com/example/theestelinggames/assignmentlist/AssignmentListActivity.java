@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,10 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.QRcode.QRActivity;
+import com.example.theestelinggames.mapdetail.MapActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
@@ -72,6 +72,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(true);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_map).setChecked(false);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
@@ -98,9 +99,6 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
-
 
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
@@ -160,9 +158,11 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent = null;
         switch (menuItem.getItemId()) {
+            case R.id.nav_map:
+                intent = new Intent(this, MapActivity.class);
+                break;
             case R.id.nav_assignments:
                 return true;
-
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
                 MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
