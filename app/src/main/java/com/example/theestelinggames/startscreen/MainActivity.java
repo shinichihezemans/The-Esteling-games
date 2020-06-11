@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,16 +31,15 @@ public class MainActivity extends AppCompatActivity {
         checkSharedPreferences();
         setContentView(R.layout.activity_start);
 
-        Button buttonView = findViewById(R.id.startScreenButton);
+        ImageView imageView = findViewById(R.id.logoImageView);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        final Intent intent = new Intent(this, AssignmentView.class);
         final Intent intent = new Intent(this, CharacterActivity.class);
 
-        buttonView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                View PopupView = v;
-                PopupView.setVisibility(View.GONE);
+                v.setVisibility(View.GONE);
                 builder.setMessage(R.string.PopUpText);
                 builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
                     @Override
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-                PopupView.setVisibility(View.VISIBLE);
+                v.setVisibility(View.VISIBLE);
             }
 
         });
