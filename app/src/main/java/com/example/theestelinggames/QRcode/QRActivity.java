@@ -12,11 +12,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
@@ -29,7 +26,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -87,8 +83,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             try {
                 int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
                 BitMatrix bitMatrix = multiFormatWriter.encode(clientID, BarcodeFormat.QR_CODE, size, size);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                BarcodeEncoderLite barcodeEncoderLite = new BarcodeEncoderLite();
+                Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
                 imageView.setImageBitmap(bitmap);
             } catch (WriterException e) {
                 e.printStackTrace();
