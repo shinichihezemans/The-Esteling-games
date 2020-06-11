@@ -64,14 +64,12 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
-//        getIcon(item,animalName);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         ImageView imageView = (ImageView) findViewById(R.id.qr_imageView);
-
 
 
         if (clientID != null) {
@@ -97,43 +95,6 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
             }
         }
     }
-//
-//    public void getIcon(MenuItem item, String animalName) {
-//
-//        switch (animalName) {
-//            case "Monkey":
-//                item.setIcon(R.drawable.aaptrans);
-//                break;
-//            case "Bear":
-//                item.setIcon(R.drawable.beertrans);
-//                break;
-//            case "Hare":
-//                item.setIcon(R.drawable.haastrans);
-//                break;
-//            case "Lion":
-//                item.setIcon(R.drawable.leeuwtrans);
-//                break;
-//            case "Rhino":
-//                item.setIcon(R.drawable.neushoorntrans);
-//                break;
-//            case "Hippo":
-//                item.setIcon(R.drawable.nijlpaardtrans);
-//                break;
-//            case "Elephant":
-//                item.setIcon(R.drawable.olifanttrans);
-//                break;
-//            case "Wolf":
-//                item.setIcon(R.drawable.wolftrans);
-//                break;
-//            case "Zebra":
-//                item.setIcon(R.drawable.zebratrans);
-//                break;
-//            default:
-//
-//        }
-//
-//    }
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {

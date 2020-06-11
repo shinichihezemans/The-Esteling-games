@@ -20,20 +20,4 @@ class SliderItem {
         return image;
     }
 
-    private static final SliderItem[] staticSliderItems = {
-        new SliderItem("Monkey", R.drawable.aaptrans),
-        new SliderItem("Bear",R.drawable.beertrans),
-        new SliderItem("Hare",R.drawable.haastrans),
-        new SliderItem("Lion",R.drawable.leeuwtrans),
-        new SliderItem("Rhino",R.drawable.neushoorntrans),
-        new SliderItem("Hippo",R.drawable.nijlpaardtrans),
-        new SliderItem("Elephant",R.drawable.olifanttrans),
-        new SliderItem("Wolf",R.drawable.wolftrans),
-        new SliderItem("Zebra",R.drawable.zebratrans),
-    };
-
-    public static SliderItem[] getStaticSliderItems() {
-        return staticSliderItems;
-    }
-
 }

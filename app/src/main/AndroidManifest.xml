@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/EsstelingStyle1">
+        android:theme="@style/EsstelingStyle">
         <activity android:name=".QRcode.QRActivity"></activity>
         <activity android:name=".assignmentlist.AssignmentListActivity"></activity>
         <activity android:name=".iconscreen.CharacterActivity"></activity>

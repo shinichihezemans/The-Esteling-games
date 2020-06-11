@@ -14,7 +14,7 @@ import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.util.OnItemClickListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +33,18 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
 
-        sliderItems = new ArrayList<>(Arrays.asList(SliderItem.getStaticSliderItems()));
+        sliderItems = new ArrayList<>();
+
+        Collections.addAll(sliderItems,
+                new SliderItem(getString(R.string.Monkey), R.drawable.aaptrans),
+                new SliderItem(getString(R.string.Bear), R.drawable.beertrans),
+                new SliderItem(getString(R.string.Hare), R.drawable.haastrans),
+                new SliderItem(getString(R.string.Lion), R.drawable.leeuwtrans),
+                new SliderItem(getString(R.string.Rhino), R.drawable.neushoorntrans),
+                new SliderItem(getString(R.string.Hippo), R.drawable.nijlpaardtrans),
+                new SliderItem(getString(R.string.Elephant), R.drawable.olifanttrans),
+                new SliderItem(getString(R.string.Wolf), R.drawable.wolftrans),
+                new SliderItem(getString(R.string.Zebra), R.drawable.zebratrans));
 
         viewPager2 = findViewById(R.id.viewPager);
         viewPager2.setAdapter(new SliderAdapter(sliderItems, this));
@@ -59,4 +70,5 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
         startActivity(intent);
     }
+
 }
