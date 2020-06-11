@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
             Intent intent = new Intent(this, AssignmentListActivity.class);
             startActivity(intent);
         }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this,"api level low some features are not supported", Toast.LENGTH_LONG).show();
         }
-        if (!getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
             Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, AssignmentListActivity.class);
             startActivity(intent);

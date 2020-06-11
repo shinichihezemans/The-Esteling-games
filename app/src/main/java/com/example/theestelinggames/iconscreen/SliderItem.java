@@ -5,14 +5,14 @@ import com.example.theestelinggames.R;
 class SliderItem {
 
     private int image;
-    private String iconName;
+    private int iconName;
 
-    public SliderItem(String iconName, int image){
+    public SliderItem(int iconName, int image){
         this.iconName = iconName;
         this.image = image;
     }
 
-    public String getIconName() {
+    public int getIconName() {
         return iconName;
     }
 
