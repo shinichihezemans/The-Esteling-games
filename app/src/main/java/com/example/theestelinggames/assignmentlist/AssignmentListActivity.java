@@ -2,10 +2,9 @@ package com.example.theestelinggames.assignmentlist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,10 +15,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.mapdetail.MapActivity;
 import com.example.theestelinggames.R;
-import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
+import com.example.theestelinggames.assignmentdetail.AssignmentDetailActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.mapdetail.MapActivity;
 import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
@@ -30,49 +29,29 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class AssignmentListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
-
     private static final String LOGTAG = AssignmentListActivity.class.getName();
 
-    public static final String USERSENT = "HasSent";
-
-    public static final String playerSent = "playerSent";
-
-    private boolean hasSent = false;
-
-    ArrayList<Assignment> assignments;
-
-    AssignmentAdapter minigamesAdapter;
-
-    String clientID;
-
+    private ArrayList<Assignment> assignments;
+    private AssignmentAdapter minigamesAdapter;
+    private String clientID;
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY,0));
-        int id = sharedPreferences.getInt(CharacterActivity.ID_KEY,0);
-        clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY,0)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY,-1);
+        String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, 0));
+        int id = sharedPreferences.getInt(CharacterActivity.ID_KEY, 0);
+        clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, 0)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
-
-        Toolbar toolbar = findViewById(R.id.toolbarOL);
-//        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        //hardcoded stuff
         navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(true);
-        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_map).setChecked(false);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
@@ -86,19 +65,22 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         minigamesRecyclerView.setAdapter(minigamesAdapter);
         minigamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        drawer = findViewById(R.id.drawer_layout);
+        Toolbar toolbar = findViewById(R.id.toolbarOL);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         //To send message player object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
-
         mqttConnectionSend.connectOUT(new Message(id, animalName));
 
     }
 
     @Override
     protected void onResume() {
+        Log.d(LOGTAG, "onResume()");
+
         super.onResume();
         assignments.clear();
         assignments.addAll(Arrays.asList(Assignment.getAssignments(this)));
@@ -107,6 +89,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public void onBackPressed() {
+        Log.d(LOGTAG, "onBackPressed()");
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -124,20 +108,26 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public void onItemClick(int clickedPosition) {
-        Intent intent = new Intent(this, ItemDetailActivity.class);
-        intent.putExtra(ItemDetailActivity.ASSIGNMENT_ID, clickedPosition);
+        Log.d(LOGTAG, "onItemClick()");
+
+        Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        intent.putExtra(AssignmentDetailActivity.ASSIGNMENT_ID, clickedPosition);
         startActivity(intent);
     }
 
 
     @Override
     protected void onStop() {
+        Log.d(LOGTAG, "onStop()");
+
         super.onStop();
         saveSettings();
     }
 
 
     public void saveSettings() {
+        Log.d(LOGTAG, "saveSettings()");
+
         for (Assignment assignment : assignments) {
             assignment.saveData();
         }
@@ -146,7 +136,9 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Intent intent = null;
+        Log.d(LOGTAG, "onNavigationItemSelected()");
+
+        Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
                 intent = new Intent(this, MapActivity.class);

@@ -16,7 +16,7 @@ public class BluetoothIOThread extends Thread {
     private DataOutputStream dataOutputStream;
     private BluetoothSocket bluetoothSocket;
 
-    public BluetoothIOThread(BluetoothSocket bluetoothSocket, OnBTReceive onBTReceive) {
+    BluetoothIOThread(BluetoothSocket bluetoothSocket, OnBTReceive onBTReceive) {
 
         this.bluetoothSocket = bluetoothSocket;
         this.onBTReceiveCallBack = onBTReceive;
@@ -36,21 +36,21 @@ public class BluetoothIOThread extends Thread {
     private StringBuilder msg = new StringBuilder();
 
     public void run() {
-        while (!exit){
+        while (!exit) {
 
-            if(!bluetoothSocket.isConnected()){
+            if (!bluetoothSocket.isConnected()) {
                 this.cancel();
             }
 
-            try{
+            try {
                 int bytesAvailable = this.dataInputStream.available();
-                if(bytesAvailable > 0){
+                if (bytesAvailable > 0) {
                     byte[] rawBytes = new byte[bytesAvailable];
                     dataInputStream.read(rawBytes);
                     for (int i = 0; i < bytesAvailable; i++) {
                         char received = (char) rawBytes[i];
 
-                        if(received == '*'){
+                        if (received == '*') {
                             Message message = Message.obtain();
                             message.obj = msg.toString();
                             onBTReceiveCallBack.handler().sendMessage(message);
@@ -61,26 +61,28 @@ public class BluetoothIOThread extends Thread {
                         msg.append(received);
                     }
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
                 this.cancel();
             }
         }
     }
 
-    public void writeUTF(String msg){
+    void writeUTF() {
         try {
-            this.dataOutputStream.writeUTF(msg);
+            this.dataOutputStream.writeUTF("start");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void cancel() {
+    void cancel() {
         try {
             exit = true;
             bluetoothSocket.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Message message = Message.obtain();
         message.obj = "DISCONNECTED";

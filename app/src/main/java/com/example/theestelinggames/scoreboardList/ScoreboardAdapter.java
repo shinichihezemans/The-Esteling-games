@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theestelinggames.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
@@ -21,35 +20,27 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     private Context context;
     private List<Scoreboard> scoreboard;
-    private ArrayList<View> views;
 
     ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
         Log.d(LOGTAG, "new ScoreboardAdapter");
+
         this.context = context;
         this.scoreboard = scoreboard;
-        views = new ArrayList<>();
-    }
-
-    public void setColor(int color){
-        Log.d(LOGTAG, "setColor()");
-        for (View item : views) {
-            item.setBackgroundColor(color);
-        }
     }
 
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(LOGTAG, "onCreateViewHolder()");
+
         View itemView = LayoutInflater.from(context).inflate(R.layout.scoreboard_overview_item,
                 parent, false);
-        views.add(itemView);
         return new ScoreboardAdapter.ScoreboardViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ScoreboardViewHolder holder, int position) {
-        Log.d(LOGTAG,"onBindViewHolder()");
+        Log.d(LOGTAG, "onBindViewHolder()");
 
         Scoreboard score = scoreboard.get(position);
 
@@ -92,7 +83,6 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     @Override
     public int getItemCount() {
-        Log.d(LOGTAG, "getItemCount()");
         return scoreboard.size();
     }
 

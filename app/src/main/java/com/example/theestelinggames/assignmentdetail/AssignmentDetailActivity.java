@@ -1,8 +1,5 @@
 package com.example.theestelinggames.assignmentdetail;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,22 +10,25 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.theestelinggames.R;
-import com.example.theestelinggames.assignmentgame.OpdrachtActivity;
+import com.example.theestelinggames.assignmentgame.AssignmentGameActivity;
 import com.example.theestelinggames.assignmentlist.Assignment;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
 
-public class ItemDetailActivity extends AppCompatActivity {
+public class AssignmentDetailActivity extends AppCompatActivity {
 
-    private static final String LOGTAG = ItemDetailActivity.class.getName();
+    private static final String LOGTAG = AssignmentDetailActivity.class.getName();
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
@@ -43,7 +43,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         //get assignment this activity was called for.
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
         this.assignment = Assignment.getAssignment(this, id);
-
 
         //set contents
         TextView minigameName = findViewById(R.id.nameIDTextView);
@@ -63,6 +62,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     /**
      * This method is called when the user presses the play button.
+     *
      * @param view the view it was called from.
      */
     public void onConnectButtonClicked(View view) {
@@ -217,10 +217,11 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     /**
      * This method is called when the app has connected with the esp.
+     *
      * @param bluetoothDevice the esp
      */
     private void onConnected(BluetoothDevice bluetoothDevice) {
-        Intent assignmentIntent = new Intent(ItemDetailActivity.this, OpdrachtActivity.class);
+        Intent assignmentIntent = new Intent(AssignmentDetailActivity.this, AssignmentGameActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
         startActivityForResult(assignmentIntent, 1);
     }

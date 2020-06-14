@@ -2,14 +2,11 @@ package com.example.theestelinggames.mapdetail;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,11 +24,14 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String LOGTAG = MapActivity.class.getName();
 
     private DrawerLayout drawer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
@@ -63,6 +63,8 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
 
     @Override
     public void onBackPressed() {
+        Log.d(LOGTAG, "onBackPressed()");
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -77,7 +79,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Intent intent = null;
+        Log.d(LOGTAG, "onNavigationItemSelected()");
+
+        Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
                 return true;

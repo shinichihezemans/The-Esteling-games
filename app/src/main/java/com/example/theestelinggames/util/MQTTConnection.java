@@ -151,13 +151,18 @@ public class MQTTConnection {
         }
     }
 
-
+    /**
+     * Closes the connection with the MQTT server and unregisters the used resources.
+     */
     public void closeConnection() {
         client.unregisterResources();
         client.close();
     }
 
-
+    /**
+     * @param message Message that is to be sent to the server.
+     * @param isJson  Check if message type is a json object or not.
+     */
     private void sendMessage(Message message, boolean isJson) {
         try {
             if (isJson) {
@@ -170,6 +175,11 @@ public class MQTTConnection {
         }
     }
 
+    /**
+     * Sets MQTT connection options.
+     *
+     * @return Connection options
+     */
     private MqttConnectOptions ConnectOptions() {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 

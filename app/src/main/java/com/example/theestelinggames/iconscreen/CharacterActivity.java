@@ -22,7 +22,6 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
     public static final String USERNAMEID_KEY = "usernameId";
     public static final String ID_KEY = "id";
-
     public static final String USERCREDENTIALS = "UserCredentials";
 
     private ViewPager2 viewPager2;
@@ -30,7 +29,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(LOGTAG,"onCreate()");
+        Log.d(LOGTAG, "onCreate()");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);

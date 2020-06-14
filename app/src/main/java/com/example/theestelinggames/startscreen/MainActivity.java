@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,12 +20,14 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOGTAG = MainActivity.class.getName();
 
     public static final String globalInfo = "globalInfo";
     private static final String DATE_KEY = "date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreate()");
         super.onCreate(savedInstanceState);
         checkSharedPreferences();
         setContentView(R.layout.activity_start);
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.logoImageView);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        final Intent intent = new Intent(this, AssignmentView.class);
         final Intent intent = new Intent(this, CharacterActivity.class);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 });
                 builder.setNegativeButton(R.string.CancelButton, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {}
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 });
 
                 AlertDialog alertDialog = builder.create();
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        Log.d(LOGTAG, "onStart()");
         super.onStart();
         if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
             Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSharedPreferences() {
+        Log.d(LOGTAG, "checkSharedPreferences()");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDate now = LocalDate.now();
             if (LocalDate.parse(getSharedPreferences(globalInfo, MODE_PRIVATE).getString(DATE_KEY, LocalDate.MIN.toString())).isBefore(now)) {
@@ -79,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                         .putString(DATE_KEY, now.toString())
                         .apply();
             }
-        }else {
-            Toast.makeText(this,"api level low some features are not supported", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "api level low some features are not supported", Toast.LENGTH_LONG).show();
         }
         if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
             Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void wipeSharedPreferences() {
+        Log.d(LOGTAG, "wipeSharedPreferences()");
         SharedPreferences sharedPreferences;
         String[] files = {globalInfo, CharacterActivity.USERCREDENTIALS, Assignment.SHARED_PREFERENCES};
 
@@ -99,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                     .edit()
                     .clear()
                     .apply();
-//            Log.i("wipe sharedpreferences", " keys are now" + sharedPreferences.getAll().keySet());
         }
     }
 }

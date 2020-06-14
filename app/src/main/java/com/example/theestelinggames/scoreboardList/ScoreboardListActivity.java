@@ -2,11 +2,9 @@ package com.example.theestelinggames.scoreboardList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -30,17 +28,15 @@ import java.util.ArrayList;
 public class ScoreboardListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String LOGTAG = ScoreboardListActivity.class.getName();
 
-    ArrayList<Scoreboard> scoreboard;
-
-    ScoreboardAdapter scoreboardAdapter;
-
-    MQTTConnection mqttConnectionReceive;
-
+    private ArrayList<Scoreboard> scoreboard;
+    private ScoreboardAdapter scoreboardAdapter;
+    private MQTTConnection mqttConnectionReceive;
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
@@ -52,11 +48,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements Navigat
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(true);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_map).setChecked(false);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
@@ -79,24 +71,26 @@ public class ScoreboardListActivity extends AppCompatActivity implements Navigat
     }
 
     public void clear() {
-        scoreboard.clear();
-        update();
-    }
+        Log.d(LOGTAG, "clear()");
 
-    private void update() {
+        scoreboard.clear();
         scoreboardAdapter.notifyDataSetChanged();
     }
 
     public void addScore(String username, int id) {
+        Log.d(LOGTAG, "addScore()");
+
         if (scoreboard.size() >= 10) {
             scoreboard.clear();
         }
         scoreboard.add(new Scoreboard(username, id));
-        update();
+        scoreboardAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onBackPressed() {
+        Log.d(LOGTAG, "onBackPressed()");
+
         mqttConnectionReceive.closeConnection();
         mqttConnectionReceive.setScoreboardListActivity(null);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -113,7 +107,9 @@ public class ScoreboardListActivity extends AppCompatActivity implements Navigat
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Intent intent = null;
+        Log.d(LOGTAG, "onNavigationItemSelected()");
+
+        Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
                 intent = new Intent(this, MapActivity.class);

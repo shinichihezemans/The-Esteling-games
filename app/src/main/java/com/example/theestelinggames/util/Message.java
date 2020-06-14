@@ -26,7 +26,7 @@ public class Message {
     }
 
     public Message(String text) {
-        this(0,"",0);
+        this(0, "", 0);
         this.text = text;
     }
 

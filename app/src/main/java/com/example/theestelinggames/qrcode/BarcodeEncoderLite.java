@@ -1,6 +1,7 @@
 package com.example.theestelinggames.qrcode;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.zxing.common.BitMatrix;
 
@@ -15,11 +16,14 @@ import com.google.zxing.common.BitMatrix;
  * <p>
  * Modified by group A1 class 2019-2020 of Avans Hogeschool Breda
  */
-public class BarcodeEncoderLite {
+class BarcodeEncoderLite {
+    private static final String LOGTAG = BarcodeEncoderLite.class.getName();
+
     private static final int WHITE = 0x00FFFFFF;
     private static final int BLACK = 0xFF000000;
 
-    public Bitmap createBitmap(BitMatrix matrix) {
+    Bitmap createBitmap(BitMatrix matrix) {
+        Log.d(LOGTAG,"createBitmap()");
         int width = matrix.getWidth();
         int height = matrix.getHeight();
         int[] pixels = new int[width * height];

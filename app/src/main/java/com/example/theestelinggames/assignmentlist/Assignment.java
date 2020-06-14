@@ -7,7 +7,6 @@ import android.util.Log;
 import com.example.theestelinggames.R;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Assignment implements Comparable<Assignment> {
 
@@ -20,7 +19,6 @@ public class Assignment implements Comparable<Assignment> {
     private int information;
     private int lineLength;
 
-    //doesnt work
     private SharedPreferences sharedPreferences;
     public static final String SHARED_PREFERENCES = "Assignment";
     private static final String SAVED_KEY = "saved";
@@ -28,9 +26,8 @@ public class Assignment implements Comparable<Assignment> {
     private static final String SCORE_KEY = "score";
     private static final String LINE_KEY = "lineLength";
 
-    public Assignment(String name, int attempts, int score, int imageResourceId, int information) {
+    private Assignment(String name, int attempts, int score, int imageResourceId, int information) {
         sharedPreferences = null;
-
         this.name = name;
         this.attempts = attempts;
         this.score = score;
@@ -52,17 +49,13 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     public void setAttempts(int attempts) {
-        if(attempts < 4) {
+        if (attempts < 4) {
             this.attempts = attempts;
         }
     }
 
     public int getImageResourceId() {
         return imageResourceId;
-    }
-
-    public void setImageResourceId(int imageResourceId) {
-        this.imageResourceId = imageResourceId;
     }
 
     public int getScore() {
@@ -73,8 +66,8 @@ public class Assignment implements Comparable<Assignment> {
         this.score = score;
     }
 
-    public boolean setHighScore(int score){
-        if(this.score < score){
+    public boolean setHighScore(int score) {
+        if (this.score < score) {
             this.score = score;
             return true;
         }
@@ -85,26 +78,22 @@ public class Assignment implements Comparable<Assignment> {
         return information;
     }
 
-    public void setInformation(int information) {
-        this.information = information;
-    }
-
-    public int getLineLength() {
+    int getLineLength() {
         return lineLength;
     }
 
-    public void setLineLength(int lineLength) {
+    void setLineLength(int lineLength) {
         this.lineLength = lineLength;
     }
 
-    public static final Assignment[] staticAssignments = {
+    private static final Assignment[] staticAssignments = {
             new Assignment("Johan en de Eenhoorn", 0, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
             new Assignment("Cobra", 0, 0, R.drawable.cobra, R.string.CobraInformation),
             new Assignment("De zwevende Belg", 0, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
             new Assignment("Droomreis", 0, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
 
-    public static Assignment[] getAssignments(Context context) {
+    static Assignment[] getAssignments(Context context) {
         Assignment[] assignments = staticAssignments;
         Arrays.sort(assignments);
         for (Assignment assignment : assignments) {
@@ -121,31 +110,31 @@ public class Assignment implements Comparable<Assignment> {
 
 
     public void saveData() {
+        Log.d(LOGTAG, "saveData()");
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getName() + SAVED_KEY, true);
         editor.putInt(getName() + ATTEMPTS_KEY, this.attempts);
         editor.putInt(getName() + SCORE_KEY, this.score);
         editor.putInt(getName() + LINE_KEY, this.lineLength);
-        editor.commit();
+        editor.apply();
         Log.i(LOGTAG + " saving", "saved " + getName());
     }
 
     public void syncWithPreferences() {
+        Log.d(LOGTAG, "saveData()");
+
         if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
             this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
-//            Log.i(LOGTAG + "sync", "synced " + getName() + " attempts is " + this.attempts);
             this.score = sharedPreferences.getInt(getName() + SCORE_KEY, -1);
             this.lineLength = sharedPreferences.getInt(getName() + LINE_KEY, -1);
-//            Log.i(LOGTAG + "sync", "synced " + getName() + " score is " + this.score);
-//            Log.i(LOGTAG + "sync", "synced " + getName());
-        } else {
-//            Log.i(LOGTAG + "sync", "not synced " + getName());
         }
     }
 
-    public void setSharedPreferences(Context context) {
+    private void setSharedPreferences(Context context) {
+        Log.d(LOGTAG, "setSharedPreferences()");
+
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//        Log.i("sharedprefernces keys", String.valueOf(sharedPreferences.getAll().keySet()));
         syncWithPreferences();
     }
 
