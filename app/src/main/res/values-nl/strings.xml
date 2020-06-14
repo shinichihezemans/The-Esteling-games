@@ -37,5 +37,6 @@
     <string name="Zebra">Zebra</string>
     <string name="QRCode">QR-Code</string>
     <string name="Map">Kaart</string>
+    <string name="GO">START!</string>
 
 </resources>

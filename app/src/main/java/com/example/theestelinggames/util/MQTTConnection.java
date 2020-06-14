@@ -1,7 +1,6 @@
 package com.example.theestelinggames.util;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 
@@ -25,25 +24,26 @@ public class MQTTConnection {
     private final char[] PASSWORD = "&FN+g$$Qhm7j".toCharArray();
     private final int QOS = 2;
 
-    private MemoryPersistence memoryPersistence;
-    private String clientID;
     private MqttAndroidClient client;
     private String will;
-    private Context context;
+    private ScoreboardListActivity scoreboardListActivity;
 
-    public static MQTTConnection newMQTTConnection(Context context, String clientID) {
-        return new MQTTConnection(context, clientID);
+    /**
+     * Basic constructor of MQTTConnection.
+     *
+     * @param context  The application context.
+     * @param clientID The clientID.
+     */
+    public MQTTConnection(Context context, String clientID) {
+        this.client = new MqttAndroidClient(context, URL, clientID, new MemoryPersistence());
+        this.will = clientID + " has disconnected";
     }
 
-    private MQTTConnection(Context context, String clientID) {
-        this.context = context;
-        this.memoryPersistence = new MemoryPersistence();
-        this.clientID = clientID;
-        this.client = new MqttAndroidClient(context, URL, clientID, memoryPersistence);
-        this.will = this.clientID + " has disconnected";
-    }
-
-    //sends messages to topic androidData
+    /**
+     * Method used to send message to the topic "AndroidData".
+     *
+     * @param message The message which is to be sent to the server.
+     */
     public void connectOUT(final Message message) {
         try {
             final IMqttToken token = client.connect(ConnectOptions());
@@ -61,7 +61,6 @@ public class MQTTConnection {
                                 if (message.getText().equals("")) {
                                     sendMessage(message, true);
                                 } else {
-
                                     sendMessage(message, false);
                                 }
 
@@ -94,14 +93,13 @@ public class MQTTConnection {
         }
     }
 
-    private ScoreboardListActivity scoreboardListActivity;
-
-
     public void setScoreboardListActivity(ScoreboardListActivity scoreboardListActivity) {
         this.scoreboardListActivity = scoreboardListActivity;
     }
 
-    //receives messages from topic scoreboard
+    /**
+     * Method used to receives messages from topic "Scoreboard".
+     */
     public void connectIN() {
 
         try {
@@ -120,17 +118,20 @@ public class MQTTConnection {
                     client.setCallback(new MqttCallback() {
                         @Override
                         public void connectionLost(Throwable cause) {
-                            Toast toast = Toast.makeText(context, "Warning: you got disconnected callback", Toast.LENGTH_SHORT);
-                            toast.show();
                         }
 
                         @Override
                         public void messageArrived(String topic, MqttMessage message) {
 
-                            if(new String(message.getPayload()).equals("Clear scoreboard")){
+                            if (new String(message.getPayload()).equals("Clear scoreboard")) {
                                 scoreboardListActivity.clear();
-                                scoreboardListActivity.update();
-                            }else {
+                            } else if (new String(message.getPayload()).equals("Close listener")) {
+                                try {
+                                    client.disconnect();
+                                } catch (MqttException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
 
                                 String s = new String(message.getPayload());
                                 String[] split = s.split(",");
@@ -138,14 +139,12 @@ public class MQTTConnection {
                                 int score = Integer.parseInt(split[1]);
 
                                 scoreboardListActivity.addScore(username, score);
-                                scoreboardListActivity.update();
                             }
 
                         }
 
                         @Override
                         public void deliveryComplete(IMqttDeliveryToken token) {
-
                         }
                     });
                 }
@@ -160,13 +159,20 @@ public class MQTTConnection {
         }
     }
 
-
+    /**
+     * Closes the connection with the MQTT server and unregisters the used resources.
+     */
     public void closeConnection() {
         client.unregisterResources();
         client.close();
     }
 
-
+    /**
+     * Method used to send a message to the server.
+     *
+     * @param message Message that is to be sent to the server.
+     * @param isJson  Check if message type is a json object or not.
+     */
     private void sendMessage(Message message, boolean isJson) {
         try {
             if (isJson) {
@@ -179,6 +185,11 @@ public class MQTTConnection {
         }
     }
 
+    /**
+     * Sets the MQTT connection options.
+     *
+     * @return Connection options
+     */
     private MqttConnectOptions ConnectOptions() {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
 

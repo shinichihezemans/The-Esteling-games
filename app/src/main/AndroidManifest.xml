@@ -24,15 +24,13 @@
         <activity android:name=".qrcode.QRActivity" />
         <activity android:name=".assignmentlist.AssignmentListActivity" />
         <activity android:name=".iconscreen.CharacterActivity" />
-        <activity android:name=".assignmentgame.OpdrachtActivity" />
+        <activity android:name=".assignmentgame.AssignmentGameActivity" />
         <activity android:name=".scoreboardList.ScoreboardListActivity" />
-        <activity android:name=".assignmentdetail.ItemDetailActivity" />
+        <activity android:name=".assignmentdetail.AssignmentDetailActivity" />
         <activity android:name=".startscreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED" />
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />

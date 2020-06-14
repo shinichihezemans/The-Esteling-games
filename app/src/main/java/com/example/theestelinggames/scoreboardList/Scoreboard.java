@@ -3,36 +3,36 @@ package com.example.theestelinggames.scoreboardList;
 /**
  * small class that makes a User on the scoreboard
  */
-public class Scoreboard {
-
-    public static final String SCOREBOARD_ID = "SCOREBOARD_ID";
-
+class Scoreboard {
     private String username;
     private int score;
 
     /**
-     * basic constructor with the username and their score
-     * @param username the name of the user
-     * @param score the score the user has achieved
+     * Basic constructor of Scoreboard.
+     *
+     * @param username The name of the user
+     * @param score    The score the user has achieved
      */
-    public Scoreboard(String username, int score) {
+    Scoreboard(String username, int score) {
         this.username = username;
         this.score = score;
     }
 
-    public String getUsername() {
+    /**
+     * Getter for the username.
+     *
+     * @return The variable username.
+     */
+    String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getScore() {
+    /**
+     * Getter for the score.
+     *
+     * @return The variable score.
+     */
+    int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 }

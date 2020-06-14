@@ -1,8 +1,5 @@
 package com.example.theestelinggames.assignmentdetail;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,29 +10,41 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.theestelinggames.R;
-import com.example.theestelinggames.assignmentgame.OpdrachtActivity;
+import com.example.theestelinggames.assignmentgame.AssignmentGameActivity;
 import com.example.theestelinggames.assignmentlist.Assignment;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
-//import com.r0adkll.slidr.Slidr;
 
-public class ItemDetailActivity extends AppCompatActivity {
+/**
+ * Class in which the assignment details are displayed. Gives the user the option to play the game.
+ */
+public class AssignmentDetailActivity extends AppCompatActivity {
 
-    private static final String LOGTAG = ItemDetailActivity.class.getName();
+    private static final String LOGTAG = AssignmentDetailActivity.class.getName();
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
+    /**
+     * Start method of the activity.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +53,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         //get assignment this activity was called for.
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
         this.assignment = Assignment.getAssignment(this, id);
-
 
         //set contents
         TextView minigameName = findViewById(R.id.nameIDTextView);
@@ -64,13 +72,15 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     /**
      * This method is called when the user presses the play button.
-     * @param view the view it was called from.
+     *
+     * @param view View it was called from.
      */
     public void onConnectButtonClicked(View view) {
 
         //check is you can play
         if (this.assignment.getAttempts() == 3 || this.assignment.getAttempts() > 3) {
-            Toast.makeText(this, "You don't have any attempts left!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You don't have any attempts left!",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -101,7 +111,8 @@ public class ItemDetailActivity extends AppCompatActivity {
 
             if (bluetoothAdapter.startDiscovery()) {
                 //If discovery has started, then display the following toast....//
-                Toast.makeText(getApplicationContext(), "Discovering other bluetooth devices...",
+                Toast.makeText(getApplicationContext(),
+                        "Discovering other bluetooth devices...",
                         Toast.LENGTH_SHORT).show();
                 IntentFilter bluetoothFilter = new IntentFilter();
                 bluetoothFilter.addAction(BluetoothDevice.ACTION_FOUND);
@@ -110,15 +121,15 @@ public class ItemDetailActivity extends AppCompatActivity {
                 registerReceiver(broadcastReceiver, bluetoothFilter);
             } else {
                 //If discovery hasn’t started, then display this alternative toast//
-                Toast.makeText(getApplicationContext(), "Something went wrong! Discovery has failed to start.",
+                Toast.makeText(getApplicationContext(),
+                        "Something went wrong! Discovery has failed to start.",
                         Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-
     /**
-     * This method is called when the minigame returns a result and sets the attempts and highscore.
+     * This method is called when the MiniGame returns a result and sets the attempts and HighScore.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -142,17 +153,25 @@ public class ItemDetailActivity extends AppCompatActivity {
         assignment.syncWithPreferences();
     }
 
+    /**
+     * Updates the players HighScore.
+     *
+     * @param score The new score the player received after finishing the minigame.
+     */
     private void updateHighScore(int score) {
         if (assignment.setHighScore(score)) {
             Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
 
             //To send message object to server
-            SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-            String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1));
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+            String animalName = getString(sharedPreferences.getInt(
+                    CharacterActivity.USERNAMEID_KEY, -1));
             int id = sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
             String clientID = animalName + " " + id;
 
-            MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+            MQTTConnection mqttConnectionSend = new MQTTConnection(
+                    this, clientID + "OUT");
 
             mqttConnectionSend.connectOUT(new Message(id, animalName, score));
 
@@ -162,10 +181,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initalizes the broadcastReceiver variable.
+     */
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            BluetoothDevice bluetoothDevice = intent.getParcelableExtra(
+                    BluetoothDevice.EXTRA_DEVICE);
             String action = intent.getAction();
 
             //checks
@@ -190,7 +213,10 @@ public class ItemDetailActivity extends AppCompatActivity {
     };
 
     /**
-     * @return bluetoothDevice that is already bonded and has the right name.
+     * Method to get the BluetoothDevice.
+     *
+     * @return bluetoothDevice Returns a bluetooth device that is already bonded
+     * and has the right name.
      */
     private BluetoothDevice getBluetoothDevice() {
         for (BluetoothDevice bluetoothDevice : this.bluetoothAdapter.getBondedDevices()) {
@@ -217,15 +243,20 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * This method is called when the app has connected with the esp.
-     * @param bluetoothDevice the esp
+     * This method is called when the app has connected with the ESP.
+     *
+     * @param bluetoothDevice The Bluetooth ESP module.
      */
     private void onConnected(BluetoothDevice bluetoothDevice) {
-        Intent assignmentIntent = new Intent(ItemDetailActivity.this, OpdrachtActivity.class);
+        Intent assignmentIntent = new Intent(AssignmentDetailActivity.this,
+                AssignmentGameActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
         startActivityForResult(assignmentIntent, 1);
     }
 
+    /**
+     * Method is called when the activity is no longer visible to the user.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -238,16 +269,15 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     /**
      * This method is required for all devices running API23+
-     * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
-     * in the manifest is not enough.
-     * <p>
-     * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
+     * Android must programmatically check the permissions for bluetooth.
+     * Putting the proper permissions in the manifest is not enough.
      */
     private void checkBTPermissions() {
         int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
         permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
         if (permissionCheck != 0) {
-            this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+            this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
         }
     }
 }
