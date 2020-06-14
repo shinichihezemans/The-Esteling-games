@@ -20,6 +20,10 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 
 import java.time.LocalDate;
 
+/**
+ * Starting activity which is opens if it is the first time someone opens the app.
+ * When the image (button) on the activity is pressed a pop-up screen opens with information.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String globalInfo = "globalInfo";
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        final Intent intent = new Intent(this, AssignmentView.class);
         final Intent intent = new Intent(this, CharacterActivity.class);
 
+        // Creates the pop-up screen and adds the text and functionality
         imageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 v.setVisibility(View.GONE);
