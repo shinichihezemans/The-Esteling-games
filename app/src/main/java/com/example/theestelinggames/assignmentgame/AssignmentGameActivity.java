@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class which displays the instructions of the game.
+ */
 public class AssignmentGameActivity extends AppCompatActivity implements OnBTReceive {
 
     private int score;
@@ -33,6 +36,15 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
     private AssignmentContainer selectedAssignment;
     private BluetoothIOThread bluetoothIOThread;
 
+    /**
+     * Start method of the activity.
+     * Adds the objectives to a list and connects it with the Assignment.
+     * Also starts the thread.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +53,8 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         this.button.setEnabled(false);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
-        BluetoothDevice device = getIntent().getParcelableExtra(AssignmentDetailActivity.DEVICE_KEY);
+        BluetoothDevice device =
+                getIntent().getParcelableExtra(AssignmentDetailActivity.DEVICE_KEY);
 
         this.score = 1;
 
@@ -60,6 +73,9 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         }
     }
 
+    /**
+     * Creates the handler to handle the incoming and outgoing messages.
+     */
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -68,14 +84,24 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         }
     };
 
-    public Handler handler() {
+    public Handler getHandler() {
         return handler;
     }
 
+    /**
+     * Sets the onClick method for the chosen view.
+     *
+     * @param view The view that is clicked.
+     */
     public void onStartButtonClicked(View view) {
         this.bluetoothIOThread.writeUTF();
     }
 
+    /**
+     * Performs an action based on the received message.
+     *
+     * @param msg The message that is receive.
+     */
     public void onReceive(String msg) {
         Log.d("THREAD", msg);
 
@@ -92,7 +118,8 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
             Matcher m = p.matcher(msg);
             if (m.find()) {
                 Log.d("THREAD", m.group());
-                assignmentTextView.setText(this.selectedAssignment.getAssignments().get(Integer.parseInt(m.group()) - 1));
+                assignmentTextView.setText(this.selectedAssignment.getAssignments().get(
+                        Integer.parseInt(m.group()) - 1));
             }
         }
         if (msg.contains("CONNECTED")) {
@@ -112,13 +139,19 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         }
     }
 
-
+    /**
+     * Sets the state of the button if the app is connected with the ESP module.
+     */
     public void onConnected() {
         Log.d("THREAD", "Connected");
         this.button.setEnabled(true);
     }
 
-
+    /**
+     * Makes sure the thread finishes when the bluetooth is disconnected.
+     *
+     * @param scoreResult The score that is achieved.
+     */
     public void onDisconnect(int scoreResult) {
 
         Intent returnIntent = new Intent();
@@ -134,6 +167,12 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         finish();
     }
 
+    /**
+     * Sets the variable bluetoothIOThread.
+     *
+     * @param connectThread     The connection threads of the bluetooth device.
+     * @param bluetoothIOThread The bluetooth IO threads of the bluetooth device.
+     */
     @Override
     public void setThreads(ConnectThread connectThread, BluetoothIOThread bluetoothIOThread) {
         this.bluetoothIOThread = bluetoothIOThread;

@@ -20,8 +20,8 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 import java.time.LocalDate;
 
 /**
- * Starting activity which is opens if it is the first time someone opens the app.
- * When the image (button) on the activity is pressed a pop-up screen opens with information.
+ * Class which is used for the start screen of the app. If the user already has chosen a character
+ * icon, this activity will not be displayed again unless the user reinstalls the app.
  */
 public class MainActivity extends AppCompatActivity {
     private static final String LOGTAG = MainActivity.class.getName();
@@ -30,8 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String DATE_KEY = "date";
 
     /**
-     * Makes the activity. As soon as somebody presses the button it generates the pop-up screen in the onClick method.
-     * @param savedInstanceState
+     * Start method of the activity.
+     * As soon as somebody presses the button it generates the pop-up screen in the onClick method.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +54,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 v.setVisibility(View.GONE);
                 builder.setMessage(R.string.PopUpText);
-                builder.setPositiveButton(R.string.StartButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton(R.string.CancelButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
+                builder.setPositiveButton(R.string.StartButton,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(intent);
+                            }
+                        });
+                builder.setNegativeButton(R.string.CancelButton,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
@@ -71,26 +77,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * If somebody already chose a character this method takes them directly to the AssignmentList
+     * If the user already has chosen a character,
+     * this method takes them directly to the AssignmentList activity.
      */
     @Override
     protected void onStart() {
         Log.d(LOGTAG, "onStart()");
         super.onStart();
-        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
+        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
+                CharacterActivity.ID_KEY, -1) != -1) {
             Intent intent = new Intent(this, AssignmentListActivity.class);
             startActivity(intent);
         }
     }
 
     /**
-     * This method checks all the data, if the date has changed it calls the wipeSharedPreferences method to delete the data.
+     * This method checks all the data,
+     * if the date has changed it calls the wipeSharedPreferences method to delete the data.
      */
     private void checkSharedPreferences() {
         Log.d(LOGTAG, "checkSharedPreferences()");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDate now = LocalDate.now();
-            if (LocalDate.parse(getSharedPreferences(globalInfo, MODE_PRIVATE).getString(DATE_KEY, LocalDate.MIN.toString())).isBefore(now)) {
+            if (LocalDate.parse(getSharedPreferences(globalInfo, MODE_PRIVATE).getString(
+                    DATE_KEY, LocalDate.MIN.toString())).isBefore(now)) {
                 wipeSharedPreferences();
                 getSharedPreferences(globalInfo, MODE_PRIVATE)
                         .edit()
@@ -98,9 +108,11 @@ public class MainActivity extends AppCompatActivity {
                         .apply();
             }
         } else {
-            Toast.makeText(this, "api level low some features are not supported", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "api level low some features are not supported",
+                    Toast.LENGTH_LONG).show();
         }
-        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) != -1) {
+        if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
+                CharacterActivity.ID_KEY, -1) != -1) {
             Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, AssignmentListActivity.class);
             startActivity(intent);

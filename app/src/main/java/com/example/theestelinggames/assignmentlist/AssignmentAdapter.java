@@ -27,10 +27,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private OnItemClickListener listener;
 
     /**
-     * basic constructor
-     * @param context
-     * @param assignments list of Assignments which need to be shown
-     * @param listener an onItemClickListener to see if an Assignment is clicked
+     * Basic constructor of AssignmentAdapter.
+     *
+     * @param context     The application context.
+     * @param assignments List of Assignments which need to be shown
+     * @param listener    An onItemClickListener to see if an Assignment is clicked
      */
     AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener) {
         Log.d(LOGTAG, "new AssignmentAdapter");
@@ -42,10 +43,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
 
     /**
-     * creates a viewHolder
-     * @param parent
-     * @param viewType
-     * @return
+     * Creates a ViewHolder for the ItemView.
+     *
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to
+     *                 an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
      */
     @NonNull
     @Override
@@ -58,9 +61,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     }
 
     /**
-     * binds the viewHolder
-     * @param holder
-     * @param position
+     * Binds the viewHolder
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
      */
     @Override
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
@@ -72,8 +77,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     }
 
     /**
-     * gets the amount of items in the list
-     * @return the size of the AssignmentList
+     * Gets the amount of items in the list.
+     *
+     * @return The total number of items in this adapter.
      */
     @Override
     public int getItemCount() {
@@ -81,14 +87,21 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     }
 
     /**
-     * extra class which makes sets the Assignments to the recyclerview
+     * ViewHolder inner class.
      */
-    public static class AssignmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class AssignmentViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
         private static final String LOGTAG = AssignmentViewHolder.class.getName();
 
         private OnItemClickListener clickListener;
         private Assignment assignment;
 
+        /**
+         * Basic constructor of AssignmentViewHolder.
+         *
+         * @param itemView The view of the clicked item.
+         * @param listener The listener of the item of the assignment.
+         */
         AssignmentViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             Log.d(LOGTAG, "new AssignmentViewHolder");
@@ -97,29 +110,33 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             clickListener = listener;
         }
 
+        /**
+         * Sets what is shown in the RecyclerView.
+         *
+         * @param context    The application context.
+         * @param assignment The assignment of which the information is taken.
+         */
         void setData(Assignment assignment, Context context) {
             Log.d(LOGTAG, "setData()");
 
-         */
-         * @param context
-         * @param assignment The assignment of which the information is taken
-         * Sets what is shown in the Recylcerview
-        /**
             this.assignment = assignment;
             TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
             minigameName.setText(assignment.getName());
             TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
 
-            minigameAttempts.setText(context.getString(R.string.attempts) + ": " + assignment.getAttempts() + "/3");
+            minigameAttempts.setText(context.getString(R.string.attempts)
+                    + ": " + assignment.getAttempts() + "/3");
             TextView minigameScore = itemView.findViewById(R.id.minigameScore);
-            minigameScore.setText(context.getString(R.string.score) + ": " + assignment.getScore());
+            minigameScore.setText(context.getString(R.string.score)
+                    + ": " + assignment.getScore());
             ImageView imageView = itemView.findViewById(R.id.minigamePhoto_item);
             imageView.setImageResource(assignment.getImageResourceId());
         }
 
         /**
          * Holds which Assignment is clicked.
-         * @param view
+         *
+         * @param view The view that was clicked.
          */
         @Override
         public void onClick(View view) {

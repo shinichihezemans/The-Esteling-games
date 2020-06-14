@@ -28,16 +28,22 @@ public class MQTTConnection {
     private String will;
     private ScoreboardListActivity scoreboardListActivity;
 
-    public static MQTTConnection newMQTTConnection(Context context, String clientID) {
-        return new MQTTConnection(context, clientID);
-    }
-
-    private MQTTConnection(Context context, String clientID) {
+    /**
+     * Basic constructor of MQTTConnection.
+     *
+     * @param context  The application context.
+     * @param clientID The clientID.
+     */
+    public MQTTConnection(Context context, String clientID) {
         this.client = new MqttAndroidClient(context, URL, clientID, new MemoryPersistence());
         this.will = clientID + " has disconnected";
     }
 
-    //sends messages to topic androidData
+    /**
+     * Method used to send message to the topic "AndroidData".
+     *
+     * @param message The message which is to be sent to the server.
+     */
     public void connectOUT(final Message message) {
         try {
             final IMqttToken token = client.connect(ConnectOptions());
@@ -91,7 +97,9 @@ public class MQTTConnection {
         this.scoreboardListActivity = scoreboardListActivity;
     }
 
-    //receives messages from topic scoreboard
+    /**
+     * Method used to receives messages from topic "Scoreboard".
+     */
     public void connectIN() {
 
         try {
@@ -160,6 +168,8 @@ public class MQTTConnection {
     }
 
     /**
+     * Method used to send a message to the server.
+     *
      * @param message Message that is to be sent to the server.
      * @param isJson  Check if message type is a json object or not.
      */
@@ -176,7 +186,7 @@ public class MQTTConnection {
     }
 
     /**
-     * Sets MQTT connection options.
+     * Sets the MQTT connection options.
      *
      * @return Connection options
      */

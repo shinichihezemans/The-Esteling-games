@@ -18,11 +18,18 @@ public class BluetoothIOThread extends Thread {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
     private BluetoothSocket bluetoothSocket;
+    private StringBuilder msg;
 
+    /**
+     * Basic constructor of BluetoothIOThread.
+     *
+     * @param bluetoothSocket The bluetoothSocket connection.
+     * @param onBTReceive     The interface that handles the threads.
+     */
     BluetoothIOThread(BluetoothSocket bluetoothSocket, OnBTReceive onBTReceive) {
-
         this.bluetoothSocket = bluetoothSocket;
         this.onBTReceiveCallBack = onBTReceive;
+        this.msg = new StringBuilder();
 
         try {
             this.dataOutputStream = new DataOutputStream(this.bluetoothSocket.getOutputStream());
@@ -33,13 +40,11 @@ public class BluetoothIOThread extends Thread {
 
         Message message = Message.obtain();
         message.obj = "CONNECTED";
-        this.onBTReceiveCallBack.handler().sendMessage(message);
+        this.onBTReceiveCallBack.getHandler().sendMessage(message);
     }
 
-    private StringBuilder msg = new StringBuilder();
-
     /**
-     * runs the thread and reads the incoming bytes
+     * Runs the thread and reads the incoming bytes.
      */
     public void run() {
         while (!exit) {
@@ -59,7 +64,7 @@ public class BluetoothIOThread extends Thread {
                         if (received == '*') {
                             Message message = Message.obtain();
                             message.obj = msg.toString();
-                            onBTReceiveCallBack.handler().sendMessage(message);
+                            onBTReceiveCallBack.getHandler().sendMessage(message);
                             msg = new StringBuilder();
                             break;
                         }
@@ -74,6 +79,9 @@ public class BluetoothIOThread extends Thread {
         }
     }
 
+    /**
+     * Method to write the message "start" to the ESP.
+     */
     void writeUTF() {
         try {
             this.dataOutputStream.writeUTF("start");
@@ -83,7 +91,7 @@ public class BluetoothIOThread extends Thread {
     }
 
     /**
-     * closes the bluetoothSocket
+     * Closes the bluetoothSocket.
      */
     void cancel() {
         try {
@@ -95,6 +103,6 @@ public class BluetoothIOThread extends Thread {
 
         Message message = Message.obtain();
         message.obj = "DISCONNECTED";
-        this.onBTReceiveCallBack.handler().sendMessage(message);
+        this.onBTReceiveCallBack.getHandler().sendMessage(message);
     }
 }

@@ -24,16 +24,21 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
 
 /**
- * class in which the map is shown and it is possible to look around on the map
+ * Class in which the map is shown and makes it possible to look around on the map.
  */
-public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MapActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     private static final String LOGTAG = MapActivity.class.getName();
 
     private DrawerLayout drawer;
 
     /**
-     * creates the toolbar and navigationbar also sets the map in the photoview
-     * @param savedInstanceState to create the activity
+     * Start method of the activity.
+     * Creates the ToolBar and NavigationBar. Sets the map in the PhotoView.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +47,11 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = getString(sharedPreferences.getInt(
+                CharacterActivity.USERNAMEID_KEY, -1))
+                + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
         Toolbar toolbar = findViewById(R.id.toolbarMAP);
         setSupportActionBar(toolbar);
@@ -60,7 +68,8 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -69,7 +78,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     }
 
     /**
-     * when te backbutton is pressed change the activity
+     * Called when the activity has detected the user's press of the back key.
      */
     @Override
     public void onBackPressed() {
@@ -78,7 +87,8 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.ID_KEY, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
+                    CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -88,14 +98,16 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     }
 
     /**
-     * handles an action when something on the NavigationBar is selected
-     * @param menuItem selected menuItem
-     * @return true if somebody clicks on another NavigationBarItem
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param menuItem The selected item.
+     * @return True to display the item as the selected item.
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.d(LOGTAG, "onNavigationItemSelected()");
 
+        //Check where the user wants to go.
         Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
@@ -105,9 +117,12 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
                 break;
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
-                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(CharacterActivity.ID_KEY, null);
-                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+                SharedPreferences sharedPreferences = getSharedPreferences(
+                        CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+                String clientID = sharedPreferences.getString(
+                        CharacterActivity.ID_KEY, null);
+                MQTTConnection mqttConnectionSend = new MQTTConnection(
+                        this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:

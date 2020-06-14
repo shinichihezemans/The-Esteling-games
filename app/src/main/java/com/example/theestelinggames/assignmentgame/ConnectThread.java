@@ -13,9 +13,14 @@ public class ConnectThread extends Thread {
 
     private final BluetoothSocket mmSocket;
     private final BluetoothAdapter mBluetoothAdapter;
-
     private final OnBTReceive onBTReceive;
 
+    /**
+     * Basic constructor of ConnectThread.
+     *
+     * @param device      The connected bluetoothDevice.
+     * @param onBTReceive The interface which handles the threads.
+     */
     ConnectThread(BluetoothDevice device, OnBTReceive onBTReceive) {
         // Use a temporary object that is later assigned to mmSocket,
         // because mmSocket is final
@@ -34,6 +39,9 @@ public class ConnectThread extends Thread {
         mmSocket = tmp;
     }
 
+    /**
+     * Runs the BluetoothIOThread and connects the bluetoothSocket.
+     */
     public void run() {
         // Cancel discovery because it will slow down the connection
         mBluetoothAdapter.cancelDiscovery();

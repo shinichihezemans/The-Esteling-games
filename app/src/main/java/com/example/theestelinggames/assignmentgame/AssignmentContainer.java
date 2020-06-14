@@ -10,12 +10,12 @@ public class AssignmentContainer {
     private String name;
     private List<String> assignments;
 
-     */
-     * @param assignments a list of mini-games for the Assignment
-     * @param description short description of the Assignment
-     * @param name the name of the Assignment
     /**
-     * basic constructor
+     * Basic constructor of AssignmentContainer.
+     *
+     * @param assignments A list of mini-games for the Assignment.
+     * @param name        The name of the Assignment.
+     */
     AssignmentContainer(String name, List<String> assignments) {
         this.name = name;
         this.assignments = assignments;

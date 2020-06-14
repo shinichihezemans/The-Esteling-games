@@ -32,13 +32,22 @@ import com.google.zxing.common.BitMatrix;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QRActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class QRActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String USERCREDENTIALS = "UserCredentials";
     private static final String LOGTAG = "QRActivity";
 
     private DrawerLayout drawer;
 
+    /**
+     * Start method of the activity.
+     * Creates the users QR code and displays it on the screen.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");
@@ -46,8 +55,10 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = String.valueOf(sharedPreferences.getInt(CharacterActivity.ID_KEY, -1));
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = String.valueOf(sharedPreferences.getInt(
+                CharacterActivity.ID_KEY, -1));
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
 
@@ -59,7 +70,9 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -76,7 +89,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
 
         try {
             int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
-            BitMatrix bitMatrix = multiFormatWriter.encode(clientID, BarcodeFormat.QR_CODE, size, size);
+            BitMatrix bitMatrix = multiFormatWriter.encode(
+                    clientID, BarcodeFormat.QR_CODE, size, size);
             BarcodeEncoderLite barcodeEncoderLite = new BarcodeEncoderLite();
             Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
             ImageView imageView = findViewById(R.id.qr_imageView);
@@ -87,6 +101,9 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
         Log.d(LOGTAG, "onBackPressed()");
@@ -94,7 +111,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) == -1) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
+                    CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -103,10 +121,17 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param menuItem The selected item.
+     * @return True to display the item as the selected item.
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.d(LOGTAG, "onNavigationItemSelected()");
 
+        //Check where the user wants to go.
         Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
@@ -117,9 +142,13 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 break;
             case R.id.nav_scoreboard:
                 intent = new Intent(this, ScoreboardListActivity.class);
-                SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
-                MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
+                SharedPreferences sharedPreferences = getSharedPreferences(
+                        CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+                String clientID = getString(sharedPreferences.getInt(
+                        CharacterActivity.USERNAMEID_KEY, -1))
+                        + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
+                MQTTConnection mqttConnectionSend = new MQTTConnection(
+                        this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:

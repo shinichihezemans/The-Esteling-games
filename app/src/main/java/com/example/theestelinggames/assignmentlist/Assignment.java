@@ -10,7 +10,13 @@ import java.util.Arrays;
 
 public class Assignment implements Comparable<Assignment> {
 
-    private static final String LOGTAG = "assingment";
+    private static final String LOGTAG = Assignment.class.getName();
+
+    public static final String SHARED_PREFERENCES = "Assignment";
+    private static final String SAVED_KEY = "saved";
+    private static final String ATTEMPTS_KEY = "attempts";
+    private static final String SCORE_KEY = "score";
+    private static final String LINE_KEY = "lineLength";
 
     private String name;
     private int attempts;
@@ -18,14 +24,18 @@ public class Assignment implements Comparable<Assignment> {
     private int imageResourceId;
     private int information;
     private int lineLength;
-
     private SharedPreferences sharedPreferences;
-    public static final String SHARED_PREFERENCES = "Assignment";
-    private static final String SAVED_KEY = "saved";
-    private static final String ATTEMPTS_KEY = "attempts";
-    private static final String SCORE_KEY = "score";
-    private static final String LINE_KEY = "lineLength";
 
+    /**
+     * Basic constructor of Assignment.
+     *
+     * @param name            The name of the assignment.
+     * @param attempts        How many attempts the user has made to complete the assignment.
+     * @param score           The total score of the assignment.
+     * @param imageResourceId The image id which is used to display the image of the assignment
+     *                        location.
+     * @param information     The basic information of the assignment.
+     */
     private Assignment(String name, int attempts, int score, int imageResourceId, int information) {
         sharedPreferences = null;
         this.name = name;
@@ -36,61 +46,90 @@ public class Assignment implements Comparable<Assignment> {
         this.lineLength = 0;
     }
 
+    /**
+     * Getter for the assignment name.
+     *
+     * @return The variable name.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Getter for the amount of attempts.
+     *
+     * @return The variable attempts.
+     */
     public int getAttempts() {
         return attempts;
     }
 
     /**
      * Set attempts if value is between 0 and 3.
-     * @param attempts value
+     *
+     * @param attempts The new amount of attempts.
      */
     public void setAttempts(int attempts) {
-        if(attempts <= 3 && attempts >= 0) {
+        if (attempts <= 3 && attempts >= 0) {
             this.attempts = attempts;
         }
     }
 
+    /**
+     * Getter for the image resource ID.
+     *
+     * @return The variable imageResourceId.
+     */
     public int getImageResourceId() {
         return imageResourceId;
     }
 
+    /**
+     * Getter for the score.
+     *
+     * @return The variable score.
+     */
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     /**
      * Sets score if given score is higher.
-     * @param score new score.
-     * @return if score was higher.
+     *
+     * @param score The new score.
+     * @return True if the score was higher.
      */
-    public boolean setHighScore(int score){
-        if(this.score < score){
+    public boolean setHighScore(int score) {
+        if (this.score < score) {
             this.score = score;
             return true;
         }
         return false;
     }
 
+    /**
+     * Getter for the information text.
+     *
+     * @return The variable information.
+     */
     public int getInformation() {
         return information;
     }
 
+    /**
+     * Getter for the line length.
+     *
+     * @return The variable lineLength.
+     */
     int getLineLength() {
         return lineLength;
     }
 
+    /**
+     * Setter for the variable line length.
+     *
+     * @param lineLength The new line length.
+     */
     void setLineLength(int lineLength) {
         this.lineLength = lineLength;
     }
@@ -99,18 +138,23 @@ public class Assignment implements Comparable<Assignment> {
      * Hardcoded assignments.
      */
     private static final Assignment[] staticAssignments = {
-            new Assignment("Johan en de Eenhoorn", 0, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
-            new Assignment("Cobra", 0, 0, R.drawable.cobra, R.string.CobraInformation),
-            new Assignment("De zwevende Belg", 0, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
-            new Assignment("Droomreis", 0, 0, R.drawable.droomreis, R.string.DroomReisInformation)
+            new Assignment("Johan en de Eenhoorn", 0, 0,
+                    R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
+            new Assignment("Cobra", 0, 0,
+                    R.drawable.cobra, R.string.CobraInformation),
+            new Assignment("De zwevende Belg", 0, 0,
+                    R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
+            new Assignment("Droomreis", 0, 0,
+                    R.drawable.droomreis, R.string.DroomReisInformation)
     };
 
     /**
      * Gets assignments sorted.
-     * @param context to set sharedpreferences.
-     * @return sorted assignments.
+     *
+     * @param context To set sharedpreferences.
+     * @return Sorted assignments.
      */
-    public static Assignment[] getAssignments(Context context) {
+    static Assignment[] getAssignments(Context context) {
         Assignment[] assignments = staticAssignments;
         Arrays.sort(assignments);
         for (Assignment assignment : assignments) {
@@ -121,6 +165,7 @@ public class Assignment implements Comparable<Assignment> {
 
     /**
      * Gets particular assignment (sorted).
+     *
      * @param context to set sharedpreferences.
      * @return particular (sorted) assignment.
      */
@@ -159,15 +204,23 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     /**
-     * Set sharedPreferences with the context
+     * Set sharedPreferences with the context.
      */
-    public void setSharedPreferences(Context context) {
+    private void setSharedPreferences(Context context) {
         Log.d(LOGTAG, "setSharedPreferences()");
 
-        this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,
+                Context.MODE_PRIVATE);
         syncWithPreferences();
     }
 
+    /**
+     * Comparator to see if the line length is bigger, equal or smaller than the compared object.
+     *
+     * @param o Object which will be used to compared to the current line length.
+     * @return An integer between -1 and 1 depending on if the compared object bigger, equal or
+     * smaller than the line length.
+     */
     @Override
     public int compareTo(Assignment o) {
         return this.lineLength - o.lineLength;

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.google.zxing.common.BitMatrix;
 
-
 /**
  * Helper class for encoding barcodes as a Bitmap.
  * <p>
@@ -22,8 +21,14 @@ class BarcodeEncoderLite {
     private static final int WHITE = 0x00FFFFFF;
     private static final int BLACK = 0xFF000000;
 
+    /**
+     * Method to make the QR code bitmap.
+     *
+     * @param matrix The required bitMatrix.
+     * @return The QR code bitMap.
+     */
     Bitmap createBitmap(BitMatrix matrix) {
-        Log.d(LOGTAG,"createBitmap()");
+        Log.d(LOGTAG, "createBitmap()");
         int width = matrix.getWidth();
         int height = matrix.getHeight();
         int[] pixels = new int[width * height];
