@@ -52,7 +52,9 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     public void setAttempts(int attempts) {
-        this.attempts = attempts;
+        if(attempts < 4) {
+            this.attempts = attempts;
+        }
     }
 
     public int getImageResourceId() {
@@ -69,6 +71,14 @@ public class Assignment implements Comparable<Assignment> {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean setHighScore(int score){
+        if(this.score < score){
+            this.score = score;
+            return true;
+        }
+        return false;
     }
 
     public int getInformation() {
@@ -88,10 +98,10 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     public static final Assignment[] staticAssignments = {
-            new Assignment("Johan en de Eenhoorn", 1, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
+            new Assignment("Johan en de Eenhoorn", 0, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
             new Assignment("Cobra", 0, 0, R.drawable.cobra, R.string.CobraInformation),
-            new Assignment("De zwevende Belg", 2, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
-            new Assignment("Droomreis", 3, 0, R.drawable.droomreis, R.string.DroomReisInformation)
+            new Assignment("De zwevende Belg", 0, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
+            new Assignment("Droomreis", 0, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
 
     public static Assignment[] getAssignments(Context context) {

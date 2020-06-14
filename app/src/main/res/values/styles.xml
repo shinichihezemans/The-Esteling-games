@@ -8,10 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="EsstelingStyle1" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimaryEssteling1</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling1</item>
-        <item name="colorAccent">@color/colorAccentEssteling1</item>
+    <style name="EsstelingStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryEssteling</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkEssteling</item>
+        <item name="colorAccent">@color/colorAccentEssteling</item>
     </style>
+
+<!--    <style name="Underline">-->
+<!--        <item name="android:background">@drawable/border</item>-->
+<!--    </style>-->
 
 </resources>

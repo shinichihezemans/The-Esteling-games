@@ -2,11 +2,13 @@ package com.example.theestelinggames.assignmentlist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.theestelinggames.util.OnItemClickListener;
 import com.example.theestelinggames.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
@@ -24,19 +27,27 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private Context context;
     private List<Assignment> assignments;
     private OnItemClickListener listener;
+    private ArrayList<View> views;
 
     AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener) {
         this.context = context;
         this.assignments = assignments;
         this.listener = listener;
+        views = new ArrayList<>();
     }
 
+    public void setColor(int color){
+        for (View item : views) {
+            item.setBackgroundColor(color);
+        }
+    }
 
     @NonNull
     @Override
     public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.assignment_overview_item,
                 parent,false);
+        views.add(itemView);
         return new AssignmentViewHolder(itemView, listener);
     }
 
@@ -45,7 +56,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         Assignment assignment = assignments.get(position);
 //        Log.d(LOGTAG, "Assignment: " + assignment.getName());
 
-        holder.bind(assignment);
+        holder.bind(assignment, this.context);
     }
 
 
@@ -67,14 +78,17 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             clickListener = listener;
         }
 
-        public void bind(Assignment assignment){
+        public void bind(Assignment assignment, Context context){
             this.assignment = assignment;
             TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
             minigameName.setText(assignment.getName());
             TextView minigameAttempts = itemView.findViewById(R.id.attemptTextView);
-            minigameAttempts.setText(assignment.getAttempts() + "/3");
+
+            minigameAttempts.setText(context.getString(R.string.attempts) + ": " + assignment.getAttempts() + "/3");
             TextView minigameScore = itemView.findViewById(R.id.minigameScore);
-            minigameScore.setText("" + assignment.getScore());
+            minigameScore.setText(context.getString(R.string.score) + ": " +  assignment.getScore());
+            ImageView imageView = itemView.findViewById(R.id.minigamePhoto_item);
+            imageView.setImageResource(assignment.getImageResourceId());
         }
 
         @Override
