@@ -51,8 +51,12 @@ public class Assignment implements Comparable<Assignment> {
         return attempts;
     }
 
+    /**
+     * Set attempts if value is between 0 and 3.
+     * @param attempts value
+     */
     public void setAttempts(int attempts) {
-        if(attempts < 4) {
+        if(attempts <= 3 && attempts >= 0) {
             this.attempts = attempts;
         }
     }
@@ -73,6 +77,11 @@ public class Assignment implements Comparable<Assignment> {
         this.score = score;
     }
 
+    /**
+     * Sets score if given score is higher.
+     * @param score new score.
+     * @return if score was higher.
+     */
     public boolean setHighScore(int score){
         if(this.score < score){
             this.score = score;
@@ -97,13 +106,21 @@ public class Assignment implements Comparable<Assignment> {
         this.lineLength = lineLength;
     }
 
-    public static final Assignment[] staticAssignments = {
+    /**
+     * Hardcoded assignments.
+     */
+    private static final Assignment[] staticAssignments = {
             new Assignment("Johan en de Eenhoorn", 0, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
             new Assignment("Cobra", 0, 0, R.drawable.cobra, R.string.CobraInformation),
             new Assignment("De zwevende Belg", 0, 0, R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
             new Assignment("Droomreis", 0, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
 
+    /**
+     * Gets assignments sorted.
+     * @param context to set sharedpreferences.
+     * @return sorted assignments.
+     */
     public static Assignment[] getAssignments(Context context) {
         Assignment[] assignments = staticAssignments;
         Arrays.sort(assignments);
@@ -113,13 +130,20 @@ public class Assignment implements Comparable<Assignment> {
         return assignments;
     }
 
+    /**
+     * Gets particular assignment (sorted).
+     * @param context to set sharedpreferences.
+     * @return particular (sorted) assignment.
+     */
     public static Assignment getAssignment(Context context, int pos) {
         Assignment assignment = staticAssignments[pos];
         assignment.setSharedPreferences(context);
         return assignment;
     }
 
-
+    /**
+     * Saves data in sharedPreferences (blocking call).
+     */
     public void saveData() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getName() + SAVED_KEY, true);
@@ -130,22 +154,22 @@ public class Assignment implements Comparable<Assignment> {
         Log.i(LOGTAG + " saving", "saved " + getName());
     }
 
+    /**
+     * Set attributes to the values is sharedPreferences.
+     */
     public void syncWithPreferences() {
         if (sharedPreferences.getBoolean(getName() + SAVED_KEY, false)) {
             this.attempts = sharedPreferences.getInt(getName() + ATTEMPTS_KEY, -1);
-//            Log.i(LOGTAG + "sync", "synced " + getName() + " attempts is " + this.attempts);
             this.score = sharedPreferences.getInt(getName() + SCORE_KEY, -1);
             this.lineLength = sharedPreferences.getInt(getName() + LINE_KEY, -1);
-//            Log.i(LOGTAG + "sync", "synced " + getName() + " score is " + this.score);
-//            Log.i(LOGTAG + "sync", "synced " + getName());
-        } else {
-//            Log.i(LOGTAG + "sync", "not synced " + getName());
         }
     }
 
+    /**
+     * Set sharedPreferences with the context
+     */
     public void setSharedPreferences(Context context) {
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//        Log.i("sharedprefernces keys", String.valueOf(sharedPreferences.getAll().keySet()));
         syncWithPreferences();
     }
 
