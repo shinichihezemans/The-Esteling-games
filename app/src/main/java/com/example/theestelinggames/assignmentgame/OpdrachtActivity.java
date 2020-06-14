@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * class which shows the mini-game objectives and relays information back via bluetooth.
+ */
 public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
 
     private int score;
@@ -32,6 +35,11 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
     private AssignmentContainer selectedAssignment;
     private BluetoothIOThread bluetoothIOThread;
 
+    /**
+     * creates the activity screen and adds the objectives to a list and connects it with the Assignment.
+     * Also starts the thread
+     * @param savedInstanceState to create the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,9 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         }
     }
 
+    /**
+     * makes handler to handle the incoming and outgoing messages
+     */
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -75,6 +86,10 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         this.bluetoothIOThread.writeUTF("start");
     }
 
+    /**
+     * performs an action based on the received message.
+     * @param msg the message that is received
+     */
     public void onReceive(String msg){
         Log.d("THREAD", msg);
 
@@ -117,7 +132,10 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         this.button.setEnabled(true);
     }
 
-
+    /**
+     * makes sure the thread finishes when the bluetooth is disconnected.
+     * @param scoreResult the score that is achieved.
+     */
     public void onDisconnect(int scoreResult) {
 
         Intent returnIntent = new Intent();

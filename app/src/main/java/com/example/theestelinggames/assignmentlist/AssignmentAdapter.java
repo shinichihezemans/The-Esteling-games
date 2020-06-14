@@ -20,6 +20,9 @@ import com.example.theestelinggames.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter class for setting the Assignments in the AssignmentList
+ */
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
 
     private static final String LOGTAG = AssignmentAdapter.class.getName();
@@ -29,6 +32,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private OnItemClickListener listener;
     private ArrayList<View> views;
 
+    /**
+     * basic constructor
+     * @param context
+     * @param assignments list of Assignments which need to be shown
+     * @param listener an onItemClickListener to see if an Assignment is clicked
+     */
     AssignmentAdapter(Context context, List<Assignment> assignments, OnItemClickListener listener) {
         this.context = context;
         this.assignments = assignments;
@@ -36,12 +45,22 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         views = new ArrayList<>();
     }
 
+    /**
+     * sets the background color
+     * @param color the number of the color
+     */
     public void setColor(int color){
         for (View item : views) {
             item.setBackgroundColor(color);
         }
     }
 
+    /**
+     * creates a viewHolder
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,6 +70,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         return new AssignmentViewHolder(itemView, listener);
     }
 
+    /**
+     * binds the viewHolder
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
         Assignment assignment = assignments.get(position);
@@ -59,13 +83,19 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         holder.bind(assignment, this.context);
     }
 
-
+    /**
+     * gets the amount of items in the list
+     * @return the size of the AssignmentList
+     */
     @Override
     public int getItemCount() {
 //        Log.d(LOGTAG, "getItemCount()");
         return assignments.size();
     }
 
+    /**
+     * extra class which makes sets the Assignments to the recyclerview
+     */
     public static class AssignmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final String LOGTAG = AssignmentViewHolder.class.getName();
 
@@ -78,6 +108,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             clickListener = listener;
         }
 
+        /**
+         * Sets what is shown in the Recylcerview
+         * @param assignment The assignment of which the information is taken
+         * @param context
+         */
         public void bind(Assignment assignment, Context context){
             this.assignment = assignment;
             TextView minigameName = itemView.findViewById(R.id.nameIDTextView);
@@ -91,6 +126,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             imageView.setImageResource(assignment.getImageResourceId());
         }
 
+        /**
+         * Holds which Assignment is clicked.
+         * @param view
+         */
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
