@@ -1,11 +1,17 @@
 package com.example.theestelinggames.scoreboardList;
 
-class Scoreboard {
+/**
+ * small class that makes a User on the scoreboard
+ */
 
     private String username;
     private int score;
 
-    Scoreboard(String username, int score) {
+    /**
+     * basic constructor with the username and their score
+     * @param username the name of the user
+     * @param score the score the user has achieved
+     */
         this.username = username;
         this.score = score;
     }

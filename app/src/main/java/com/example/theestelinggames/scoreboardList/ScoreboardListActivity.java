@@ -27,12 +27,19 @@ import java.util.ArrayList;
 
 public class ScoreboardListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String LOGTAG = ScoreboardListActivity.class.getName();
+ */
+ * The activity class of the scoreboard
+/**
 
     private ArrayList<Scoreboard> scoreboard;
     private ScoreboardAdapter scoreboardAdapter;
     private MQTTConnection mqttConnectionReceive;
     private DrawerLayout drawer;
 
+    /**
+     * creates the activity and creates the NavigationMenu and the Mqtt connection
+     * @param savedInstanceState to create the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");

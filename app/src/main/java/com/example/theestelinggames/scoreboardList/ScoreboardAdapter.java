@@ -15,12 +15,20 @@ import com.example.theestelinggames.R;
 
 import java.util.List;
 
+/**
+ * Adapter class for the recyclerview of the scoreboard.
+ */
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
     private static final String LOGTAG = ScoreboardAdapter.class.getName();
 
     private Context context;
     private List<Scoreboard> scoreboard;
 
+    /**
+     * basic constructor
+     * @param context is the context
+     * @param scoreboard a List of users on the scoreboard
+     */
     ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
         Log.d(LOGTAG, "new ScoreboardAdapter");
 
@@ -28,6 +36,12 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
         this.scoreboard = scoreboard;
     }
 
+    /**
+     * creates the recyclerviewHolder
+     * @param parent is the view
+     * @param viewType the type of view
+     * @return scoreboardViewHolder
+     */
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,6 +52,11 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
         return new ScoreboardAdapter.ScoreboardViewHolder(itemView);
     }
 
+    /**
+     * Makes a recyclerview in the scoreboard and puts the user in the list.
+     * @param holder to make the recyclerview
+     * @param position of the user
+     */
     @Override
     public void onBindViewHolder(@NonNull ScoreboardViewHolder holder, int position) {
         Log.d(LOGTAG, "onBindViewHolder()");

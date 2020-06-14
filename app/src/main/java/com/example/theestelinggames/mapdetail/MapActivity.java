@@ -23,11 +23,18 @@ import com.example.theestelinggames.util.Message;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * class in which the map is shown and it is possible to look around on the map
+ */
 public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String LOGTAG = MapActivity.class.getName();
 
     private DrawerLayout drawer;
 
+    /**
+     * creates the toolbar and navigationbar also sets the map in the photoview
+     * @param savedInstanceState to create the activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");
@@ -61,6 +68,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         photoView.setImageResource(R.drawable.efteling_map);
     }
 
+    /**
+     * when te backbutton is pressed change the activity
+     */
     @Override
     public void onBackPressed() {
         Log.d(LOGTAG, "onBackPressed()");
@@ -77,6 +87,11 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         }
     }
 
+    /**
+     * handles an action when something on the NavigationBar is selected
+     * @param menuItem selected menuItem
+     * @return true if somebody clicks on another NavigationBarItem
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.d(LOGTAG, "onNavigationItemSelected()");

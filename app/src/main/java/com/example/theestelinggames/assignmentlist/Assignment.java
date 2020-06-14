@@ -48,8 +48,12 @@ public class Assignment implements Comparable<Assignment> {
         return attempts;
     }
 
+    /**
+     * Set attempts if value is between 0 and 3.
+     * @param attempts value
+     */
     public void setAttempts(int attempts) {
-        if (attempts < 4) {
+        if(attempts <= 3 && attempts >= 0) {
             this.attempts = attempts;
         }
     }
@@ -66,8 +70,13 @@ public class Assignment implements Comparable<Assignment> {
         this.score = score;
     }
 
-    public boolean setHighScore(int score) {
-        if (this.score < score) {
+    /**
+     * Sets score if given score is higher.
+     * @param score new score.
+     * @return if score was higher.
+     */
+    public boolean setHighScore(int score){
+        if(this.score < score){
             this.score = score;
             return true;
         }
@@ -86,6 +95,9 @@ public class Assignment implements Comparable<Assignment> {
         this.lineLength = lineLength;
     }
 
+    /**
+     * Hardcoded assignments.
+     */
     private static final Assignment[] staticAssignments = {
             new Assignment("Johan en de Eenhoorn", 0, 0, R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
             new Assignment("Cobra", 0, 0, R.drawable.cobra, R.string.CobraInformation),
@@ -93,7 +105,12 @@ public class Assignment implements Comparable<Assignment> {
             new Assignment("Droomreis", 0, 0, R.drawable.droomreis, R.string.DroomReisInformation)
     };
 
-    static Assignment[] getAssignments(Context context) {
+    /**
+     * Gets assignments sorted.
+     * @param context to set sharedpreferences.
+     * @return sorted assignments.
+     */
+    public static Assignment[] getAssignments(Context context) {
         Assignment[] assignments = staticAssignments;
         Arrays.sort(assignments);
         for (Assignment assignment : assignments) {
@@ -102,13 +119,20 @@ public class Assignment implements Comparable<Assignment> {
         return assignments;
     }
 
+    /**
+     * Gets particular assignment (sorted).
+     * @param context to set sharedpreferences.
+     * @return particular (sorted) assignment.
+     */
     public static Assignment getAssignment(Context context, int pos) {
         Assignment assignment = staticAssignments[pos];
         assignment.setSharedPreferences(context);
         return assignment;
     }
 
-
+    /**
+     * Saves data in sharedPreferences (blocking call).
+     */
     public void saveData() {
         Log.d(LOGTAG, "saveData()");
 
@@ -121,6 +145,9 @@ public class Assignment implements Comparable<Assignment> {
         Log.i(LOGTAG + " saving", "saved " + getName());
     }
 
+    /**
+     * Set attributes to the values is sharedPreferences.
+     */
     public void syncWithPreferences() {
         Log.d(LOGTAG, "saveData()");
 
@@ -131,7 +158,10 @@ public class Assignment implements Comparable<Assignment> {
         }
     }
 
-    private void setSharedPreferences(Context context) {
+    /**
+     * Set sharedPreferences with the context
+     */
+    public void setSharedPreferences(Context context) {
         Log.d(LOGTAG, "setSharedPreferences()");
 
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);

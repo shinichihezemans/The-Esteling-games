@@ -27,6 +27,12 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
     private ViewPager2 viewPager2;
     private List<SliderItem> sliderItems;
 
+    /**
+     * This method is used to get a viewpager function for the character screen.
+     * Because of this method its possible to slide throught the characters en see their
+     * personal png file and name.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");
@@ -51,6 +57,13 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
         viewPager2.setAdapter(new SliderAdapter(sliderItems, this));
     }
 
+    /**
+     * This method is used to save the character that is clicked by the user, this method also
+     * generates a random int that we use as an id to give the user a special name so the user knows
+     * where he/she placed on the leaderboard by finding this special name. this method also starts
+     * the next activity.
+     * @param clickedPosition
+     */
     @Override
     public void onItemClick(int clickedPosition) {
         Log.d(LOGTAG,"onItemClick()");

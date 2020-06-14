@@ -44,6 +44,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_overview);
 
+        //set clientID for mqtt
         SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
         String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, 0));
         int id = sharedPreferences.getInt(CharacterActivity.ID_KEY, 0);
@@ -56,6 +57,12 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        //setup recyclerView
         assignments = new ArrayList<>(Arrays.asList(Assignment.getAssignments(this)));
 
         final RecyclerView minigamesRecyclerView = findViewById(R.id.minigamesRecyclerView);
@@ -71,10 +78,10 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //To send message player object to server
+
+        //To send message object to server
         MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
         mqttConnectionSend.connectOUT(new Message(id, animalName));
-
     }
 
     @Override
@@ -82,6 +89,7 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Log.d(LOGTAG, "onResume()");
 
         super.onResume();
+        //to sync everything
         assignments.clear();
         assignments.addAll(Arrays.asList(Assignment.getAssignments(this)));
         minigamesAdapter.notifyDataSetChanged();
@@ -92,11 +100,14 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         Log.d(LOGTAG, "onBackPressed()");
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            //close drawer when open
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(CharacterActivity.ID_KEY, -1) == -1) {
+                //if character hasn't been chosen yet
                 super.onBackPressed();
             } else {
+                //return to home screen
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -124,7 +135,9 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
         saveSettings();
     }
 
-
+    /**
+     * saves all assignment data.
+     */
     public void saveSettings() {
         Log.d(LOGTAG, "saveSettings()");
 
@@ -136,9 +149,8 @@ public class AssignmentListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        //check where the user want to go
         Log.d(LOGTAG, "onNavigationItemSelected()");
-
-        Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
                 intent = new Intent(this, MapActivity.class);
