@@ -23,7 +23,7 @@
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/leaderboard"/>
+            app:title="@string/leaderboard" />
 
     </LinearLayout>
 
@@ -46,6 +46,8 @@
             android:id="@+id/scoreboardRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/forest_background3"
+            android:paddingTop="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

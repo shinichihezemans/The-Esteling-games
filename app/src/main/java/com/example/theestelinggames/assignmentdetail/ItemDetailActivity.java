@@ -39,51 +39,56 @@ public class ItemDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assignment_item_detail);
-        //Slidr.attach(this);
 
+        //get assignment this activity was called for.
         int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
-        Log.d(LOGTAG, "onCreate called with ASSIGNMENT_ID = " + id);
-
         this.assignment = Assignment.getAssignment(this, id);
-        Log.d(LOGTAG, "Assignment[id] = " + this.assignment.getName() + " " + this.assignment.getAttempts());
 
-        TextView minigameName = (TextView) findViewById(R.id.nameIDTextView);
+
+        //set contents
+        TextView minigameName = findViewById(R.id.nameIDTextView);
         minigameName.setText(this.assignment.getName());
 
-        TextView introduction = (TextView) findViewById(R.id.minigameIntroduction);
+        TextView introduction = findViewById(R.id.minigameIntroduction);
         introduction.setText(this.assignment.getInformation());
 
-        ImageView attractionImage = (ImageView) findViewById(R.id.minigamePhoto);
+        ImageView attractionImage = findViewById(R.id.minigamePhoto);
         attractionImage.setImageResource(assignment.getImageResourceId());
 
-        Button button = (Button) findViewById(R.id.connectButton);
+        Button button = findViewById(R.id.connectButton);
         button.setEnabled(this.assignment.getAttempts() < 3);
-
-        //doesnt work
-//        assignment.saveData();
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
+    /**
+     * This method is called when the user presses the play button.
+     * @param view the view it was called from.
+     */
     public void onConnectButtonClicked(View view) {
-//        Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show();
 
+        //check is you can play
         if (this.assignment.getAttempts() == 3 || this.assignment.getAttempts() > 3) {
             Toast.makeText(this, "You don't have any attempts left!", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        //check if bluetooth is supported
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "bluetooth not supported", Toast.LENGTH_SHORT).show();
         } else {
 
+            //enable bluetooth
             if (!bluetoothAdapter.isEnabled()) {
                 bluetoothAdapter.enable();
             }
 
-            if (bluetoothAdapter.isDiscovering()) {//opnieuw starten
+            //stop discovery
+            if (bluetoothAdapter.isDiscovering()) {
                 bluetoothAdapter.cancelDiscovery();
             }
+
+            //ask for permissions from the user
             checkBTPermissions();
 
             //is null if not in bonded devices.
@@ -111,7 +116,9 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
 
-    //updates highscore
+    /**
+     * This method is called when the minigame returns a result and sets the attempts and highscore.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -119,11 +126,10 @@ public class ItemDetailActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d("THREAD", "received score" + data.getIntExtra("result", 0));
         this.assignment.setAttempts(this.assignment.getAttempts() + 1);
 
         if (data.hasExtra("result")) {
-            int score = data.getIntExtra("result", 0);
+            int score = data.getIntExtra("result", -1);
 
             if (assignment.getScore() < score) {
                 this.updateHighScore(score);
@@ -136,32 +142,32 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     private void updateHighScore(int score) {
-        //this.highScoreLabel.setText("High score: " + this.highScore);
         if (assignment.setHighScore(score)) {
             Toast.makeText(this, "High score: " + score, Toast.LENGTH_SHORT).show();
+
+            //To send message object to server
             SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
             String animalName = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1));
             int id = sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
             String clientID = animalName + " " + id;
 
-            //To send message player object to server
             MQTTConnection mqttConnectionSend = MQTTConnection.newMQTTConnection(this, clientID + "OUT");
 
             mqttConnectionSend.connectOUT(new Message(id, animalName, score));
-        }
 
-        //voor de zekerheid
-        assignment.saveData();
-        assignment.syncWithPreferences();
+            //save and sync score
+            assignment.saveData();
+            assignment.syncWithPreferences();
+        }
     }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             String action = intent.getAction();
 
+            //checks
             if (bluetoothDevice == null || action == null || bluetoothDevice.getName() == null) {
                 return;
             }
@@ -182,6 +188,9 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * @return bluetoothDevice that is already bonded and has the right name.
+     */
     private BluetoothDevice getBluetoothDevice() {
         for (BluetoothDevice bluetoothDevice : this.bluetoothAdapter.getBondedDevices()) {
             if (bluetoothDevice.getName().equals(this.assignment.getName())) {
@@ -191,6 +200,10 @@ public class ItemDetailActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * @param searchDevice the device to check if it has already bonded
+     * @return if searchDevice has already bonded
+     */
     private boolean hasBonded(BluetoothDevice searchDevice) {
         if (searchDevice != null) {
             for (BluetoothDevice bluetoothDevice : this.bluetoothAdapter.getBondedDevices()) {
@@ -202,6 +215,10 @@ public class ItemDetailActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * This method is called when the app has connected with the esp.
+     * @param bluetoothDevice the esp
+     */
     private void onConnected(BluetoothDevice bluetoothDevice) {
         Intent assignmentIntent = new Intent(ItemDetailActivity.this, OpdrachtActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
@@ -229,7 +246,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
         permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
         if (permissionCheck != 0) {
-
             this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
         }
     }
