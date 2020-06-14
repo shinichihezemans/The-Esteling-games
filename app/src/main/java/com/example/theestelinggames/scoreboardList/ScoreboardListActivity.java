@@ -67,17 +67,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-                if (slideOffset >= 0.5)
-                    scoreboardAdapter.setColor(Color.TRANSPARENT);
-                if (slideOffset <= 0.5) {
-                    scoreboardAdapter.setColor(Color.WHITE);
-                }
-            }
-        };
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
