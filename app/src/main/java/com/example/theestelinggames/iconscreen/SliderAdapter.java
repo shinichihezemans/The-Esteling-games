@@ -30,16 +30,26 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         return new SliderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_character_item,parent,false),clickListener);
     }
 
+    /**
+     * This method is used to see to what slider page the user went.
+     */
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
         holder.setData(sliderItems.get(position));
     }
 
+    /**
+     * This method is used to see how many slider items there are.
+     */
     @Override
     public int getItemCount() {
         return sliderItems.size();
     }
 
+    /**
+     * With this method we put the image and the icon name in the screen and
+     * we get which character the user clicked on.
+     */
     public static class SliderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textView;
@@ -59,6 +69,10 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             imageView.setImageResource(sliderItem.getImage());
         }
 
+        /**
+         * This method is used to see where the user clicked.
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
