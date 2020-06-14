@@ -1,5 +1,8 @@
 package com.example.theestelinggames.scoreboardList;
 
+/**
+ * small class that makes a User on the scoreboard
+ */
 public class Scoreboard {
 
     public static final String SCOREBOARD_ID = "SCOREBOARD_ID";
@@ -7,6 +10,11 @@ public class Scoreboard {
     private String username;
     private int score;
 
+    /**
+     * basic constructor with the username and their score
+     * @param username the name of the user
+     * @param score the score the user has achieved
+     */
     public Scoreboard(String username, int score) {
         this.username = username;
         this.score = score;

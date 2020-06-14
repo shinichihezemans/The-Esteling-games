@@ -27,6 +27,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+/**
+ * The activity class of the scoreboard
+ */
 public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<Scoreboard> scoreboard;
@@ -37,6 +40,10 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     private DrawerLayout drawer;
 
+    /**
+     * creates the activity and creates the NavigationMenu and the Mqtt connection
+     * @param savedInstanceState to create the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
