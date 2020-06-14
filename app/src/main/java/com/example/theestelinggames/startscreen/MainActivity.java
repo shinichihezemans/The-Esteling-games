@@ -20,11 +20,19 @@ import com.example.theestelinggames.iconscreen.CharacterActivity;
 
 import java.time.LocalDate;
 
+/**
+ * Starting activity which is opens if it is the first time someone opens the app.
+ * When the image (button) on the activity is pressed a pop-up screen opens with information.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String globalInfo = "globalInfo";
     private static final String DATE_KEY = "date";
 
+    /**
+     * Makes the activity. As soon as somebody presses the button it generates the pop-up screen in the onClick method.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        final Intent intent = new Intent(this, AssignmentView.class);
         final Intent intent = new Intent(this, CharacterActivity.class);
 
+        // Creates the pop-up screen and adds the text and functionality
         imageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 v.setVisibility(View.GONE);
@@ -62,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * If somebody already chose a character this method takes them directly to the AssignmentList
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -71,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method checks all the data, if the date has changed it calls the wipeSharedPreferences method to delete the data.
+     */
     private void checkSharedPreferences() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDate now = LocalDate.now();
@@ -91,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method deletes the saved data.
+     */
     private void wipeSharedPreferences() {
         SharedPreferences sharedPreferences;
         String[] files = {globalInfo, CharacterActivity.USERCREDENTIALS, Assignment.SHARED_PREFERENCES};
