@@ -25,7 +25,6 @@ import com.example.theestelinggames.assignmentlist.Assignment;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
-//import com.r0adkll.slidr.Slidr;
 
 public class ItemDetailActivity extends AppCompatActivity {
 

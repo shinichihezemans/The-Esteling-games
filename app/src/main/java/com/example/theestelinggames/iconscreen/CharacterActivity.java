@@ -1,7 +1,6 @@
 package com.example.theestelinggames.iconscreen;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CharacterActivity extends AppCompatActivity implements OnItemClickListener {
-    public static final String LOGTAG = CharacterActivity.class.getName();
+    private static final String LOGTAG = CharacterActivity.class.getName();
 
     public static final String USERNAMEID_KEY = "usernameId";
     public static final String ID_KEY = "id";
@@ -31,6 +30,8 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG,"onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
 
@@ -53,6 +54,7 @@ public class CharacterActivity extends AppCompatActivity implements OnItemClickL
 
     @Override
     public void onItemClick(int clickedPosition) {
+        Log.d(LOGTAG,"onItemClick()");
 
         Random random = new Random();
         int id = (random.nextInt(100000));

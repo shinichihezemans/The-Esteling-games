@@ -30,15 +30,15 @@ public class Message {
         this.text = text;
     }
 
-    public String getText() {
+    String getText() {
         return text;
     }
 
-    public MqttMessage textMessage() {
+    MqttMessage textMessage() {
         return new MqttMessage(getText().getBytes(StandardCharsets.UTF_8));
     }
 
-    public String toJson() {
+    private String toJson() {
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -54,7 +54,7 @@ public class Message {
         return null;
     }
 
-    public MqttMessage jsonMessage() {
+    MqttMessage jsonMessage() {
         return new MqttMessage(toJson().getBytes(StandardCharsets.UTF_8));
     }
 }

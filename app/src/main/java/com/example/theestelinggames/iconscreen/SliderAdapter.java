@@ -1,5 +1,6 @@
 package com.example.theestelinggames.iconscreen;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,13 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.List;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder>{
+    private static final String LOGTAG = SliderAdapter.class.getName();
 
     private List<SliderItem> sliderItems;
     private OnItemClickListener clickListener;
 
     SliderAdapter(List<SliderItem> sliderItems, OnItemClickListener listener) {
+        Log.d(LOGTAG,"new SliderAdapter");
         this.sliderItems = sliderItems;
         clickListener = listener;
     }

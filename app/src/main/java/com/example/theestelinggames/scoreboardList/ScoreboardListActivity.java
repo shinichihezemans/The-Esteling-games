@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,18 +17,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.mapdetail.MapActivity;
-import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.mapdetail.MapActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.util.MQTTConnection;
-import com.example.theestelinggames.util.OnItemClickListener;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class ScoreboardListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String LOGTAG = ScoreboardListActivity.class.getName();
 
     ArrayList<Scoreboard> scoreboard;
 
@@ -39,6 +40,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
@@ -46,7 +48,6 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         String clientID = getString(sharedPreferences.getInt(CharacterActivity.USERNAMEID_KEY, -1)) + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
         Toolbar toolbar = findViewById(R.id.toolbarHS);
-//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -89,9 +90,10 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
 
     public void clear() {
         scoreboard.clear();
+        update();
     }
 
-    public void update() {
+    private void update() {
         scoreboardAdapter.notifyDataSetChanged();
     }
 
@@ -100,11 +102,7 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
             scoreboard.clear();
         }
         scoreboard.add(new Scoreboard(username, id));
-    }
-
-    @Override
-    public void onItemClick(int clickedPosition) {
-
+        update();
     }
 
     @Override

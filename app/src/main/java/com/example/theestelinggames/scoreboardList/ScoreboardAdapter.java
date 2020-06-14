@@ -17,20 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
-
-    public static final String LOGTAG = Scoreboard.class.getName();
+    private static final String LOGTAG = ScoreboardAdapter.class.getName();
 
     private Context context;
     private List<Scoreboard> scoreboard;
     private ArrayList<View> views;
 
     ScoreboardAdapter(Context context, List<Scoreboard> scoreboard) {
+        Log.d(LOGTAG, "new ScoreboardAdapter");
         this.context = context;
         this.scoreboard = scoreboard;
         views = new ArrayList<>();
     }
 
     public void setColor(int color){
+        Log.d(LOGTAG, "setColor()");
         for (View item : views) {
             item.setBackgroundColor(color);
         }
@@ -39,7 +40,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
     @NonNull
     @Override
     public ScoreboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        Log.d(LOGTAG, "onCreateViewHolder()");
+        Log.d(LOGTAG, "onCreateViewHolder()");
         View itemView = LayoutInflater.from(context).inflate(R.layout.scoreboard_overview_item,
                 parent, false);
         views.add(itemView);
@@ -48,6 +49,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     @Override
     public void onBindViewHolder(@NonNull ScoreboardViewHolder holder, int position) {
+        Log.d(LOGTAG,"onBindViewHolder()");
 
         Scoreboard score = scoreboard.get(position);
 
@@ -65,8 +67,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
         String[] string = score.getUsername().split("(?<=\\D)(?=\\d)");
         String animalName = string[0];
-        Log.i("TESTtsetsetest",animalName);
-        //doesnt work
+
         if (context.getString(R.string.Monkey).equals(animalName) || animalName.equals("Monkey") || animalName.equals("Aap")) {
             imageView.setImageResource(R.drawable.aaptrans);
         } else if (context.getString(R.string.Bear).equals(animalName) || animalName.equals("Bear") || animalName.equals("Beer")) {
@@ -91,12 +92,16 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     @Override
     public int getItemCount() {
+        Log.d(LOGTAG, "getItemCount()");
         return scoreboard.size();
     }
 
     static class ScoreboardViewHolder extends RecyclerView.ViewHolder {
+        private static final String LOGTAG = ScoreboardViewHolder.class.getName();
+
         ScoreboardViewHolder(View itemView) {
             super(itemView);
+            Log.d(LOGTAG, "new ScoreboardViewHolder");
         }
     }
 }

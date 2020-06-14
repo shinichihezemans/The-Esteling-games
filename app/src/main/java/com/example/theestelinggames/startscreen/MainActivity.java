@@ -49,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 builder.setNegativeButton(R.string.CancelButton, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        finish();
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
 
                 AlertDialog alertDialog = builder.create();
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferences
                     .edit()
                     .clear()
-                    .commit();
+                    .apply();
 //            Log.i("wipe sharedpreferences", " keys are now" + sharedPreferences.getAll().keySet());
         }
     }
