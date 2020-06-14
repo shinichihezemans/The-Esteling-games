@@ -39,11 +39,20 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.0" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/forest_background2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3"
+            android:scaleType="centerCrop"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/minigamesRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/forest_background2"
             android:paddingTop="4dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
