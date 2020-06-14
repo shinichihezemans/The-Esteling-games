@@ -7,6 +7,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * class which makes a new Thread for the bluetooth
+ */
 public class BluetoothIOThread extends Thread {
 
     private volatile boolean exit = false;
@@ -35,6 +38,9 @@ public class BluetoothIOThread extends Thread {
 
     private StringBuilder msg = new StringBuilder();
 
+    /**
+     * runs the thread and reads the incoming bytes
+     */
     public void run() {
         while (!exit){
 
@@ -76,6 +82,9 @@ public class BluetoothIOThread extends Thread {
         }
     }
 
+    /**
+     * closes the bluetoothSocket
+     */
     public void cancel() {
         try {
             exit = true;
