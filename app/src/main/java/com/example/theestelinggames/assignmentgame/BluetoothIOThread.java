@@ -7,6 +7,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * class which makes a new Thread for the bluetooth
+ */
 public class BluetoothIOThread extends Thread {
 
     private volatile boolean exit = false;
@@ -15,11 +18,18 @@ public class BluetoothIOThread extends Thread {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
     private BluetoothSocket bluetoothSocket;
+    private StringBuilder msg;
 
-    public BluetoothIOThread(BluetoothSocket bluetoothSocket, OnBTReceive onBTReceive) {
-
+    /**
+     * Basic constructor of BluetoothIOThread.
+     *
+     * @param bluetoothSocket The bluetoothSocket connection.
+     * @param onBTReceive     The interface that handles the threads.
+     */
+    BluetoothIOThread(BluetoothSocket bluetoothSocket, OnBTReceive onBTReceive) {
         this.bluetoothSocket = bluetoothSocket;
         this.onBTReceiveCallBack = onBTReceive;
+        this.msg = new StringBuilder();
 
         try {
             this.dataOutputStream = new DataOutputStream(this.bluetoothSocket.getOutputStream());
@@ -30,30 +40,31 @@ public class BluetoothIOThread extends Thread {
 
         Message message = Message.obtain();
         message.obj = "CONNECTED";
-        this.onBTReceiveCallBack.handler().sendMessage(message);
+        this.onBTReceiveCallBack.getHandler().sendMessage(message);
     }
 
-    private StringBuilder msg = new StringBuilder();
-
+    /**
+     * Runs the thread and reads the incoming bytes.
+     */
     public void run() {
-        while (!exit){
+        while (!exit) {
 
-            if(!bluetoothSocket.isConnected()){
+            if (!bluetoothSocket.isConnected()) {
                 this.cancel();
             }
 
-            try{
+            try {
                 int bytesAvailable = this.dataInputStream.available();
-                if(bytesAvailable > 0){
+                if (bytesAvailable > 0) {
                     byte[] rawBytes = new byte[bytesAvailable];
                     dataInputStream.read(rawBytes);
                     for (int i = 0; i < bytesAvailable; i++) {
                         char received = (char) rawBytes[i];
 
-                        if(received == '*'){
+                        if (received == '*') {
                             Message message = Message.obtain();
                             message.obj = msg.toString();
-                            onBTReceiveCallBack.handler().sendMessage(message);
+                            onBTReceiveCallBack.getHandler().sendMessage(message);
                             msg = new StringBuilder();
                             break;
                         }
@@ -61,29 +72,37 @@ public class BluetoothIOThread extends Thread {
                         msg.append(received);
                     }
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
                 this.cancel();
             }
         }
     }
 
-    public void writeUTF(String msg){
+    /**
+     * Method to write the message "start" to the ESP.
+     */
+    void writeUTF() {
         try {
-            this.dataOutputStream.writeUTF(msg);
+            this.dataOutputStream.writeUTF("start");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void cancel() {
+    /**
+     * Closes the bluetoothSocket.
+     */
+    void cancel() {
         try {
             exit = true;
             bluetoothSocket.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Message message = Message.obtain();
         message.obj = "DISCONNECTED";
-        this.onBTReceiveCallBack.handler().sendMessage(message);
+        this.onBTReceiveCallBack.getHandler().sendMessage(message);
     }
 }

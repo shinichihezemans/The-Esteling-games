@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="176dp"
     android:layout_gravity="bottom"
-    android:background="@color/colorPrimaryEssteling1"
+    android:background="@color/colorPrimaryEssteling"
     android:orientation="vertical"
     android:paddingTop="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">

@@ -1,17 +1,10 @@
-package com.example.theestelinggames.qrcode;
+package com.example.theestelinggames.mapdetail;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,92 +16,70 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
-import com.example.theestelinggames.mapdetail.MapActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.scoreboardList.ScoreboardListActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class QRActivity extends AppCompatActivity
+/**
+ * Class in which the map is shown and makes it possible to look around on the map.
+ */
+public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static final String USERCREDENTIALS = "UserCredentials";
-    private static final String LOGTAG = "QRActivity";
+    private static final String LOGTAG = MapActivity.class.getName();
 
     private DrawerLayout drawer;
 
     /**
      * Start method of the activity.
-     * Creates the users QR code and displays it on the screen.
+     * Creates the ToolBar and NavigationBar. Sets the map in the PhotoView.
      *
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it
      *                           most recently supplied in savedInstanceState.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         Log.d(LOGTAG, "onCreate()");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr);
+        setContentView(R.layout.activity_map);
 
         SharedPreferences sharedPreferences = getSharedPreferences(
                 CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = String.valueOf(sharedPreferences.getInt(
-                CharacterActivity.ID_KEY, -1));
+        String clientID = getString(sharedPreferences.getInt(
+                CharacterActivity.USERNAMEID_KEY, -1))
+                + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
-        Toolbar toolbar = findViewById(R.id.toolbarQR);
+        Toolbar toolbar = findViewById(R.id.toolbarMAP);
+        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_map).setChecked(true);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(clientID);
-        if (m.find()) {
-            clientID = m.group();
-        }
-
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        try {
-            int size = displayMetrics.widthPixels - (displayMetrics.widthPixels / 5);
-            BitMatrix bitMatrix = multiFormatWriter.encode(
-                    clientID, BarcodeFormat.QR_CODE, size, size);
-            BarcodeEncoderLite barcodeEncoderLite = new BarcodeEncoderLite();
-            Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
-            ImageView imageView = findViewById(R.id.qr_imageView);
-            imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-
+        PhotoView photoView = findViewById(R.id.photoViewMAP);
+        photoView.setImageResource(R.drawable.efteling_map);
     }
 
     /**
      * Called when the activity has detected the user's press of the back key.
      */
-        imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate));
     @Override
     public void onBackPressed() {
         Log.d(LOGTAG, "onBackPressed()");
@@ -140,8 +111,7 @@ public class QRActivity extends AppCompatActivity
         Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_map:
-                intent = new Intent(this, MapActivity.class);
-                break;
+                return true;
             case R.id.nav_assignments:
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
@@ -150,14 +120,15 @@ public class QRActivity extends AppCompatActivity
                 SharedPreferences sharedPreferences = getSharedPreferences(
                         CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
                 String clientID = getString(sharedPreferences.getInt(
-                        CharacterActivity.USERNAMEID_KEY, -1))
-                        + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
+                        CharacterActivity.USERNAMEID_KEY, -1)) + " " +
+                        sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
                 MQTTConnection mqttConnectionSend = new MQTTConnection(
                         this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));
                 break;
             case R.id.nav_qr:
-                return true;
+                intent = new Intent(this, QRActivity.class);
+                break;
             default:
                 return false;
         }

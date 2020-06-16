@@ -4,11 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".assignmentgame.OpdrachtActivity">
+    tools:context=".assignmentgame.AssignmentGameActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:text="@string/StartButton"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorPrimaryEssteling"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_assignment_2"
         android:background="@color/colorPrimaryEssteling1"

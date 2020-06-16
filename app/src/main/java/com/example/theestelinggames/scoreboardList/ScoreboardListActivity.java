@@ -3,6 +3,7 @@ package com.example.theestelinggames.scoreboardList;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,96 +15,117 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.theestelinggames.QRcode.QRActivity;
 import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentlist.AssignmentListActivity;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
+import com.example.theestelinggames.mapdetail.MapActivity;
+import com.example.theestelinggames.qrcode.QRActivity;
 import com.example.theestelinggames.util.MQTTConnection;
-import com.example.theestelinggames.util.OnItemClickListener;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class ScoreboardListActivity extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Class which displays the HighScores of the top 10 players of the day.
+ */
+public class ScoreboardListActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String LOGTAG = ScoreboardListActivity.class.getName();
 
-    ArrayList<Scoreboard> scoreboard;
-
-    ScoreboardAdapter scoreboardAdapter;
-
-    MQTTConnection mqttConnectionReceive;
-
+    private ArrayList<Scoreboard> scoreboard;
+    private ScoreboardAdapter scoreboardAdapter;
+    private MQTTConnection mqttConnectionReceive;
     private DrawerLayout drawer;
 
+    /**
+     * Start method of the activity.
+     * Creates the NavigationMenu and starts the Mqtt connection.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it
+     *                           most recently supplied in savedInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-        String clientID = sharedPreferences.getString(CharacterActivity.usernameKey, null);
-        String[] string = clientID.split("(?<=\\D)(?=\\d)");
-        String animalName = string[0];
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
+        String clientID = getString(sharedPreferences.getInt(
+                CharacterActivity.USERNAMEID_KEY, -1))
+                + " " + sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
 
         Toolbar toolbar = findViewById(R.id.toolbarHS);
-//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        navigationView.getMenu().findItem(R.id.nav_assignments).setChecked(false);
         navigationView.getMenu().findItem(R.id.nav_scoreboard).setChecked(true);
-        navigationView.getMenu().findItem(R.id.nav_qr).setChecked(false);
 
         MenuItem item = navigationView.getMenu().findItem(R.id.navUserID);
         item.setTitle(clientID);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
         scoreboard = new ArrayList<>(10);
-        RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
+        final RecyclerView scoreboardRecyclerView = findViewById(R.id.scoreboardRecyclerView);
         scoreboardAdapter = new ScoreboardAdapter(
                 this, scoreboard);
         scoreboardRecyclerView.setAdapter(scoreboardAdapter);
         scoreboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         //Receives scoreboard
-        mqttConnectionReceive = MQTTConnection.newMQTTConnection(this, clientID + "IN");
+        mqttConnectionReceive = new MQTTConnection(this, clientID + "IN");
         mqttConnectionReceive.setScoreboardListActivity(this);
         mqttConnectionReceive.connectIN();
     }
 
+    /**
+     * Clears the scoreboard.
+     */
     public void clear() {
-        scoreboard.clear();
-    }
+        Log.d(LOGTAG, "clear()");
 
-    public void update() {
+        scoreboard.clear();
         scoreboardAdapter.notifyDataSetChanged();
     }
 
-    public void addScore(String username, int id) {
+    /**
+     * Adds a scoreboard to the list
+     *
+     * @param username The username of the user.
+     * @param score    The user score.
+     */
+    public void addScore(String username, int score) {
+        Log.d(LOGTAG, "addScore()");
+
         if (scoreboard.size() >= 10) {
             scoreboard.clear();
         }
-        scoreboard.add(new Scoreboard(username, id));
+        scoreboard.add(new Scoreboard(username, score));
+        scoreboardAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClick(int clickedPosition) {
-
-    }
-
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
+        Log.d(LOGTAG, "onBackPressed()");
+
         mqttConnectionReceive.closeConnection();
         mqttConnectionReceive.setScoreboardListActivity(null);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getString(CharacterActivity.usernameKey, "no name").equals("no name")) {
+            if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
+                    CharacterActivity.ID_KEY, -1) == -1) {
                 super.onBackPressed();
             } else {
                 Intent intent = new Intent(this, AssignmentListActivity.class);
@@ -112,16 +134,27 @@ public class ScoreboardListActivity extends AppCompatActivity implements OnItemC
         }
     }
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param menuItem The selected item.
+     * @return True to display the item as the selected item.
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Intent intent = null;
+        Log.d(LOGTAG, "onNavigationItemSelected()");
+
+        //Check where the user wants to go.
+        Intent intent;
         switch (menuItem.getItemId()) {
+            case R.id.nav_map:
+                intent = new Intent(this, MapActivity.class);
+                break;
             case R.id.nav_assignments:
                 intent = new Intent(this, AssignmentListActivity.class);
                 break;
             case R.id.nav_scoreboard:
                 return true;
-
             case R.id.nav_qr:
                 intent = new Intent(this, QRActivity.class);
                 break;

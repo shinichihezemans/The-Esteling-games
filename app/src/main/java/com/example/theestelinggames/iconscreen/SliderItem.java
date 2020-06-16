@@ -1,39 +1,37 @@
 package com.example.theestelinggames.iconscreen;
 
-import com.example.theestelinggames.R;
-
 class SliderItem {
 
     private int image;
-    private String iconName;
+    private int iconName;
 
-    public SliderItem(String iconName, int image){
+    /**
+     * Basic constructor of SliderItem.
+     *
+     * @param iconName The string resource index of the icon name.
+     * @param image    The ID of the image.
+     */
+    SliderItem(int iconName, int image) {
         this.iconName = iconName;
         this.image = image;
     }
 
-    public String getIconName() {
+    /**
+     * Getter for the icon name.
+     *
+     * @return The variable iconName.
+     */
+    int getIconName() {
         return iconName;
     }
 
-    public int getImage() {
+    /**
+     * Getter for the image ID.
+     *
+     * @return The variable Image.
+     */
+    int getImage() {
         return image;
-    }
-
-    private static final SliderItem[] staticSliderItems = {
-        new SliderItem("Monkey", R.drawable.aaptrans),
-        new SliderItem("Bear",R.drawable.beertrans),
-        new SliderItem("Hare",R.drawable.haastrans),
-        new SliderItem("Lion",R.drawable.leeuwtrans),
-        new SliderItem("Rhino",R.drawable.neushoorntrans),
-        new SliderItem("Hippo",R.drawable.nijlpaardtrans),
-        new SliderItem("Elephant",R.drawable.olifanttrans),
-        new SliderItem("Wolf",R.drawable.wolftrans),
-        new SliderItem("Zebra",R.drawable.zebratrans),
-    };
-
-    public static SliderItem[] getStaticSliderItems() {
-        return staticSliderItems;
     }
 
 }

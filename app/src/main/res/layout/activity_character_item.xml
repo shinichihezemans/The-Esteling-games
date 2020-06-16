@@ -7,15 +7,13 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageSlide"
         android:layout_width="0dp"
-
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="12dp">
-    </com.makeramen.roundedimageview.RoundedImageView>
+        app:riv_corner_radius="12dp"/>
 
     <TextView
         android:id="@+id/iconName"
@@ -23,6 +21,7 @@
         android:layout_height="0dp"
         android:text="@string/animal_name"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

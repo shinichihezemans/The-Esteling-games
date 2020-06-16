@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">The Esteling games</string>
+    <string name="app_name">The Essteling games</string>
     <string name="PopUpText">Welkom bij de Essteling games, het spel voor tussen de attracties door. Heb je zin om mee te spelen, druk dan snel op start en kies een karakter uit op het volgende scherm. Daarna kun je beginnen met de opdrachten en strijden tegen iedereen in het park succes.</string>
     <string name="CancelButton">Annuleren</string>
     <string name="StartButton">Begin</string>
-    <string name="attempts_placeholder">pogingen placeholder</string>
+    <string name="attempts_placeholder">pogingen</string>
     <string name="minigamename_placeholder">minigame naam placeholder</string>
     <string name="title_text">Minigames</string>
     <string name="scan">SCAN</string>
@@ -22,8 +22,22 @@
     <string name="play">SPEEL!</string>
     <string name="leaderboard">Scoreboard</string>
     <string name="total_score">Totale score</string>
-    <string name="assignment">Opdrachten</string>
+    <string name="assignment">Minigames</string>
     <string name="attempts">Pogingen</string>
     <string name="score">Score</string>
+    <string name="icon_to_start_text">Klik op het logo om te starten</string>
+    <string name="Monkey">Aap</string>
+    <string name="Bear">Beer</string>
+    <string name="Hare">Haas</string>
+    <string name="Lion">Leeuw</string>
+    <string name="Rhino">Neushoorn</string>
+    <string name="Hippo">Nijlpaard</string>
+    <string name="Elephant">Olifant</string>
+    <string name="Wolf">Wolf</string>
+    <string name="Zebra">Zebra</string>
+    <string name="QRCode">QR-Code</string>
+    <string name="Map">Kaart</string>
+    <string name="GO">START!</string>
+    <string name="greeting">Welkom terug</string>
 
 </resources>
