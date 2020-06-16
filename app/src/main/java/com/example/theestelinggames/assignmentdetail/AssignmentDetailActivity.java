@@ -35,6 +35,8 @@ public class AssignmentDetailActivity extends AppCompatActivity {
     public static final String ASSIGNMENT_ID = "AssignmentID";
     public static final String DEVICE_KEY = "DEVICE_KEY";
 
+    private int id;
+
     private BluetoothAdapter bluetoothAdapter;
     private Assignment assignment;
 
@@ -51,7 +53,7 @@ public class AssignmentDetailActivity extends AppCompatActivity {
         setContentView(R.layout.assignment_item_detail);
 
         //get assignment this activity was called for.
-        int id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
+        this.id = getIntent().getExtras().getInt(ASSIGNMENT_ID);
         this.assignment = Assignment.getAssignment(this, id);
 
         //set contents
@@ -251,6 +253,7 @@ public class AssignmentDetailActivity extends AppCompatActivity {
         Intent assignmentIntent = new Intent(AssignmentDetailActivity.this,
                 AssignmentGameActivity.class);
         assignmentIntent.putExtra(DEVICE_KEY, bluetoothDevice);
+        assignmentIntent.putExtra(Assignment.SHARED_PREFERENCES, id);
         startActivityForResult(assignmentIntent, 1);
     }
 

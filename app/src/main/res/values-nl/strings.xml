@@ -39,5 +39,10 @@
     <string name="Map">Kaart</string>
     <string name="GO">START!</string>
     <string name="greeting">Welkom terug</string>
+    <string name="laden">Laden…</string>
 
+    <string name="JohanEnDeDraakAssignment1">Klik op de gele knop op de neus van de draak</string>
+    <string name="JohanEnDeDraakAssignment2">Knik op de rode knop op de buik van de draak</string>
+    <string name="JohanEnDeDraakAssignment3">Klik op de gele knop op de voet van de draak</string>
+    <string name="JohanEnDeDraakAssignment4">Raak het oor van de draak aan!</string>
 </resources>

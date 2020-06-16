@@ -82,7 +82,7 @@ public class BluetoothIOThread extends Thread {
     /**
      * Method to write the message "start" to the ESP.
      */
-    void writeUTF() {
+    void writeStart() {
         try {
             this.dataOutputStream.writeUTF("start");
         } catch (IOException e) {

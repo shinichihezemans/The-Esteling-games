@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -95,10 +99,10 @@ public class QRActivity extends AppCompatActivity
             Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
             ImageView imageView = findViewById(R.id.qr_imageView);
             imageView.setImageBitmap(bitmap);
+            imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate));
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
