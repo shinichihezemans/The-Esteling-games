@@ -24,4 +24,5 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="total_score">Total score</string>
     <string name="assignment">Assignments</string>
+    <string name="laden">Laden...</string>
 </resources>

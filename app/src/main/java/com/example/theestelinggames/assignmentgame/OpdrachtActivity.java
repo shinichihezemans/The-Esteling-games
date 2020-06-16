@@ -2,6 +2,8 @@ package com.example.theestelinggames.assignmentgame;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.theestelinggames.assignmentdetail.ItemDetailActivity;
@@ -26,7 +29,9 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
 
     private int score;
 
-    private Button button;
+    private CardView button;
+    private TextView buttonText;
+    private ProgressBar progressBar;
     private TextView assignmentTextView;
 
     private AssignmentContainer selectedAssignment;
@@ -36,8 +41,16 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opdracht);
-        this.button = findViewById(R.id.assignmentStartButton);
+        this.button = findViewById(R.id.assessmentButton);
+        this.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStartButtonClicked(v);
+            }
+        });
         this.button.setEnabled(false);
+        this.buttonText = findViewById(R.id.assessmentButtonText);
+        this.progressBar = findViewById(R.id.progressBarAssessment);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
         BluetoothDevice device = getIntent().getParcelableExtra(ItemDetailActivity.DEVICE_KEY);
@@ -45,10 +58,10 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         this.score = 1;
 
         List<String> temp = new ArrayList<>();
-        temp.add("BUTTON 1 (Geel)");
-        temp.add("BUTTON 2 (Rood)");
-        temp.add("BUTTON 3 (Geel)");
-        temp.add("TOUCHSENSOR!");
+        temp.add("Knik op de rode knop op de buik van de draak");
+        temp.add("Klik op de gele knop op de neus van de draak");
+        temp.add("Klik op de gele knop op de voet van de draak");
+        temp.add("Raak het oor van de draak aan!");
 
         this.selectedAssignment = new AssignmentContainer("Johan en de Eenhoorn", "achtbaan", temp);
         bluetoothIOThread = null;
@@ -79,7 +92,7 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         Log.d("THREAD", msg);
 
         if(msg.contains("START")){
-            button.setText("GO!");
+            this.buttonText.setText("GO!");
             button.setEnabled(false);
             assignmentTextView.setVisibility(View.VISIBLE);
         }
@@ -115,6 +128,8 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
     public void onConnected() {
         Log.d("THREAD", "Connected");
         this.button.setEnabled(true);
+        this.buttonText.setText("START");
+        this.progressBar.setVisibility(View.GONE);
     }
 
 

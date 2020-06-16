@@ -14,6 +14,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +56,6 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
         String animalName = string[0];
 
         Toolbar toolbar = findViewById(R.id.toolbarQR);
-//        setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -94,6 +97,8 @@ public class QRActivity extends AppCompatActivity implements NavigationView.OnNa
                 e.printStackTrace();
             }
         }
+
+        imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate));
     }
     @Override
     public void onBackPressed() {

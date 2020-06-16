@@ -25,7 +25,6 @@ import com.example.theestelinggames.assignmentlist.Assignment;
 import com.example.theestelinggames.iconscreen.CharacterActivity;
 import com.example.theestelinggames.util.MQTTConnection;
 import com.example.theestelinggames.util.Message;
-//import com.r0adkll.slidr.Slidr;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
@@ -59,9 +58,6 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.connectButton);
         button.setEnabled(this.assignment.getAttempts() < 3);
-
-        //doesnt work
-//        assignment.saveData();
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
