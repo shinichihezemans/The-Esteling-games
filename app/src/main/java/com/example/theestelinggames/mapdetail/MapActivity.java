@@ -119,8 +119,9 @@ public class MapActivity extends AppCompatActivity
                 intent = new Intent(this, ScoreboardListActivity.class);
                 SharedPreferences sharedPreferences = getSharedPreferences(
                         CharacterActivity.USERCREDENTIALS, MODE_PRIVATE);
-                String clientID = sharedPreferences.getString(
-                        CharacterActivity.ID_KEY, null);
+                String clientID = getString(sharedPreferences.getInt(
+                        CharacterActivity.USERNAMEID_KEY, -1)) + " " +
+                        sharedPreferences.getInt(CharacterActivity.ID_KEY, -1);
                 MQTTConnection mqttConnectionSend = new MQTTConnection(
                         this, clientID + "OUT");
                 mqttConnectionSend.connectOUT(new Message("get Scoreboard"));

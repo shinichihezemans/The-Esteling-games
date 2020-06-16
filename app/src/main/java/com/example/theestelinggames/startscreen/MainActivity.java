@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (getSharedPreferences(CharacterActivity.USERCREDENTIALS, MODE_PRIVATE).getInt(
                 CharacterActivity.ID_KEY, -1) != -1) {
-            Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.greeting, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, AssignmentListActivity.class);
             startActivity(intent);
         }

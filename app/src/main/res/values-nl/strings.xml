@@ -30,7 +30,7 @@
     <string name="Bear">Beer</string>
     <string name="Hare">Haas</string>
     <string name="Lion">Leeuw</string>
-    <string name="Rhino">Neushorn</string>
+    <string name="Rhino">Neushoorn</string>
     <string name="Hippo">Nijlpaard</string>
     <string name="Elephant">Olifant</string>
     <string name="Wolf">Wolf</string>
@@ -38,5 +38,6 @@
     <string name="QRCode">QR-Code</string>
     <string name="Map">Kaart</string>
     <string name="GO">START!</string>
+    <string name="greeting">Welkom terug</string>
 
 </resources>

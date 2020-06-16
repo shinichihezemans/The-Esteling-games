@@ -37,4 +37,5 @@
     <string name="QRCode">QR-Code</string>
     <string name="Map">Map</string>
     <string name="GO">GO!</string>
+    <string name="greeting">Welcome back</string>
 </resources>
