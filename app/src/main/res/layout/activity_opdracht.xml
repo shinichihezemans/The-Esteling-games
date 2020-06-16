@@ -15,13 +15,13 @@
         android:backgroundTint="@color/colorPrimaryEssteling"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_assignment_2"
-        android:background="@color/colorPrimaryEssteling1"
+        android:background="@color/colorPrimaryEssteling"
         android:id="@+id/assessmentButton" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryEssteling1" >
+            android:background="@color/colorPrimaryEssteling" >
 
             <ProgressBar
                 android:layout_width="wrap_content"

@@ -6,9 +6,11 @@ import android.util.Log;
 
 import com.example.theestelinggames.R;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
-public class Assignment implements Comparable<Assignment> {
+public class Assignment implements Comparable<Assignment>, Serializable {
 
     private static final String LOGTAG = Assignment.class.getName();
 
@@ -18,13 +20,15 @@ public class Assignment implements Comparable<Assignment> {
     private static final String SCORE_KEY = "score";
     private static final String LINE_KEY = "lineLength";
 
+    private int[] assignments;
+
     private String name;
     private int attempts;
     private int score;
     private int imageResourceId;
     private int information;
     private int lineLength;
-    private SharedPreferences sharedPreferences;
+    private transient SharedPreferences sharedPreferences;
 
     /**
      * Basic constructor of Assignment.
@@ -36,7 +40,7 @@ public class Assignment implements Comparable<Assignment> {
      *                        location.
      * @param information     The basic information of the assignment.
      */
-    private Assignment(String name, int attempts, int score, int imageResourceId, int information) {
+    private Assignment(String name, int attempts, int score, int imageResourceId, int information, int[] assignments) {
         sharedPreferences = null;
         this.name = name;
         this.attempts = attempts;
@@ -44,6 +48,7 @@ public class Assignment implements Comparable<Assignment> {
         this.imageResourceId = imageResourceId;
         this.information = information;
         this.lineLength = 0;
+        this.assignments = assignments;
     }
 
     /**
@@ -126,6 +131,15 @@ public class Assignment implements Comparable<Assignment> {
     }
 
     /**
+     * Getter for the assessments array
+     *
+     * @return array with resource indexes
+     */
+    public int[] getAssignments() {
+        return assignments;
+    }
+
+    /**
      * Setter for the variable line length.
      *
      * @param lineLength The new line length.
@@ -139,13 +153,16 @@ public class Assignment implements Comparable<Assignment> {
      */
     private static final Assignment[] staticAssignments = {
             new Assignment("Johan en de Eenhoorn", 0, 0,
-                    R.drawable.johan_en_de_eenhorn, R.string.JohanInformation),
+                    R.drawable.johan_en_de_eenhorn, R.string.JohanInformation, new int[]{R.string.JohanEnDeDraakAssignment1,
+                    R.string.JohanEnDeDraakAssignment2,
+                    R.string.JohanEnDeDraakAssignment3,
+                    R.string.JohanEnDeDraakAssignment4}),
             new Assignment("Cobra", 0, 0,
-                    R.drawable.cobra, R.string.CobraInformation),
+                    R.drawable.cobra, R.string.CobraInformation, null),
             new Assignment("De zwevende Belg", 0, 0,
-                    R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation),
+                    R.drawable.de_zwevende_belg, R.string.ZwevendeBelgInformation, null),
             new Assignment("Droomreis", 0, 0,
-                    R.drawable.droomreis, R.string.DroomReisInformation)
+                    R.drawable.droomreis, R.string.DroomReisInformation, null)
     };
 
     /**
@@ -224,5 +241,13 @@ public class Assignment implements Comparable<Assignment> {
     @Override
     public int compareTo(Assignment o) {
         return this.lineLength - o.lineLength;
+    }
+
+    @Override
+    public String toString() {
+        return "Assignment{" +
+                "assignments=" + Arrays.toString(assignments) +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

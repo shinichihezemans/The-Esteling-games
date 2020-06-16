@@ -1,5 +1,9 @@
 package com.example.theestelinggames.assignmentgame;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -9,72 +13,59 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.theestelinggames.R;
 import com.example.theestelinggames.assignmentdetail.AssignmentDetailActivity;
+import com.example.theestelinggames.R;
+import com.example.theestelinggames.assignmentlist.Assignment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Class which displays the instructions of the game.
- */
 public class AssignmentGameActivity extends AppCompatActivity implements OnBTReceive {
 
     private int score;
 
-    private Button button;
+    private Assignment assignment;
+
+    private CardView button;
+    private TextView buttonText;
+    private ProgressBar progressBar;
     private TextView assignmentTextView;
 
-    private AssignmentContainer selectedAssignment;
     private BluetoothIOThread bluetoothIOThread;
 
-    /**
-     * Start method of the activity.
-     * Adds the objectives to a list and connects it with the Assignment.
-     * Also starts the thread.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *                           previously being shut down then this Bundle contains the data it
-     *                           most recently supplied in savedInstanceState.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opdracht);
-        this.button = findViewById(R.id.assignmentStartButton);
+        this.button = findViewById(R.id.assessmentButton);
+        this.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStartButtonClicked(v);
+            }
+        });
         this.button.setEnabled(false);
+        this.buttonText = findViewById(R.id.assessmentButtonText);
+        this.progressBar = findViewById(R.id.progressBarAssessment);
         assignmentTextView = findViewById(R.id.assignmentTextView);
         assignmentTextView.setVisibility(View.GONE);
-        BluetoothDevice device =
-                getIntent().getParcelableExtra(AssignmentDetailActivity.DEVICE_KEY);
-
+        BluetoothDevice device = getIntent().getParcelableExtra(AssignmentDetailActivity.DEVICE_KEY);
+        this.assignment = Assignment.getAssignment(this, getIntent().getExtras().getInt(Assignment.SHARED_PREFERENCES));
         this.score = 1;
 
-        List<String> temp = new ArrayList<>();
-        temp.add("BUTTON 1 (Geel)");
-        temp.add("BUTTON 2 (Rood)");
-        temp.add("BUTTON 3 (Geel)");
-        temp.add("TOUCHSENSOR!");
-
-        this.selectedAssignment = new AssignmentContainer("Johan en de Eenhoorn", temp);
         bluetoothIOThread = null;
 
-        if (device != null) {
+        if(device != null) {
             Thread connectThread = new ConnectThread(device, this);
             connectThread.start();
         }
     }
 
     /**
-     * Creates the handler to handle the incoming and outgoing messages.
+     * This handler handles the messaging
      */
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -84,54 +75,43 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         }
     };
 
-    public Handler getHandler() {
-        return handler;
-    }
-
-    /**
-     * Sets the onClick method for the chosen view.
-     *
-     * @param view The view that is clicked.
-     */
     public void onStartButtonClicked(View view) {
-        this.bluetoothIOThread.writeUTF();
+        this.bluetoothIOThread.writeStart();
     }
 
     /**
-     * Performs an action based on the received message.
-     *
-     * @param msg The message that is receive.
+     * When the bluetoothIOThead receives a message this callback will be called.
+     * @param msg the message sent by the ESP.
      */
-    public void onReceive(String msg) {
+    public void onReceive(String msg){
         Log.d("THREAD", msg);
 
-        if (msg.contains("START")) {
-            button.setText(R.string.GO);
+        if(msg.contains("START")){
+            this.buttonText.setText("GO!");
             button.setEnabled(false);
             assignmentTextView.setVisibility(View.VISIBLE);
         }
-        if (msg.equals("STOP")) {
+        if(msg.equals("STOP")){
             onDisconnect(0);
         }
-        if (msg.contains("TASK")) {
+        if(msg.contains("TASK")){
             Pattern p = Pattern.compile("\\d+");
             Matcher m = p.matcher(msg);
-            if (m.find()) {
+            if(m.find()) {
                 Log.d("THREAD", m.group());
-                assignmentTextView.setText(this.selectedAssignment.getAssignments().get(
-                        Integer.parseInt(m.group()) - 1));
+                assignmentTextView.setText(this.assignment.getAssignments()[(Integer.parseInt(m.group()) - 1)]);
             }
         }
-        if (msg.contains("CONNECTED")) {
+        if(msg.contains("CONNECTED")){
             onConnected();
         }
-        if (msg.contains("DISCONNECTED")) {
+        if(msg.contains("DISCONNECTED")){
             onDisconnect(this.score);
         }
-        if (msg.contains("FINNISH")) {
+        if(msg.contains("FINNISH")){
             Pattern p = Pattern.compile("\\d+");
             Matcher m = p.matcher(msg);
-            if (m.find()) {
+            if(m.find()) {
                 this.score = Integer.parseInt(m.group());
                 Log.d("THREAD", "SCORE: " + this.score);
             }
@@ -140,17 +120,17 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
     }
 
     /**
-     * Sets the state of the button if the app is connected with the ESP module.
+     * When the bluetoothSocket is accepted this callback will be called by the BluetoothIoThread.
      */
     public void onConnected() {
         Log.d("THREAD", "Connected");
         this.button.setEnabled(true);
+        this.buttonText.setText("START");
+        this.progressBar.setVisibility(View.GONE);
     }
 
     /**
-     * Makes sure the thread finishes when the bluetooth is disconnected.
-     *
-     * @param scoreResult The score that is achieved.
+     * When the bluetoothSocket is disconnected this callback will be called by the BluetoothIoThread.
      */
     public void onDisconnect(int scoreResult) {
 
@@ -159,7 +139,7 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
 
         Log.d("THREAD", "ONDISCONNECT! scoreresult: " + scoreResult);
 
-        if (scoreResult > 0) {
+        if(scoreResult > 0) {
             setResult(Activity.RESULT_OK, returnIntent);
         } else {
             setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -167,12 +147,11 @@ public class AssignmentGameActivity extends AppCompatActivity implements OnBTRec
         finish();
     }
 
-    /**
-     * Sets the variable bluetoothIOThread.
-     *
-     * @param connectThread     The connection threads of the bluetooth device.
-     * @param bluetoothIOThread The bluetooth IO threads of the bluetooth device.
-     */
+    @Override
+    public Handler getHandler() {
+        return this.handler;
+    }
+
     @Override
     public void setThreads(ConnectThread connectThread, BluetoothIOThread bluetoothIOThread) {
         this.bluetoothIOThread = bluetoothIOThread;

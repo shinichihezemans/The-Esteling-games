@@ -23,8 +23,7 @@
     <string name="score">Score</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="total_score">Total score</string>
-    <string name="assignment">Assignments</string>
-    <string name="laden">Laden...</string>
+    <string name="laden">Loading…</string>
     <string name="assignment">Minigames</string>
     <string name="icon_to_start_text">Click the icon to start</string>
     <string name="Monkey">Monkey</string>
@@ -40,4 +39,8 @@
     <string name="Map">Map</string>
     <string name="GO">GO!</string>
     <string name="greeting">Welcome back</string>
+    <string name="JohanEnDeDraakAssignment1">Press the yellow button located on the nose of the dragon</string>
+    <string name="JohanEnDeDraakAssignment2">Press the red button located on the belly of the dragon</string>
+    <string name="JohanEnDeDraakAssignment3">Press the red button located on one of  the feet of the dragon</string>
+    <string name="JohanEnDeDraakAssignment4">Touch one of the ears of the dragon</string>
 </resources>

@@ -99,16 +99,15 @@ public class QRActivity extends AppCompatActivity
             Bitmap bitmap = barcodeEncoderLite.createBitmap(bitMatrix);
             ImageView imageView = findViewById(R.id.qr_imageView);
             imageView.setImageBitmap(bitmap);
+            imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate));
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
      * Called when the activity has detected the user's press of the back key.
      */
-        imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate));
     @Override
     public void onBackPressed() {
         Log.d(LOGTAG, "onBackPressed()");
