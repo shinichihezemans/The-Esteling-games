@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".iconscreen.CharacterActivity">
 
-    <TextView
-        android:id="@+id/IconMenuTitle"
+    <ImageView
+        android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_your_character"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/viewPager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mirror" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -24,16 +23,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.viewpager2.widget.ViewPager2>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
+    <TextView
+        android:id="@+id/IconMenuTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
-
+        android:layout_marginTop="8dp"
+        android:text="@string/choose_your_character"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

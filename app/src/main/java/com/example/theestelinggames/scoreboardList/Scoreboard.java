@@ -1,30 +1,38 @@
 package com.example.theestelinggames.scoreboardList;
 
-public class Scoreboard {
-
-    public static final String SCOREBOARD_ID = "SCOREBOARD_ID";
-
+/**
+ * small class that makes a User on the scoreboard
+ */
+class Scoreboard {
     private String username;
     private int score;
 
-    public Scoreboard(String username, int score) {
+    /**
+     * Basic constructor of Scoreboard.
+     *
+     * @param username The name of the user
+     * @param score    The score the user has achieved
+     */
+    Scoreboard(String username, int score) {
         this.username = username;
         this.score = score;
     }
 
-    public String getUsername() {
+    /**
+     * Getter for the username.
+     *
+     * @return The variable username.
+     */
+    String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getScore() {
+    /**
+     * Getter for the score.
+     *
+     * @return The variable score.
+     */
+    int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 }
