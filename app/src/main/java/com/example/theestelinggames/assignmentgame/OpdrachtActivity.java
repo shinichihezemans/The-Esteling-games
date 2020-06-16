@@ -58,8 +58,8 @@ public class OpdrachtActivity extends AppCompatActivity implements OnBTReceive {
         this.score = 1;
 
         List<String> temp = new ArrayList<>();
-        temp.add("Knik op de rode knop op de buik van de draak");
         temp.add("Klik op de gele knop op de neus van de draak");
+        temp.add("Knik op de rode knop op de buik van de draak");
         temp.add("Klik op de gele knop op de voet van de draak");
         temp.add("Raak het oor van de draak aan!");
 
